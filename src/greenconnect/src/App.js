@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import Signup from "./Page/Signup/Signup.js";
+import Login from "./Page/Signup/Login.js";
+import FindId from "./Page/Signup/FindId.js";
+import FindPassword from "./Page/Signup/FindPassword.js";
+import ResetPassword from "./Page/Signup/ResetPassword.js";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  // return <Merge/>;
+  // return <Signup/>;
+  return <Login/>;
+  // return <FindId/>;
+  // return<FindPassword/>;
+  // return<ResetPassword/>;
 }
 
 export default App;

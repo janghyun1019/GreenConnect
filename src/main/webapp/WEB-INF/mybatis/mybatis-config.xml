@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>	 	
+		<typeAlias type="com.app.dto.user.User" alias="User" />
+<!-- 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/> -->
+<!-- 		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/> -->
+<!-- 		<typeAlias type="com.app.dto.attraction.AttractionInfo" alias="AttractionInfo"/> -->
+<!-- 		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo" /> -->
+<!-- 		<typeAlias type="com.app.dto.review.Post" alias="Post" /> -->
+<!-- 		<typeAlias type="com.app.dto.review.Comment" alias="Comment" /> -->
+<!-- 		<typeAlias type="com.app.dto.review.ReviewImages" alias="ReviewImages" /> -->
+	</typeAliases>
+</configuration>
