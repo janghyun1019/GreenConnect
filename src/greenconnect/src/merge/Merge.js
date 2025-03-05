@@ -12,6 +12,12 @@ import PayPage from "../pay/PayPage.js";
 import CommonPay from "../pay/CommonPay.js";
 import GpayChargePage from "../pay/GpayChargePage.js";
 
+import Signup from "../Page/Signup/Signup.js";
+import Login from "../Page/Signup/Login.js";
+import FindId from "../Page/Signup/FindId.js";
+import FindPassword from "../Page/Signup/FindPassword.js";
+import ResetPassword from "../Page/Signup/ResetPassword.js";
+
 function Merge() {
 
     return (
@@ -34,6 +40,12 @@ function Merge() {
                 <Route path="/payPage/:postId" element={<PayPage />} />
                 <Route path="/commonPay" element={<CommonPay />} />
                 {/* <Route path="/gpayChargePage" element={<GpayChargePage />} /> */}
+
+                <Route path="/signup" element={<Signup/>} />
+                <Route path="/login" element={<Login/>} />
+                <Route path="/findId" element={<FindId/>} />
+                <Route path="/findPassword" element={<FindPassword/>} />
+                <Route path="/resetPassword" element={<ResetPassword/>} />
 
             </Routes>
         </div>

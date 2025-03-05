@@ -86,7 +86,6 @@
 		user_id = #{userId}
 	</select>
 
-
 	<update id="modifyUser" parameterType="User">
 		UPDATE users
 		SET
@@ -94,7 +93,7 @@
 		#{userType}
 		WHERE user_id = #{userId}
 	</update>
-
+	
 	<update id="passwordUpdate" parameterType="map">
 		UPDATE users
 		SET
