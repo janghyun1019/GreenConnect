@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class Images {
 	
-	public String imagesNumber;
-	public String imagesGroupId;
-	public String imagesTurn;
-	public String imagesId;
+	private String imagesNumber;
+	private String imagesGroupId;
+	private String imagesTurn;
+	private String imagesId;
 
 }

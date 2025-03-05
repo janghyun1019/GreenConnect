@@ -1,12 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import PostDetail from "./postDetail/PostDetail";
+import SmartEditor from "./postDetail/SmartEditor";
+import WritePostDetail from "./postDetail/WritePostDetail";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+    <div>
+      {/* <SmartEditor /> */}
+      <WritePostDetail />
     </div>
   );
 }
