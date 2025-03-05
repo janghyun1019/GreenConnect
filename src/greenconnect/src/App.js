@@ -1,15 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./common/Header";
+import Footer from "./common/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Main from "./main/main";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          GreenConnect에 오신것을 환영합니다!
-        </p>
-      </header>
-    </div>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <div className="app-container">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Main />} />
+
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
 
