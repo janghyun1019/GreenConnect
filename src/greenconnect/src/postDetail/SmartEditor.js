@@ -1,7 +1,12 @@
 import '../css/WritePostDetail.css';
-import { useEffect } from "react";
+import { useEffect, useRef  } from "react";
+import { useNavigate } from "react-router-dom";
 
-function SmartEditor() {
+function SmartEditor({ onChange }) {
+
+    const editorRef = useRef(null); // textarea 요소 접근을 위한 ref
+    const formRef = useRef(null); // form 요소 접근을 위한 ref
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loadScript = (src) => {
@@ -50,10 +55,28 @@ function SmartEditor() {
         };
     }, []);
 
+    // 스마트에디터 내용 반영 후 폼 제출하는 함수 추가
+    const handleSubmit = (e) => {
+        e.preventDefault(); // 기본 폼 제출 방지
+        if (window.oEditors && window.oEditors.length > 0) {
+            window.oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
+            
+            const content = window.oEditors.getById("smartEditor").getIR(); // 스마트에디터 내용 가져오기
+            if (onChange) {
+                onChange(content);  // 스마트에디터의 내용을 onChange 콜백으로 전달
+            }
+        }
+        console.log("전송할 데이터:", editorRef.current.value); // textarea 값 확인 (테스트용)
+        formRef.current.submit(); // 폼 제출
+    };
+
+
     return (
-        <div style={{width:'100%'}}>
-            <textarea id="smartEditor" rows="10" cols="100"></textarea>
-        </div>
+        <form ref={formRef} onSubmit={handleSubmit}>
+            <div style={{ width: '100%' }}>
+                <textarea ref={editorRef} id="smartEditor" name="content" rows="10" cols="100"></textarea> {/* ref 추가 */}
+            </div>
+        </form>
     );
 };
 

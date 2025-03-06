@@ -4,6 +4,6 @@ import com.app.dto.image.Image;
 
 public interface ImageDAO {
 	
-	int saveImage(Image image);
+	int savePostImage(Image image);
 
 }

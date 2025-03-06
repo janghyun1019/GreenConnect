@@ -14,8 +14,8 @@ public class ImageServiceImpl implements ImageService{
 	ImageDAO imageDAO;
 
 	@Override
-	public int saveImage(Image image) {
-		int result = imageDAO.saveImage(image);
+	public int savePostImage(Image image) {
+		int result = imageDAO.savePostImage(image);
 		
 		return result;
 	}

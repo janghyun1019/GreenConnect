@@ -14,8 +14,8 @@ public class ImageDAOImpl implements ImageDAO {
 	SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public int saveImage(Image image) {
-		int result = sqlSessionTemplate.insert("post_mapper.saveImage", image);
+	public int savePostImage(Image image) {
+		int result = sqlSessionTemplate.insert("post_mapper.savePostImage", image);
 		
 		return result;
 	}

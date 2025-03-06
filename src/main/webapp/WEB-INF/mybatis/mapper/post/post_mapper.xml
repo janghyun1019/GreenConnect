@@ -3,14 +3,26 @@
 
 <mapper namespace="post_mapper">
 
-<insert id="saveImage" parameterType="Image">
-INSERT INTO image
-(image_id, post_id, file_name, original_file_name, file_path, url_file_path, file_extension, uploaded_at)
-VALUES
-(images_id_seq, #{postId}, #{fileName}, #{originalFileName}, #{filePath}, #{urlFilePath},
-#{fileExtension}, #{uploadedAt})
-</insert>
+	<insert id="savePostImages" parameterType="Image">
+	INSERT INTO image
+	(image_id, post_id, file_name, original_file_name, file_path, url_file_path, file_extension, uploaded_at)
+	VALUES
+	(images_id_seq, #{postId}, #{fileName}, #{originalFileName}, #{filePath}, #{urlFilePath},
+	#{fileExtension}, #{uploadedAt})
+	</insert>
+	
+	<insert id="savePost" parameterType="Post">
+		INSERT INTO posts (post_id, user_id, user_nick_name, board_id, post_title, post_content, post_price, post_spot, post_cost, store_id) 
+	    VALUES (post_id_seq.NEXTVAL, #{userId}, #{userNickName}, #{boardId}, #{postTitle}, #{postContent}, #{postPrice}, #{postSpot},#{postCost}, #{storeId})
+	</insert>
 
+	<select id="getLastPostId" resultType="int">
+		SELECT post_id_seq.CURRVAL FROM DUAL
+	</select>
 
+	<select id="getUrlFilePathByPostId" parameterType="int"
+		resultType="String">
+		select url_file_path from image where post_id = #{postId} order by post_id
+	</select>
 
 </mapper>

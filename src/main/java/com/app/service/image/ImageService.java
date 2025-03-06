@@ -4,7 +4,7 @@ import com.app.dto.image.Image;
 
 public interface ImageService {
 	
-	int saveImage(Image image);
+	int savePostImage(Image image);
 	
 
 }
