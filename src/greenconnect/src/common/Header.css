@@ -3,11 +3,20 @@
 /* Header.css */
 .header {
   width: 100%;
-  height: 251px;
-  background-image: url('../images/common/maintopbg_01.jpg');	 
-/*   border-bottom: 1px solid #ddd; */
+  height: 251px;  /* 고정 높이 (내용이 늘어나면 잘릴 수 있으므로 주의) */
+  background-image: url('../images/common/maintopbg_01.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   font-family: sans-serif;
+}
 
+/* 가운데 정렬용 컨테이너 */
+.header-inner {
+  max-width: 1200px; 
+  margin: 0 auto;    
+  padding: 0 16px;   
+  height: 100%;      
+  box-sizing: border-box;
 }
 
 /* 상단 바 */
@@ -16,11 +25,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* 기존 배경 색 대신 이미지 사용 */
-  background-size: cover;      /* 필요에 따라 contain 등으로 변경 가능 */
-  background-repeat: no-repeat;/* 반복 없이 한 번만 표시 */
-  padding: 8px 16px;
   font-size: 14px;
+  /* 중복 제거: background-size, background-repeat 설정 삭제 */
 }
 
 .top-left,
@@ -46,13 +52,14 @@
 
 /* 판매자센터 버튼 */
 .seller-center-button {
-  margin-left: 16px;
+  margin-left: 5px;
+  margin-right: 5px;
   display: inline-block;
 }
 
 .seller-center-button img {
   display: block;
-  width: 100px;  /* 필요에 따라 조정 */
+  width: 85px;  /* 필요 시 조정 */
   height: auto;
 }
 
@@ -60,7 +67,7 @@
 .main-bar {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
+  padding: 10px 0; /* 상하 여백 */
 }
 
 .logo-area {
@@ -71,7 +78,6 @@
 
 .logo-img {
   width: 100%;
-/*   height: 40px; */
   object-fit: contain;
   margin-right: 8px;
 }
@@ -94,7 +100,7 @@
 }
 
 .search-input {
-  padding: 6px 32px 6px 8px; /* 오른쪽 여백을 넉넉하게 줘서 아이콘 공간 확보 */
+  padding: 6px 32px 6px 8px;
   font-size: 14px;
   width: 500px;
   height: 30px;
@@ -107,25 +113,55 @@
   right: 15px;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #000000;
+  color: #000;
 }
 
 /* 메뉴 영역 */
 .menu-area {
   display: flex;
   align-items: center;
-  margin-left: 16px;
 }
 
 .menu-link {
   color: #333;
   text-decoration: none;
-  margin-left: 16px;
   display: flex;
   align-items: center;
   font-size: 14px;
+  margin-left: 16px;
 }
 
 .cart-icon {
-  font-size: 20px;
+  font-size: 25px;
+}
+
+/* 즐겨찾기 버튼 */
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bookmark-img {
+  width: 80%;
+  height: auto;
+}
+
+/* 버튼 이미지 크기 */
+.menu-img {
+  width: 80%;
+  height: auto;
+}
+
+/* 메인 가로 배너 영역 (나중에 사용 가능) */
+.main-banner {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
