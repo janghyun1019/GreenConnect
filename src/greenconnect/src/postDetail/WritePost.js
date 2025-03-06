@@ -6,7 +6,9 @@ import '../css/WritePost.css';
 function WritePost() {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
+    const [productType, setProductType] = useState('');
     const [content, setContent] = useState('');
+    const [salesUnit, setSalesUnit] = useState('');
     const [price, setPrice] = useState('');
     const [spot, setSpot] = useState('');
     const [cost, setCost] = useState('');
@@ -29,7 +31,7 @@ function WritePost() {
 
     const handleSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 방지
-    
+
         if (!user) {
             if (window.confirm('로그인 후 작성 가능합니다. 로그인 하시겠습니까?')) {
                 window.location.href = '/login'; // 로그인 페이지로 이동
@@ -42,38 +44,40 @@ function WritePost() {
         if (isConfirmed) {
             const formData = new FormData();
             formData.append('title', title);
+            formData.append('productType', productType);
             formData.append('content', content);
+            formData.append('salesUnit', salesUnit);
             formData.append('price', price);
             formData.append('spot', spot);
             formData.append('cost', cost);
             formData.append('storeId', storeId);
-    
+
             // 이미지 배열 처리
             images.forEach((image) => {
                 formData.append('postImages', image); // 'postImages'라는 이름으로 서버로 전송
             });
-    
+
             formData.append('userId', user.userId);
             formData.append('nickName', user.nickname);
             formData.append('boardId', 1);
-            
-    
+
+
             // 백엔드 API로 데이터 전송
             axios.post('saveWritePost', formData)
-            .then((response) => {
-                if (response.data.status === "success") {
-                    alert("게시글이 등록되었습니다!");
-                    console.log('성공:', response.data); // 서버 응답 데이터 처리
-                    navigate("/main"); // 저장 후 /main 페이지로 이동
-                } else {
-                    alert(response.data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('에러:', error); // 에러 처리
-                alert('게시글 저장에 실패했습니다. 다시 시도해주세요.');
-            });
-            
+                .then((response) => {
+                    if (response.data.status === "success") {
+                        alert("게시글이 등록되었습니다!");
+                        console.log('성공:', response.data); // 서버 응답 데이터 처리
+                        navigate("/main"); // 저장 후 /main 페이지로 이동
+                    } else {
+                        alert(response.data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('에러:', error); // 에러 처리
+                    alert('게시글 저장에 실패했습니다. 다시 시도해주세요.');
+                });
+
         } else {
             return; // 취소 시 아무것도 하지 않음
         }
@@ -117,30 +121,56 @@ function WritePost() {
                     </>
                 )}
 
+                <div className="postProductType">품목 :
+                    <input
+                        type="text"
+                        id="productType"
+                        name="productType"
+                        value={productType}
+                        onChange={(e) => setProductType(e.target.value)}
+                        required
+                        placeholder="품목을 입력하세요 (예시: 감자, 옥수수, 당근)"
+                        maxLength="33"
+                    />
+                </div>
+
                 <div className="postTitle">제목 :
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    placeholder="제목을 입력하세요 (최대 33글자 까지 입력가능.)"
-                    maxLength="33"
-                />
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        placeholder="제목을 입력하세요 (최대 33글자 까지 입력가능.)"
+                        maxLength="33"
+                    />
                 </div>
 
                 <div className="postContent">내용 :
-                <textarea
-                    id="content"
-                    name="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    rows="5"
-                    required
-                    placeholder="내용을 입력하세요 (최대 1000글자 까지 입력가능. 내용은 첨부 한 이미지 하단에 출력됩니다.)"
-                    maxLength="1000"
-                ></textarea>
+                    <textarea
+                        id="content"
+                        name="content"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        rows="5"
+                        required
+                        placeholder="내용을 입력하세요 (최대 1000글자 까지 입력가능. 내용은 첨부 한 이미지 하단에 출력됩니다.)"
+                        maxLength="1000"
+                    ></textarea>
+                </div>
+
+                <div className='postSalesUnit'>판매단위 :
+                    <input
+                        type="number"
+                        id="salesUnit"
+                        name="salesUnit"
+                        value={salesUnit}
+                        onChange={(e) => setSalesUnit(e.target.value)}
+                        required
+                        placeholder="판매단위를 입력하세요 ( kg단위, 숫자만 입력가능.)"
+                        min="0"
+                    />
                 </div>
 
                 <div className='postPrice'>판매가격 :
@@ -151,7 +181,7 @@ function WritePost() {
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
-                        placeholder="판매가격을 입력하세요 (숫자만 입력가능.)"
+                        placeholder="판매단위당 판매가격을 입력하세요 (숫자만 입력가능.)"
                         min="0"
                     />
                 </div>
@@ -190,19 +220,19 @@ function WritePost() {
                         value={storeId}
                         onChange={(e) => setStoreId(e.target.value)}
                         required
-                        placeholder="가게이름을 입력하세요. (예시: 순이네 농장)"
+                        placeholder="농장이름을 입력하세요. (예시: 순이네 농장)"
                         maxLength="100"
                     />
                 </div>
 
-                <div className="postImageUpload">사진 업로드 : 
-                <input
-                    type="file"
-                    id="postImages"
-                    name="postImages"
-                    multiple
-                    onChange={handleImageChange} // 이미지 선택 시 상태 업데이트
-                />
+                <div className="postImageUpload">사진 업로드 :
+                    <input
+                        type="file"
+                        id="postImages"
+                        name="postImages"
+                        multiple
+                        onChange={handleImageChange} // 이미지 선택 시 상태 업데이트
+                    />
                 </div>
 
                 <div className='postImageUploadList'>

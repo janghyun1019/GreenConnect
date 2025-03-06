@@ -12,17 +12,22 @@
 	</insert>
 	
 	<insert id="savePost" parameterType="Post">
-		INSERT INTO post (post_id, user_id, nick_name, board_id, post_title, post_content, post_price, post_spot, post_cost, store_id) 
-	    VALUES (post_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postTitle}, #{postContent}, #{postPrice}, #{postSpot},#{postCost}, #{storeId})
+		INSERT INTO post (post_id, user_id, nick_name, board_id, post_product_type, post_title, post_content, post_sales_unit, post_price, post_spot, post_cost, store_id) 
+	    VALUES (post_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postProductType}, #{postTitle}, #{postContent}, #{postSalesUnit}, #{postPrice}, #{postSpot},#{postCost}, #{storeId})
 	</insert>
 
 	<select id="getLastPostId" resultType="int">
 		SELECT post_id_seq.CURRVAL FROM DUAL
 	</select>
 
-	<select id="getUrlFilePathByPostId" parameterType="int"
-		resultType="String">
-		select url_file_path from image where post_id = #{postId} order by post_id
+<!-- 	<select id="getUrlFilePathByPostId" parameterType="int" -->
+<!-- 		resultType="String"> -->
+<!-- 		select url_file_path from image where post_id = #{postId} order by post_id -->
+<!-- 	</select> -->
+	
+	<select id="getPostDetailsByPostId" parameterType="String"
+		resultType="Post">
+		SELECT * FROM post WHERE post_id = #{postId} order by post_id
 	</select>
 
 </mapper>

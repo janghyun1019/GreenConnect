@@ -10,5 +10,7 @@ public interface PostDAO {
 	int savePost(Post post);
 	
 	int savePostImages(Image image);
+	
+	Post getPostDetailsByPostId(String postId);
 
 }

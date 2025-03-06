@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +30,10 @@ public class PostController {
 	public ResponseEntity<Map<String, Object>> saveWriteReview(	@RequestParam("boardId") int boardId,	
 									@RequestParam("userId") String userId,
 									@RequestParam("nickName") String nickName,
+									@RequestParam("productType") String productType,
 									@RequestParam("title") String title,
 									@RequestParam("content") String content,
+									@RequestParam("salesUnit") String salesUnit,
 									@RequestParam("price") String price,
 									@RequestParam("spot") String spot,
 									@RequestParam("cost") String cost,
@@ -45,8 +49,10 @@ public class PostController {
 		        post.setBoardId(boardId);
 		        post.setUserId(userId);
 		        post.setNickName(nickName);
+		        post.setPostProductType(productType);
 		        post.setPostTitle(title);
 		        post.setPostContent(content);
+		        post.setPostSalesUnit(salesUnit);
 		        post.setPostPrice(price);
 		        post.setPostSpot(spot);
 		        post.setPostCost(cost);
@@ -103,5 +109,12 @@ public class PostController {
 		    	
 		    }
 	}
+	
+	@GetMapping("/api/posts/{postId}")
+    public ResponseEntity<Post> getPostDetailsByPostId(@PathVariable String postId) {
+        Post post = postService.getPostDetailsByPostId(postId); // DB에서 데이터 가져오는 로직
+        
+        return ResponseEntity.ok(post);
+    }
 	
 }

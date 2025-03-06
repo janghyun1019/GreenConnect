@@ -33,6 +33,12 @@ public class PostDAOImpl implements PostDAO {
 		int result = sqlSessionTemplate.insert("post_mapper.savePostImages", image);
 		return result;
 	}
+
+	@Override
+	public Post getPostDetailsByPostId(String postId) {
+		Post post = sqlSessionTemplate.selectOne("post_mapper.getPostDetailsByPostId", postId);
+		return post;
+	}
 	
 	
 	

@@ -31,6 +31,12 @@ public class PostServiceImpl implements PostService {
 		int result = postDAO.savePostImages(image);
 		return result;
 	}
+
+	@Override
+	public Post getPostDetailsByPostId(String postId) {
+		Post post = postDAO.getPostDetailsByPostId(postId);
+		return post;
+	}
 	
 	
 
