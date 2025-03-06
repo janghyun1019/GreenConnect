@@ -7,8 +7,8 @@ import ResetPassword from "./Page/Signup/ResetPassword.js";
 function App() {
 
   // return <Merge/>;
-  // return <Signup/>;
-  return <Login/>;
+  return <Signup/>;
+  // return <Login/>;
   // return <FindId/>;
   // return<FindPassword/>;
   // return<ResetPassword/>;
