@@ -18,6 +18,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
 
         <Route path="/writePost" element={<WritePost />} />
+        <Route path="/postDetail" element={<PostDetail />} />
         
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

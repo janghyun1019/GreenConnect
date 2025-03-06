@@ -125,7 +125,7 @@ function WritePost() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    placeholder="제목을 입력하세요(최대 33글자 까지 입력가능.)"
+                    placeholder="제목을 입력하세요 (최대 33글자 까지 입력가능.)"
                     maxLength="33"
                 />
                 </div>
@@ -138,7 +138,7 @@ function WritePost() {
                     onChange={(e) => setContent(e.target.value)}
                     rows="5"
                     required
-                    placeholder="내용을 입력하세요(최대 1000글자 까지 입력가능.)"
+                    placeholder="내용을 입력하세요 (최대 1000글자 까지 입력가능. 내용은 첨부 한 이미지 하단에 출력됩니다.)"
                     maxLength="1000"
                 ></textarea>
                 </div>
@@ -151,7 +151,7 @@ function WritePost() {
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
-                        placeholder="판매가격을 입력하세요(숫자만 입력가능.)"
+                        placeholder="판매가격을 입력하세요 (숫자만 입력가능.)"
                         min="0"
                     />
                 </div>

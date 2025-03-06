@@ -10,8 +10,6 @@ function PostDetail(){
 
             <div className="postDetailTitle"> 메인 제목 </div>
 
-            <div className="postDetailSubTitle"> 부 제목 </div>
-
             <div className='postDetailBtnBox'>
                 <button className="postDetailEditBtn"> 수정하기 </button>
                 <button className="postDetailDeleteBtn"> 삭제하기 </button>
