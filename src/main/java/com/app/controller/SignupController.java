@@ -28,9 +28,10 @@ public class SignupController {
 	 @Autowired
 	 private MailService emailService; // 이메일 전송 서비스
 
-	@PostMapping("/user/signup")
+	@PostMapping("/signup-api/user/signup")
 	public String signupAction(@RequestBody User user) {
 
+		System.out.println("요청넘어옴");
 		if (user.getUserId() == null || user.getUserId().trim().isEmpty()) {
 			return "fail"; // userId가 없으면 회원가입 실패
 		}

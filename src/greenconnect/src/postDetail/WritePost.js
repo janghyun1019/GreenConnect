@@ -32,7 +32,7 @@ function WritePost() {
     
         if (!user) {
             if (window.confirm('로그인 후 작성 가능합니다. 로그인 하시겠습니까?')) {
-                window.location.href = '/user/login'; // 로그인 페이지로 이동
+                window.location.href = '/login'; // 로그인 페이지로 이동
             }
             return; // 로그인하지 않았으면 폼 제출 방지
         }

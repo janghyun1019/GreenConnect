@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import PostDetail from "./postDetail/PostDetail";
 import SmartEditor from "./postDetail/SmartEditor";
 import MainPage from "./mainpageTemp1111/MainPage";
@@ -29,5 +28,5 @@ function App() {
       </Routes>
     
   );
-
+}
 export default App;
