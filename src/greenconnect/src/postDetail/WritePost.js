@@ -54,15 +54,20 @@ function WritePost() {
             });
     
             formData.append('userId', user.userId);
-            formData.append('nickName', user.nickName);
+            formData.append('nickName', user.nickname);
             formData.append('boardId', 1);
             
     
             // 백엔드 API로 데이터 전송
-            axios.post('/saveWritePost', formData)
+            axios.post('saveWritePost', formData)
             .then((response) => {
-                console.log('성공:', response.data); // 서버 응답 데이터 처리
-                navigate("/main"); // 저장 후 /main 페이지로 이동
+                if (response.data.status === "success") {
+                    alert("게시글이 등록되었습니다!");
+                    console.log('성공:', response.data); // 서버 응답 데이터 처리
+                    navigate("/main"); // 저장 후 /main 페이지로 이동
+                } else {
+                    alert(response.data.message);
+                }
             })
             .catch((error) => {
                 console.error('에러:', error); // 에러 처리
@@ -94,12 +99,11 @@ function WritePost() {
 
     return (
         <div className="writePostContainer">
-            <div className="postTitle">판매글 작성</div>
+            <div className="postMainTitle">판매글 작성</div>
 
             {/* 작성자 정보 */}
             <div className="userInfoBox">
-                <img src={user ? user.profileImage : '/images/유저이미지.jpg'} alt="작성자 이미지" style={{width:'40px', borderRadius:'50%'}} />
-                <div>작성자: {user ? user.nickName : '익명'}</div>
+                <div>작성자: {user ? user.nickname : '익명'}</div>
                 <div className="currentTime">현재시간: {currentTime}</div>
             </div>
 
@@ -109,7 +113,7 @@ function WritePost() {
                 {user && (
                     <>
                         <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nickName" value={user.nickName} />
+                        <input type="hidden" name="nickName" value={user.nickname} />
                     </>
                 )}
 
@@ -121,8 +125,8 @@ function WritePost() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    placeholder="제목을 입력하세요(21글자 까지 입력가능.)"
-                    maxLength="21"
+                    placeholder="제목을 입력하세요(최대 33글자 까지 입력가능.)"
+                    maxLength="33"
                 />
                 </div>
 
@@ -134,21 +138,21 @@ function WritePost() {
                     onChange={(e) => setContent(e.target.value)}
                     rows="5"
                     required
-                    placeholder="내용을 입력하세요(980글자 까지 입력가능.)"
-                    maxLength="980"
+                    placeholder="내용을 입력하세요(최대 1000글자 까지 입력가능.)"
+                    maxLength="1000"
                 ></textarea>
                 </div>
 
                 <div className='postPrice'>판매가격 :
                     <input
-                        type="text"
+                        type="number"
                         id="price"
                         name="price"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
                         placeholder="판매가격을 입력하세요(숫자만 입력가능.)"
-                        maxLength="100"
+                        min="0"
                     />
                 </div>
 
@@ -167,14 +171,14 @@ function WritePost() {
 
                 <div className='postCost'>배송비 :
                     <input
-                        type="text"
+                        type="number"
                         id="cost"
                         name="cost"
                         value={cost}
                         onChange={(e) => setCost(e.target.value)}
                         required
                         placeholder="배송비를 입력하세요."
-                        maxLength="100"
+                        min="0"
                     />
                 </div>
 

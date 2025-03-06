@@ -30,8 +30,10 @@ function Signup(){
         </div>
         
         <button onClick={()=>{
+            console.log("Button clicked!"); // 이 로그가 출력되는지 확인
+            console.log("ㅇㅁㅇㅁㅁㅇㅁㅇ");
             axios.post(
-                "/signup-api/user/signup",
+                "signup-api/user/signup",
                 {
                     userId ,
                     password ,
