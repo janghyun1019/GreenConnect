@@ -1,8 +1,8 @@
-import './App.css';
-import MyPage from './mypage/MyPage';
+import React from 'react';
+import Merge from './merge/Merge';
 
 function App() {
-  return <MyPage/>;
+    return <Merge/>;
 }
 
 export default App;

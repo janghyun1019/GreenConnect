@@ -6,12 +6,11 @@ import lombok.Data;
 public class Users {
 	
 	String userId;
+	String password;
 	String userName;
 	String nickName;
-	String password;
 	String email;
 	String tel;
 	String jumin;
 	String userType;
-
 }

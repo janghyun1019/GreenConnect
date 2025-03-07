@@ -8,7 +8,7 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	<typeAliases>	 	
-		<!-- <typeAlias type="com.app.dto.user.Users" alias="User" /> -->
-		
+		<typeAlias type="com.app.dto.profile.Profile" alias="Profile" />
+		<typeAlias type="com.app.dto.users.Users" alias="User"/>
 	</typeAliases>
 </configuration>

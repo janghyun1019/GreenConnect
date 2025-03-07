@@ -1,32 +1,77 @@
 import './css/MyPage.css';
-function MyPage(){
+import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-    return(
-        <div class="mypageContainer">
-            <h2 class="mypageLogo">마이페이지</h2>
-            <div class="mypageSide">
+function MyPage() {
+    const [userInfo, setUserInfo] = useState({
+        nickname: '',
+        balance: 0,  // 기본값을 0으로 설정
+        profileImage: null
+    });
+
+    useEffect(() => {
+        fetchUserInfo();
+    }, []);
+
+    const fetchUserInfo = async () => {
+        try {
+            const response = await axios.get('/user/info', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            // 응답에 balance가 없을 경우 기본값 사용
+            setUserInfo({
+                ...response.data,
+                balance: response.data.balance ?? 0
+            });
+        } catch (error) {
+            console.error("사용자 정보 가져오기 실패:", error);
+        }
+    };
+
+    return (
+        <div className="mypageContainer">
+            <h2 className="mypageLogo">마이페이지</h2>
+            <div className="mypageSide">
                 <ul>
-                    <li>프로필관리</li>
-                    <li>장바구니</li>
-                    <li>주소/결재수단 목록</li>
-                    <li>작성글 목록</li>
-                    <li>즐겨찾기/좋아요 목록</li>
-                    <li>1:1채팅목록</li>
-                    <li class="adminLink">관리자 페이지</li>
+                    <li><Link to="/">프로필관리</Link></li>
+                    <li><Link to="/Cart">장바구니</Link></li>
+                    <li><Link to="/Address">주소/결재수단</Link></li>
+                    <li><Link to="/Post">작성글 목록</Link></li>
+                    <li><Link to="/likes">즐겨찾기/좋아요</Link></li>
+                    <li><Link to="/Chat">1:1채팅목록</Link></li>
+                    <li className="adminLink"><Link to="/Admin">관리자 페이지</Link></li>
                 </ul>
-                <div class="dashboard">
-                    <div class="card">
-                        <div class="profile-image">사진</div>
-                        <div class="profile-info">
-                            <p>사용자 닉네임</p>
-                            <p class="balance">g-pay 잔액: 000원</p>
+                <div className="dashboard">
+                    <div className="card">
+                        <div className="profile-image">
+                            {userInfo.profileImage && (
+                                <img 
+                                    src={userInfo.profileImage} 
+                                    alt="프로필 이미지" 
+                                    style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                                />
+                            )}
                         </div>
-                        <button>프로필 수정</button>
-                        <button>금액 충전</button>
+                        <div className="profile-info">
+                            <p>{userInfo.nickname || "사용자 닉네임"}</p>
+                            {/* 옵셔널 체이닝 연산자(?.)를 사용하여 undefined일 가능성 처리 */}
+                            <p className="balance">g-pay 잔액: {userInfo?.balance?.toLocaleString() || '0'}원</p>
+                        </div>
+                        <Link to="/charge">
+                            <button>금액 충전</button>
+                        </Link>
+                        <Link to="/Profile">
+                            <button id="profile-change">프로필 수정</button>
+                        </Link>
                     </div>
-                    <div class="card">
-                            개인정보
+                    <div className="card">
+                        개인정보
+                        <Link to="/userinfo">
                             <button>수정</button>
+                        </Link>
                     </div>
                 </div>
             </div>

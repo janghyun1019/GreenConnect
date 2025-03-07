@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User_mapper"> 
+
+<select id="getUserInfo" resultType="User">
+        SELECT *
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="updateUserInfo" parameterType="User">
+        UPDATE users
+        SET
+        username = #{userName},
+        email = #{email},
+        tel = #{tel}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE users
+        SET username = #{userName},
+        nickname = #{nickName},
+        pw = #{pw},
+        email = #{email},
+        tel = #{tel},
+        user_type = #{userType}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="updatePassword" parameterType="User">
+        UPDATE users
+        SET pw = #{pw}
+        WHERE user_id = #{userId}
+    </update>
+
+<!--     <update id="chargeBalance" parameterType="User">
+        UPDATE users
+        SET balance = balance + #{amount}
+        WHERE user_id = #{userId}
+    </update> -->
+
+    <select id="getUserDetail" resultType="User">
+        SELECT
+        user_id AS userId,
+        username AS userName,
+        email,
+        tel,
+        nickname,
+        profile_image AS profileImage,
+        balance
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+
+</mapper>

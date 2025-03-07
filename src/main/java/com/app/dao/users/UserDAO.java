@@ -1,5 +1,11 @@
 package com.app.dao.users;
 
-public interface UserDAO {
+import com.app.dto.users.Users;
 
+public interface UserDAO {
+	Users getUserInfo(String userId);
+	Users getUserDetail(String userId);
+	int getUserBalance(String userId);
+	void updateUserInfo(Users user);
+//    void chargeBalance(String userId, int amount);
 }
