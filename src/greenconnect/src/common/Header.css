@@ -1,47 +1,62 @@
 @charset "UTF-8";
 
-/* Header.css */
+/* 전체 헤더 래퍼 */
 .header {
   width: 100%;
-  height: 251px;  /* 고정 높이 (내용이 늘어나면 잘릴 수 있으므로 주의) */
-  background-image: url('../images/common/maintopbg_01.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  font-family: sans-serif;
+  background-color: #fff; /* 배경 이미지 사용 시 수정 */
+  border-bottom: 1px solid #ddd;
 }
 
-/* 가운데 정렬용 컨테이너 */
-.header-inner {
+/* 공통 컨테이너: 가로 폭 제한 + 가운데 정렬 */
+.header-inner-Otop {
+  width: 100%;	
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 45px;
+}
+
+.header-inner-top {
   max-width: 1200px; 
-  margin: 0 auto;    
-  padding: 0 16px;   
-  height: 100%;      
+  margin: 0 auto;
+  padding: 0 16px;
   box-sizing: border-box;
 }
 
-/* 상단 바 */
+.header-inner {
+  max-width: 1200px; 
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/*
+   [즐겨찾기]       로그인/회원가입 | 내상점 판매자센터
+ */
 .top-bar {
-  height: 51px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  /* 중복 제거: background-size, background-repeat 설정 삭제 */
+  height: 51px;
 }
 
+/* 상단 라인(구분선) */
+.top-bar-separator {
+  width: 100%;
+  height: 1px;
+  background-color: #ddd; 
+}
+
+/* 좌측(즐겨찾기), 우측(로그인/회원가입 등) */
 .top-left,
 .top-right {
   display: flex;
   align-items: center;
 }
 
-.bookmark {
-  margin-right: 12px;
-}
-
 .top-link {
   color: #333;
   text-decoration: none;
+  margin-left: 10px;
   margin-right: 8px;
 }
 
@@ -50,80 +65,100 @@
   color: #999;
 }
 
+/* 즐겨찾기 버튼 */
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.bookmark-img {
+  display: block;
+  width: 79px;  
+  height: auto; 
+  object-fit: contain;
+}
+/* 즐겨찾기 텍스트가 필요하다면 스타일 추가 
+.bookmark-text {
+  margin-left: 5px;
+  font-size: 14px;
+  color: #333;
+}
+*/
+
 /* 판매자센터 버튼 */
 .seller-center-button {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 6px;
   display: inline-block;
 }
-
 .seller-center-button img {
   display: block;
-  width: 85px;  /* 필요 시 조정 */
-  height: auto;
+  width: 85px;   
+  height: auto;  
+  object-fit: contain;
 }
 
-/* 메인 바 */
+/* 
+    로고   [         검색창          ]    메뉴들
+ */
 .main-bar {
   display: flex;
   align-items: center;
-  padding: 10px 0; /* 상하 여백 */
+  justify-content: space-between;
+  padding: 10px 0;
 }
 
+/* 로고 영역 */
 .logo-area {
   display: flex;
   align-items: center;
-  margin-right: 24px;
 }
-
 .logo-img {
-  width: 100%;
+  display: block;
+  width: 200px;  
+  height: auto;  
   object-fit: contain;
-  margin-right: 8px;
-}
-
-.site-title {
-  font-size: 20px;
-  font-weight: bold;
 }
 
 /* 검색 영역 */
 .search-area {
   display: flex;
   align-items: center;
-  flex: 1;
+  flex: 1; /* 가운데 공간 확장 */
+  justify-content: center; /* 중앙 정렬 */
 }
 
 .search-input-wrapper {
   position: relative;
   display: inline-block;
 }
-
 .search-input {
-  padding: 6px 32px 6px 8px;
+  width: 450px;
+  height: 22px;  
+  padding: 8px 32px 8px 8px;
   font-size: 14px;
-  width: 500px;
-  height: 30px;
   border: 5px solid #21a12e;
 }
-
 .search-input-icon {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 8px;
   transform: translateY(-50%);
-  pointer-events: none;
+  cursor: pointer;
   color: #000;
 }
 
-/* 메뉴 영역 */
+/* 메뉴 영역 (판매하기, 내상점, 그린톡, 장바구니) */
 .menu-area {
   display: flex;
   align-items: center;
 }
 
+/* 메뉴 링크 공통 */
 .menu-link {
-  color: #333;
+  color: red;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -131,37 +166,48 @@
   margin-left: 16px;
 }
 
-.cart-icon {
-  font-size: 25px;
+/* 각 이미지 */
+.menu-img-sell {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+}
+.menu-img-shop {
+  width: 81px;
+  height: auto;
+  object-fit: contain;
+}
+.menu-img-greentalk {
+  width: 80px;
+  height: auto;
+  object-fit: contain;
 }
 
-/* 즐겨찾기 버튼 */
-.bookmark-btn {
+/* 장바구니 아이콘 */
+.cart-icon {
+  font-size: 25px;
+  margin-left: 10px;
+  color: #6e6868;
+}
+.cart-icon:hover {
+  color: green;
+}
+
+/* 하단 영역 (햄버거 버튼) */
+.bottom-bar {
+  display: flex;
+  align-items: center;
+  height: 50px; /* 원하는 높이로 조정 */
+}
+
+.hamburger-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  font-size: 24px;
+  color: #333;
+  transition: color 0.2s;
 }
-
-.bookmark-img {
-  width: 80%;
-  height: auto;
-}
-
-/* 버튼 이미지 크기 */
-.menu-img {
-  width: 80%;
-  height: auto;
-}
-
-/* 메인 가로 배너 영역 (나중에 사용 가능) */
-.main-banner {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.banner-img {
-  width: 100%;
-  height: auto;
-  display: block;
+.hamburger-btn:hover {
+  color: green;
 }

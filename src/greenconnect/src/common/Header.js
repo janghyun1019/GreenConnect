@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import { LuShoppingCart, LuSearch } from "react-icons/lu";
 
-// 이미지 import
+import { LuShoppingCart, LuSearch } from "react-icons/lu";
+import { FaBars } from 'react-icons/fa';
+
+// 이미지들
 import logo from '../images/common/logo.png';
 import bookmarkImg from '../images/common/btn_bm01.jpg';
 import sellercenterBtn from '../images/common/btn_sc01.jpg';
@@ -11,89 +13,134 @@ import sellImg from '../images/common/btn_sell.jpg';
 import shopImg from '../images/common/btn_shop.jpg';
 import greentalkImg from '../images/common/btn_greentalk.jpg';
 
+// 드로어(모달) 컴포넌트
+import ModalContent from './ModalContent';
+
 function Header() {
-  // 즐겨찾기 상태 관리
-  const [isBookmarked, setIsBookmarked] = useState(false);
+	// 즐겨찾기 상태
+	const [isBookmarked, setIsBookmarked] = useState(false);
+	// 햄버거 드로어 상태
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // 즐겨찾기 버튼 클릭 핸들러
-  const handleBookmarkClick = () => {
-    setIsBookmarked(!isBookmarked);
-    if (!isBookmarked) {
-      alert('즐겨찾기에 추가되었습니다!');
-    } else {
-      alert('즐겨찾기가 해제되었습니다.');
-    }
-  };
+	// 즐겨찾기 버튼 클릭 핸들러
+	const handleBookmarkClick = () => {
+		setIsBookmarked(!isBookmarked);
+		if (!isBookmarked) {
+			alert('즐겨찾기에 추가되었습니다!');
+		} else {
+			alert('즐겨찾기가 해제되었습니다.');
+		}
+	};
 
-  return (
-    <header className="header">
-      {/* 가운데 정렬용 컨테이너 */}
-      <div className="header-inner">
-        {/* 상단 바 */}
-        <div className="top-bar">
-          <div className="top-left">
-            <button className="bookmark-btn" onClick={handleBookmarkClick}>
-              <img 
-                src={bookmarkImg} 
-                alt="즐겨찾기 버튼" 
-                className="bookmark-img"
-              />
-            </button>
-          </div>
-          <div className="top-right">
-            <Link to="/login" className="top-link">로그인/회원가입</Link>
-            <span className="divider">|</span>
-            <Link to="/mypage" className="top-link">내상점</Link>
-            <Link to="/seller-center" className="seller-center-button">
-              <img src={sellercenterBtn} alt="판매자센터" />
-            </Link>
-          </div>
-        </div>
+	// 드로어 열기/닫기
+	const openDrawer = () => {
+		setIsDrawerOpen(true);
+	};
+	const closeDrawer = () => {
+		setIsDrawerOpen(false);
+	};
 
-        {/* 메인 바 */}
-        <div className="main-bar">
-          {/* 로고 영역 */}
-          <div className="logo-area">
-            <Link to="/">
-              <img 
-                src={logo} 
-                alt="그커장터 로고" 
-                className="logo-img" 
-              />
-            </Link>
-          </div>
+	return (
+		<header className="header">
+			<div className="header-inner-Otop">
+				{/* 상단 바 (즐겨찾기, 로그인/회원가입, 내상점, 판매자센터) */}
+				<div className="header-inner-top">
+					<div className="top-bar">
+						{/* 왼쪽: 즐겨찾기 */}
+						<div className="top-left">
+							<button className="bookmark-btn" onClick={handleBookmarkClick}>
+								<img
+									src={bookmarkImg}
+									alt="즐겨찾기 버튼"
+									className="bookmark-img"
+								/>
+								{/* <span className="bookmark-text">즐겨찾기</span> */}
+							</button>
+						</div>
 
-          {/* 검색 영역 */}
-          <div className="search-area">
-            <div className="search-input-wrapper">
-              <input 
-                type="text" 
-                className="search-input" 
-                placeholder="검색어를 입력하세요" 
-              />
-              <LuSearch className="search-input-icon" />
-            </div>
-          </div>
+						{/* 오른쪽: 로그인/회원가입, 내상점, 판매자센터 */}
+						<div className="top-right">
+							<Link to="/login" className="top-link">로그인/회원가입</Link>
+							<span className="divider">|</span>
+							<Link to="/mypage" className="top-link">내상점</Link>
+							<Link to="/seller-center" className="seller-center-button">
+								<img src={sellercenterBtn} alt="판매자센터" />
+							</Link>
+						</div>
+					</div>
+				</div>
 
-          {/* 메뉴 영역 */}
-          <div className="menu-area">
-            <Link to="/sell" className="menu-link">
-              <img src={sellImg} alt="판매하기" className="menu-img" />
-            </Link>
-            <Link to="/shop" className="menu-link">
-              <img src={shopImg} alt="내상점" className="menu-img" />
-            </Link>
-            <Link to="/greentalk" className="menu-link">
-              <img src={greentalkImg} alt="그린톡" className="menu-img" />
-            </Link>
-            <Link to="/cart" className="menu-link cart-icon">
-              <LuShoppingCart />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
+			</div>
+
+			{/* 메인 바 (로고, 검색창, 메뉴) + 하단(햄버거 버튼) */}
+			<div className="header-inner">
+				<div className="main-bar">
+					{/* 로고 영역 */}
+					<div className="logo-area">
+						<Link to="/">
+							<img
+								src={logo}
+								alt="그커장터 로고"
+								className="logo-img"
+							/>
+						</Link>
+					</div>
+
+					{/* 검색 영역 */}
+					<div className="search-area">
+						<div className="search-input-wrapper">
+							<input
+								type="text"
+								className="search-input"
+								placeholder="상품명, 상점명 입력"
+							/>
+							<LuSearch className="search-input-icon" />
+						</div>
+					</div>
+
+					{/* 메뉴 영역 (판매하기, 내상점, 그린톡, 장바구니) */}
+					<div className="menu-area">
+						<Link to="/sell" className="menu-link">
+							<img
+								src={sellImg}
+								alt="판매하기"
+								className="menu-img-sell"
+							/>
+						</Link>
+						<Link to="/shop" className="menu-link">
+							<img
+								src={shopImg}
+								alt="내상점"
+								className="menu-img-shop"
+							/>
+						</Link>
+						<Link to="/greentalk" className="menu-link">
+							<img
+								src={greentalkImg}
+								alt="그린톡"
+								className="menu-img-greentalk"
+							/>
+						</Link>
+						<Link to="/cart" className="menu-link cart-icon">
+							<LuShoppingCart />
+						</Link>
+					</div>
+				</div>
+
+				{/* 하단 (햄버거 버튼) */}
+				<div className="bottom-bar">
+					<button className="hamburger-btn" onClick={openDrawer}>
+						<FaBars />
+					</button>
+				</div>
+			</div>
+
+			{/* 드로어(슬라이드 메뉴) 열렸을 때만 표시 */}
+			{isDrawerOpen && (
+				<ModalContent closeDrawer={closeDrawer} />
+			)}
+		</header>
+	);
 }
 
 export default Header;
