@@ -7,14 +7,15 @@
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
-	<typeAliases>	 	
+	<typeAliases>	 
+
 		<typeAlias type="com.app.dto.user.User" alias="User" />
-<!-- 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/> -->
-<!-- 		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/> -->
-<!-- 		<typeAlias type="com.app.dto.attraction.AttractionInfo" alias="AttractionInfo"/> -->
-<!-- 		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo" /> -->
-<!-- 		<typeAlias type="com.app.dto.review.Post" alias="Post" /> -->
-<!-- 		<typeAlias type="com.app.dto.review.Comment" alias="Comment" /> -->
-<!-- 		<typeAlias type="com.app.dto.review.ReviewImages" alias="ReviewImages" /> -->
+<!-- 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/>
+		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/>
+		<typeAlias type="com.app.dto.attraction.AttractionInfo" alias="AttractionInfo"/>
+		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo" />
+		<typeAlias type="com.app.dto.review.Post" alias="Post" />
+		<typeAlias type="com.app.dto.review.Comment" alias="Comment" />
+		<typeAlias type="com.app.dto.review.ReviewImages" alias="ReviewImages" /> -->
 	</typeAliases>
 </configuration>
