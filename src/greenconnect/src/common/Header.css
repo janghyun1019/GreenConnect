@@ -1,49 +1,35 @@
 @charset "UTF-8";
 
-/* 전체 헤더 래퍼 */
+/* -----------------------------
+   전체 헤더 래퍼
+----------------------------- */
 .header {
   width: 100%;
-  background-color: #fff; /* 배경 이미지 사용 시 수정 */
+  background-color: #fff; /* 필요시 배경 이미지로 변경 가능 */
   border-bottom: 1px solid #ddd;
 }
 
 /* 공통 컨테이너: 가로 폭 제한 + 가운데 정렬 */
-.header-inner-Otop {
-  width: 100%;	
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 45px;
-}
-
-.header-inner-top {
-  max-width: 1200px; 
-  margin: 0 auto;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
 .header-inner {
-  max-width: 1200px; 
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
   box-sizing: border-box;
 }
 
-/*
-   [즐겨찾기]       로그인/회원가입 | 내상점 판매자센터
- */
+/* 상단 바 */
 .top-bar {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 51px;
 }
 
-/* 상단 라인(구분선) */
+/* 구분선 */
 .top-bar-separator {
   width: 100%;
   height: 1px;
-  background-color: #ddd; 
+  background-color: #ddd;
 }
 
 /* 좌측(즐겨찾기), 우측(로그인/회원가입 등) */
@@ -53,6 +39,7 @@
   align-items: center;
 }
 
+/* 로그인/회원가입, 내상점, 판매자센터 링크 */
 .top-link {
   color: #333;
   text-decoration: none;
@@ -76,17 +63,10 @@
 }
 .bookmark-img {
   display: block;
-  width: 79px;  
-  height: auto; 
+  width: 79px;
+  height: auto;
   object-fit: contain;
 }
-/* 즐겨찾기 텍스트가 필요하다면 스타일 추가 
-.bookmark-text {
-  margin-left: 5px;
-  font-size: 14px;
-  color: #333;
-}
-*/
 
 /* 판매자센터 버튼 */
 .seller-center-button {
@@ -95,14 +75,12 @@
 }
 .seller-center-button img {
   display: block;
-  width: 85px;   
-  height: auto;  
+  width: 85px;
+  height: auto;
   object-fit: contain;
 }
 
-/* 
-    로고   [         검색창          ]    메뉴들
- */
+/* 메인 바 */
 .main-bar {
   display: flex;
   align-items: center;
@@ -117,8 +95,8 @@
 }
 .logo-img {
   display: block;
-  width: 200px;  
-  height: auto;  
+  width: 200px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -127,16 +105,15 @@
   display: flex;
   align-items: center;
   flex: 1; /* 가운데 공간 확장 */
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center;
 }
-
 .search-input-wrapper {
   position: relative;
   display: inline-block;
 }
 .search-input {
   width: 450px;
-  height: 22px;  
+  height: 22px;
   padding: 8px 32px 8px 8px;
   font-size: 14px;
   border: 5px solid #21a12e;
@@ -155,8 +132,6 @@
   display: flex;
   align-items: center;
 }
-
-/* 메뉴 링크 공통 */
 .menu-link {
   color: red;
   text-decoration: none;
@@ -197,9 +172,8 @@
 .bottom-bar {
   display: flex;
   align-items: center;
-  height: 50px; /* 원하는 높이로 조정 */
+  height: 50px;
 }
-
 .hamburger-btn {
   background: none;
   border: none;
@@ -210,4 +184,59 @@
 }
 .hamburger-btn:hover {
   color: green;
+}
+
+/* -----------------------------
+   반응형: 768px 이하
+----------------------------- */
+@media screen and (max-width: 768px) {
+  /* 로고, 검색창 축소 */
+  .logo-img {
+    width: 150px;
+  }
+  .search-input {
+    width: 300px;
+    border: 3px solid #21a12e;
+  }
+
+  /* 메뉴 이미지 축소 */
+  .menu-img-sell {
+    width: 70px;
+  }
+  .menu-img-shop {
+    width: 60px;
+  }
+  .menu-img-greentalk {
+    width: 60px;
+  }
+
+  /* 텍스트 크기 등 추가 조정 */
+  .top-link {
+    font-size: 13px;
+  }
+}
+
+/* -----------------------------
+   반응형: 480px 이하
+----------------------------- */
+@media screen and (max-width: 480px) {
+  .logo-img {
+    width: 120px;
+  }
+  .search-input {
+    width: 200px;
+    border: 2px solid #21a12e;
+  }
+  .menu-img-sell {
+    width: 60px;
+  }
+  .menu-img-shop {
+    width: 50px;
+  }
+  .menu-img-greentalk {
+    width: 50px;
+  }
+  .top-link {
+    font-size: 12px;
+  }
 }
