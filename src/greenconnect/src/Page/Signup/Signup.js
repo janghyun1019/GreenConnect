@@ -238,7 +238,7 @@ function Signup() {
 
             <button onClick={() => {
                 axios.post(
-                    "user/signup",
+                    "/api/user/signup",
                     {
                         userId,
                         password,

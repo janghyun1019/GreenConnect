@@ -9,10 +9,12 @@ import Chat from "../mypage/Chat";
 import Admin from "../mypage/Admin";
 import Profile from '../mypage/Profile';
 import UserInfo from '../mypage/UserInfo';
+import Login from '../Page/Signup/Login';
+import Signup from '../Page/Signup/Signup';
 function Merge() {
 
     return (
-        <Router>  
+        
             <div className="merge-container">
             <Routes>
                 <Route path="/" element={<MyPage />} />
@@ -24,9 +26,11 @@ function Merge() {
                 <Route path="/Admin" element={<Admin />} />
                 <Route path="/Profile" element={<Profile />} />
                 <Route path="/userinfo" element={<UserInfo />}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<Signup/>}/>
             </Routes>
             </div>
-        </Router>
+        
     );
 }
 

@@ -32,7 +32,7 @@ public class SignupController {
 	@Autowired
 	private MailService emailService; // 이메일 전송 서비스
 
-	@PostMapping("/user/signup")
+	@PostMapping("/api/user/signup")
 	public String signupAction(@RequestBody User user) {
 
 		if (user.getUserId() == null || user.getUserId().trim().isEmpty()) {
