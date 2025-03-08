@@ -1,5 +1,7 @@
 package com.app.dao.post.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,6 +40,12 @@ public class PostDAOImpl implements PostDAO {
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = sqlSessionTemplate.selectOne("post_mapper.getPostDetailsByPostId", postId);
 		return post;
+	}
+
+	@Override
+	public List<String> getPostDetailsImageUrlsByPostId(String postId) {
+		List<String> imageUrls = sqlSessionTemplate.selectList("post_mapper.getPostDetailsImageUrlsByPostId", postId);
+		return imageUrls;
 	}
 	
 	

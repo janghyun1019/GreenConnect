@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="buy_mapper">
+
+	
+	<insert id="saveBuyInfo" parameterType="Buy">
+		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, buy_count, total_price, total_kg)
+	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{buyCount}, #{totalPrice}, #{totalKg})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

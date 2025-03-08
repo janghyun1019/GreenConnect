@@ -2,6 +2,7 @@ package com.app.controller;
 
 import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import java.io.File;
@@ -26,7 +27,7 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	@PostMapping("/saveWritePost")
+	@PostMapping("/api/saveWritePost")
 	public ResponseEntity<Map<String, Object>> saveWriteReview(	@RequestParam("boardId") int boardId,	
 									@RequestParam("userId") String userId,
 									@RequestParam("nickName") String nickName,
@@ -73,7 +74,7 @@ public class PostController {
 		                    // 파일 저장 경로 설정
 		                    String filePath = "d:/fileStorage/" + fileName; // 실제 저장 경로
 		                    String urlFilePath = "/fileStorage/" + fileName; // URL 접근 경로
-
+		                    
 		                    // 파일 저장
 		                    image.transferTo(new File(filePath));
 
@@ -117,4 +118,27 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 	
+	@GetMapping("/api/posts/images/{postId}")
+	public ResponseEntity<List<String>> getPostDetailsImageUrlsByPostId(@PathVariable String postId) {
+		List<String> imageUrls = postService.getPostDetailsImageUrlsByPostId(postId);
+		
+		return ResponseEntity.ok(imageUrls);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+

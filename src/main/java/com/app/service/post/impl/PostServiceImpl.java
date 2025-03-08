@@ -1,5 +1,7 @@
 package com.app.service.post.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,12 @@ public class PostServiceImpl implements PostService {
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = postDAO.getPostDetailsByPostId(postId);
 		return post;
+	}
+
+	@Override
+	public List<String> getPostDetailsImageUrlsByPostId(String postId) {
+		List<String> imageUrls = postDAO.getPostDetailsImageUrlsByPostId(postId);
+		return imageUrls;
 	}
 	
 	

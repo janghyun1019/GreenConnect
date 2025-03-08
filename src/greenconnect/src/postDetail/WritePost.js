@@ -63,12 +63,12 @@ function WritePost() {
 
 
             // 백엔드 API로 데이터 전송
-            axios.post('saveWritePost', formData)
+            axios.post('/api/saveWritePost', formData)
                 .then((response) => {
                     if (response.data.status === "success") {
                         alert("게시글이 등록되었습니다!");
                         console.log('성공:', response.data); // 서버 응답 데이터 처리
-                        navigate("/main"); // 저장 후 /main 페이지로 이동
+                        navigate("/"); // 저장 후 메인 이동
                     } else {
                         alert(response.data.message);
                     }

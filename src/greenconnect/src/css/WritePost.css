@@ -41,8 +41,7 @@
     color: gray;
 }
 
-/* 입력 필드 스타일 */
-input[type="text"], textarea {
+#productType, #title, #content, #spot, #storeId {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -50,27 +49,32 @@ input[type="text"], textarea {
     border-radius: 5px;
     font-size: 16px;
 }
-
-input[type="number"] {
-    appearance: none; /* 모든 브라우저에서 기본 스타일 제거 */
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-textarea {
+#content {
     resize: none;
     height: 800px;
     margin-bottom: 10px;
 }
+
+#salesUnit, #price, #cost {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* 화살표 지우려면 주석제거하면 됨 */
+/* #salesUnit::-webkit-outer-spin-button,
+#salesUnit::-webkit-inner-spin-button,
+#price::-webkit-outer-spin-button,
+#price::-webkit-inner-spin-button,
+#cost::-webkit-outer-spin-button,
+#cost::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+} */
 
 /* 이미지 업로드 스타일 */
 .postImageUpload {
@@ -96,7 +100,7 @@ textarea {
 }
 
 /* 버튼 스타일 */
-button {
+.saveBtn, .cancelBtn {
     display: inline-block;
     margin-top: 15px;
     padding: 10px 15px;
