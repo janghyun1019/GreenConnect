@@ -12,6 +12,7 @@
 		<typeAlias type="com.app.dto.user.User" alias="User" />
 		<typeAlias type="com.app.dto.post.Post" alias="Post" />
 		<typeAlias type="com.app.dto.buy.Buy" alias="Buy" />
+		<typeAlias type="com.app.dto.report.UserReport" alias="UserReport" />
 <!-- 		<typeAlias type="com.app.dto.signup.User" alias="User" />
 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/>
 		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/>

@@ -102,19 +102,32 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         if (window.confirm("신고하시겠습니까?")) {
             try {
                 const reportData = { // 신고 데이터 저장
-                    reporterId: buyUser?.userId,
+                    userId: buyUser?.userId,
+                    reportedUserId: postDetail.userId,
+                    reportedUserNickName: postDetail.nickName,
                     reportedPostId: postDetail?.postId,
-                    reportedPostTitle: postDetail?.postTitle,
                     reportContent: reportContent
                 };
 
-                await axios.post('/api/report', reportData, {
+                console.log(reportData);
+
+                const response = await axios.post('/api/postReport', reportData, {
                     headers: { 'Content-Type': 'application/json' }
                 });
 
-                alert("신고가 접수되었습니다.");
-                setShowReportPopup(false);
-                setReportContent('');
+
+                if (response.data === "성공") {
+                    console.log('성공:', response.data);
+                    alert("신고가 접수되었습니다.");
+                    setShowReportPopup(false);
+                    setReportContent('');
+                } else if (response.data === "실패") {
+                    alert("신고 접수가 실패했습니다.");
+                } else {
+                    // 예기치 않은 응답 처리
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
+
             } catch (error) {
                 alert("신고 접수 중 오류가 발생했습니다.");
             }
