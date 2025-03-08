@@ -9,6 +9,7 @@ import Login from "./Page/Signup/Login.js";
 import FindId from "./Page/Signup/FindId.js";
 import FindPassword from "./Page/Signup/FindPassword.js";
 import ResetPassword from "./Page/Signup/ResetPassword.js";
+import ModifyPostDetail from "./postDetail/ModifyPostDetail.js";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
 
         <Route path="/writePost" element={<WritePost />} />
         <Route path="/postDetail" element={<PostDetail />} />
+        <Route path="/modifyPostDetail/:postId" element={<ModifyPostDetail />} />
         <Route path="/postDetailIntro" element={<PostDetailIntro />} />
         <Route path="/postList" element={<PostList />} />
         

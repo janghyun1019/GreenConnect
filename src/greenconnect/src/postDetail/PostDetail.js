@@ -41,7 +41,7 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         // 서버에서 데이터 가져오기
         const fetchPostDetail = async () => {
             try {
-                const response = await axios.get("/api/posts/" + 2); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                const response = await axios.get("/api/posts/" + 5); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 setPostDetail(response.data); // 데이터 상태 업데이트
                 setLoading(false); // 로딩 끝
             } catch (err) {
@@ -57,7 +57,7 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         // 서버에서 이미지데이터 가져오기
         const fetchPostDetailImages = async () => {
             try {
-                const response = await axios.get("/api/posts/images/" + 2); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                const response = await axios.get("/api/posts/images/" + 5); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 setPostDetailImages(response.data); // 데이터 상태 업데이트
                 setLoading(false); // 로딩 끝
             } catch (err) {
@@ -82,6 +82,27 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         );
     };
 
+    const handleEditClick = () => { // 수정하기 버튼 수정페이지로 이동
+        navigate(`/modifyPostDetail/${postDetail.postId}`); // postId를 파라미터로 전달
+    };
+
+    const handleDeleteClick = async () => { // 삭제하기 버튼 삭제 axios post 요청
+        if (window.confirm("판매글을 삭제하시겠습니까?")) {
+            try {
+                const response = await axios.post("/api/deletePost/" + 5);
+
+                if (response.status === 200) {
+                    alert(response.data); // 성공 메시지 출력
+                    navigate("/"); // 삭제 후 메인 페이지 이동
+                } else {
+                    alert("삭제 실패: " + response.data);
+                }
+            } catch (error) {
+                console.error("삭제 오류:", error);
+                alert("게시글 삭제 중 오류가 발생했습니다.");
+            }
+        }
+    }
 
     const handleReportClick = () => { // 팝업 오픈
         if (!buyUser) {
@@ -164,7 +185,6 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
 
     const handleSubmit = async (e) => { // 바로구매 버튼 클릭시 실행
         e.preventDefault(); // 기본 폼 제출 방지
-        console.log("섭밋들옹");
         // 로그인 확인
         if (!buyUser) {
             if (window.confirm('로그인 후 구매 가능합니다. 로그인 하시겠습니까?')) {
@@ -237,8 +257,8 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
                 <div className='postDetailBtnBox'>
                     {buyUser?.userId === postDetail.userId ? (
                         <>
-                            <button className="postDetailEditBtn"> 수정하기 </button>
-                            <button className="postDetailDeleteBtn"> 삭제하기 </button>
+                            <button className="postDetailEditBtn" onClick={handleEditClick}> 수정하기 </button>
+                            <button className="postDetailDeleteBtn" onClick={handleDeleteClick}> 삭제하기 </button>
                         </>
                     ) : (
                         <button className='postDetailReportBtn' onClick={handleReportClick}> 신고하기 </button>
@@ -269,10 +289,19 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
                 <div className="postDetailTop">
                     <div className="postDetailTopImagesBox">
                         <button className='prevBtn' onClick={goToPreviousImage}>이전</button>
-                        <img
-                            src={postDetailImages[currentImageIndex]}
-                            alt={`상품이미지 ${currentImageIndex + 1}`}
-                        />
+                        {postDetailImages && postDetailImages.length > 0 ? (
+                            // 이미지가 있을 경우
+                            <img
+                                src={postDetailImages[currentImageIndex]}
+                                alt={`상품이미지 ${currentImageIndex + 1}`}
+                            />
+                        ) : (
+                            // 이미지가 없을 경우 유저이미지 표시
+                            <img
+                                src="/images/userImage.jpg"
+                                alt="이미지가 없습니다."
+                            />
+                        )}
                         <button className='nextBtn' onClick={goToNextImage}>다음</button>
                     </div>
                     <div className="postDetailTopPtcrInfo">

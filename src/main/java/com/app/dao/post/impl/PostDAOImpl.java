@@ -15,18 +15,17 @@ public class PostDAOImpl implements PostDAO {
 
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
+	
 
 	@Override
-	public int getLastPostId() {
-		int result = sqlSessionTemplate.selectOne("post_mapper.getLastPostId");
-		
+	public String getLastPostId() {
+		String result = sqlSessionTemplate.selectOne("post_mapper.getLastPostId");
 		return result;
 	}
 
 	@Override
 	public int savePost(Post post) {
 		int result = sqlSessionTemplate.insert("post_mapper.savePost", post);
-		
 		return result;
 	}
 
@@ -35,7 +34,31 @@ public class PostDAOImpl implements PostDAO {
 		int result = sqlSessionTemplate.insert("post_mapper.savePostImages", image);
 		return result;
 	}
+	
+	@Override
+	public int modifyPost(Post post) {
+		int result = sqlSessionTemplate.update("post_mapper.modifyPost", post);
+		return result;
+	}
 
+	@Override
+	public int modifyPostImages(Image image) {
+		int result = sqlSessionTemplate.update("post_mapper.modifyPostImages", image);
+		return result;
+	}
+
+	@Override
+	public int deletePostImagesByPostId(String postId) {
+		int result = sqlSessionTemplate.delete("post_mapper.deletePostImagesByPostId", postId);
+		return result;
+	}
+	
+	@Override
+	public int deletePostByPostId(String postId) {
+		int result = sqlSessionTemplate.delete("post_mapper.deletePostByPostId", postId);
+		return result;
+	}
+	
 	@Override
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = sqlSessionTemplate.selectOne("post_mapper.getPostDetailsByPostId", postId);
@@ -47,6 +70,8 @@ public class PostDAOImpl implements PostDAO {
 		List<String> imageUrls = sqlSessionTemplate.selectList("post_mapper.getPostDetailsImageUrlsByPostId", postId);
 		return imageUrls;
 	}
+
+
 	
 	
 	

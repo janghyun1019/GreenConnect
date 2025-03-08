@@ -15,8 +15,43 @@
 		INSERT INTO post (post_id, user_id, nick_name, board_id, post_product_type, post_title, post_content, post_sales_unit, post_price, post_spot, post_cost, store_id) 
 	    VALUES (post_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postProductType}, #{postTitle}, #{postContent}, #{postSalesUnit}, #{postPrice}, #{postSpot},#{postCost}, #{storeId})
 	</insert>
+	
+	<update id="modifyPostImages" parameterType="Image">
+	    UPDATE image
+	    SET file_name = #{fileName},
+	        original_file_name = #{originalFileName},
+	        file_path = #{filePath},
+	        url_file_path = #{urlFilePath},
+	        file_extension = #{fileExtension},
+	        uploaded_at = #{uploadedAt}
+	    WHERE post_id = #{postId}
+	</update>
+	
+	<update id="modifyPost" parameterType="Post">
+	    UPDATE post
+	    SET user_id = #{userId},
+	        nick_name = #{nickName},
+	        board_id = #{boardId},
+	        post_product_type = #{postProductType},
+	        post_title = #{postTitle},
+	        post_content = #{postContent},
+	        post_sales_unit = #{postSalesUnit},
+	        post_price = #{postPrice},
+	        post_spot = #{postSpot},
+	        post_cost = #{postCost},
+	        store_id = #{storeId}
+	    WHERE post_id = #{postId}
+	</update>
+	
+	<delete id="deletePostImagesByPostId" parameterType="String">
+		DELETE FROM image WHERE post_id = #{postId}
+	</delete>
+	
+	<delete id="deletePostByPostId" parameterType="String">
+		DELETE FROM post WHERE post_id = #{postId}
+	</delete>
 
-	<select id="getLastPostId" resultType="int">
+	<select id="getLastPostId" resultType="String">
 		SELECT post_id_seq.CURRVAL FROM DUAL
 	</select>
 	

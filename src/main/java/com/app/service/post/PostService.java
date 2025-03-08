@@ -7,11 +7,19 @@ import com.app.dto.post.Post;
 
 public interface PostService {
 	
-	int getLastPostId();
+	String getLastPostId();
 	
 	int savePost(Post post);
 	
 	int savePostImages(Image image);
+	
+	int modifyPost(Post post);
+	
+	int modifyPostImages(Image image);
+	
+	int deletePostImagesByPostId(String postId);
+	
+	int deletePostByPostId(String postId);
 	
 	Post getPostDetailsByPostId(String postId);
 	

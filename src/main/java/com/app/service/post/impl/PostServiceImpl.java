@@ -17,8 +17,8 @@ public class PostServiceImpl implements PostService {
 	PostDAO postDAO;
 
 	@Override
-	public int getLastPostId() {
-		int result = postDAO.getLastPostId();
+	public String getLastPostId() {
+		String result = postDAO.getLastPostId();
 		return result;
 	}
 
@@ -33,6 +33,30 @@ public class PostServiceImpl implements PostService {
 		int result = postDAO.savePostImages(image);
 		return result;
 	}
+	
+	@Override
+	public int modifyPost(Post post) {
+		int result = postDAO.modifyPost(post);
+		return result;
+	}
+
+	@Override
+	public int modifyPostImages(Image image) {
+		int result = postDAO.modifyPostImages(image);
+		return result;
+	}
+	
+	@Override
+	public int deletePostImagesByPostId(String postId) {
+		int result = postDAO.deletePostImagesByPostId(postId);
+		return result;
+	}
+	
+	@Override
+	public int deletePostByPostId(String postId) {
+		int result = postDAO.deletePostByPostId(postId);
+		return result;
+	}
 
 	@Override
 	public Post getPostDetailsByPostId(String postId) {
@@ -45,6 +69,11 @@ public class PostServiceImpl implements PostService {
 		List<String> imageUrls = postDAO.getPostDetailsImageUrlsByPostId(postId);
 		return imageUrls;
 	}
+
+
+	
+
+	
 	
 	
 

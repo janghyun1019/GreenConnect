@@ -8,7 +8,7 @@ import lombok.Data;
 public class Image {
 	
 	private int imageId;
-	private int postId;
+	private String postId;
 	private String fileName; // 변환된 파일이름.jpg
 	private String originalFileName; // 원본파일이름
 	private String filePath;	// 파일경로 (d:/fileStorage/asdasd.jpg)
