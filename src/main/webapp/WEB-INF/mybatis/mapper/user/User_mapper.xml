@@ -4,7 +4,7 @@
 <mapper namespace="User_mapper"> 
 
 <select id="getUserInfo" resultType="User">
-        SELECT *
+        SELECT user_id, username, email, tel, nickname
         FROM users
         WHERE user_id = #{userId}
     </select>

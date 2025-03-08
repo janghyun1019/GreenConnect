@@ -66,16 +66,16 @@ public class UserController {
     }
     
     
-    @PostMapping("/charge")
-    public ResponseEntity<String> chargeBalance(HttpServletRequest request, @RequestBody Map<String, Integer> payload) {
-        String userId = getUserIdFromToken(request);
-        Integer amount = payload.get("amount");
-        
-        if (amount == null || amount <= 0) {
-            return ResponseEntity.badRequest().body("유효한 금액을 입력해주세요.");
-        }
-        
-        userService.chargeBalance(userId, amount);
-        return ResponseEntity.ok("잔액이 충전되었습니다.");
-    }
+//    @PostMapping("/charge")
+//    public ResponseEntity<String> chargeBalance(HttpServletRequest request, @RequestBody Map<String, Integer> payload) {
+//        String userId = getUserIdFromToken(request);
+//        Integer amount = payload.get("amount");
+//        
+//        if (amount == null || amount <= 0) {
+//            return ResponseEntity.badRequest().body("유효한 금액을 입력해주세요.");
+//        }
+//        
+//        userService.chargeBalance(userId, amount);
+//        return ResponseEntity.ok("잔액이 충전되었습니다.");
+//    }
 }

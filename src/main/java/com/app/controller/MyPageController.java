@@ -41,6 +41,9 @@ public class MyPageController {
 	    @PostMapping("/upload/{userId}")
 	    public ResponseEntity<String> uploadProfile(@PathVariable String userId, @RequestParam("ProfileImage") MultipartFile file) {
 	        try {
+	        	if(file.isEmpty()) {
+	        		return ResponseEntity.badRequest().body("파일이 없습니다.");
+	        	}
 	            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 	            Path path = Paths.get(uploadDir + fileName);
 	            Files.write(path, file.getBytes());
