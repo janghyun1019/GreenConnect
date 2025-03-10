@@ -46,6 +46,10 @@
         )
 	</update>
 	
+	<update id="addPostViewsByPostId" parameterType="String">
+		UPDATE post SET post_views = post_views + 1 WHERE post_id = #{postId}
+	</update>
+	
 	<update id="modifyPost" parameterType="Post">
 	    UPDATE post
 	    SET user_id = #{userId},

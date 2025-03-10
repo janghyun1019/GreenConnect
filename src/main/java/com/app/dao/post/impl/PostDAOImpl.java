@@ -66,6 +66,12 @@ public class PostDAOImpl implements PostDAO {
 	}
 	
 	@Override
+	public int addPostViewsByPostId(String postId) {
+		int result = sqlSessionTemplate.update("post_mapper.addPostViewsByPostId", postId);
+		return result;
+	}
+	
+	@Override
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = sqlSessionTemplate.selectOne("post_mapper.getPostDetailsByPostId", postId);
 		return post;
@@ -82,6 +88,8 @@ public class PostDAOImpl implements PostDAO {
 		List<Post> postList = sqlSessionTemplate.selectList("post_mapper.getPostList");
 		return postList;
 	}
+
+	
 
 	
 

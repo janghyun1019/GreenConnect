@@ -63,6 +63,12 @@ public class PostServiceImpl implements PostService {
 		int result = postDAO.deletePostByPostId(postId);
 		return result;
 	}
+	
+	@Override
+	public int addPostViewsByPostId(String postId) {
+		int result = postDAO.addPostViewsByPostId(postId);
+		return result;
+	}
 
 	@Override
 	public Post getPostDetailsByPostId(String postId) {
@@ -81,6 +87,8 @@ public class PostServiceImpl implements PostService {
 		List<Post> postList = postDAO.getPostList();
 		return postList;
 	}
+
+	
 
 	
 

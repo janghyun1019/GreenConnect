@@ -256,6 +256,21 @@ public class PostController {
 		 return ResponseEntity.ok(postList);
 	}
 	
+	@PostMapping("/api/addPostViews/{postId}")
+	public ResponseEntity<String> addPostViews(@PathVariable String postId){
+		
+		int addPostViews = postService.addPostViewsByPostId(postId);
+		try {
+			if(addPostViews > 0) {
+				return ResponseEntity.ok("조회수 업데이트 성공");
+			} else {
+				return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+			}
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("조회수 업데이트 실패");
+        }
+	}
+	
 	
 	
 	

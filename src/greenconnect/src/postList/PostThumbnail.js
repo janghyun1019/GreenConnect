@@ -1,5 +1,6 @@
 import '../css/PostThumbnail.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 function PostThumbnail({ post }) {
@@ -9,8 +10,15 @@ function PostThumbnail({ post }) {
     console.log(post);
 
 
-    const handleThumbnailClick = () => {
-        navigate("/postDetail/" + post.postId); // postId를 포함한 URL로 이동
+    const handleThumbnailClick = async () => {
+        try {
+            // post_views 1 증가 요청
+            await axios.post('/api/addPostViews/' + post.postId);
+            navigate("/postDetail/" + post.postId);
+        } catch (error) {
+            console.error('Error updating post views:', error);
+            alert('게시글 조회수를 업데이트하는 데 오류가 발생했습니다.');
+        }
     };
 
 

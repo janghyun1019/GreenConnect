@@ -23,6 +23,8 @@ public interface PostService {
 	
 	int deletePostByPostId(String postId);
 	
+	int addPostViewsByPostId(String postId);
+	
 	Post getPostDetailsByPostId(String postId);
 	
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
