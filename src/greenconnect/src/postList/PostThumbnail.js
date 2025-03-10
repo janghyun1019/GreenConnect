@@ -1,8 +1,5 @@
 import '../css/PostThumbnail.css';
-import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import dayjs from "dayjs";
+import { useNavigate } from 'react-router-dom';
 
 
 function PostThumbnail({ post }) {
@@ -34,7 +31,7 @@ function PostThumbnail({ post }) {
                         }
                     </div>
                     <div className='thumbnailTextBox'>
-                        <div className='productTitle'>{truncateText(post.postTitle, 10)}</div>
+                        <div className='productTitle'>{truncateText(post.postTitle, 15)}</div>
                         <div className='productInfo'>
                             <div>상품 품목: {truncateText(post.postProductType, 10)}</div>
                             <div>상품 가격: {Number(post.postPrice).toLocaleString()}원</div>

@@ -61,7 +61,7 @@ public class PostDAOImpl implements PostDAO {
 	
 	@Override
 	public int deletePostByPostId(String postId) {
-		int result = sqlSessionTemplate.delete("post_mapper.deletePostByPostId", postId);
+		int result = sqlSessionTemplate.update("post_mapper.deletePostByPostId", postId);
 		return result;
 	}
 	

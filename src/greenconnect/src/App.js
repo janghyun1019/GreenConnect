@@ -4,7 +4,7 @@ import MainPage from "./mainpageTemp1111/MainPage";
 import WritePost from "./postDetail/WritePost";
 import PostList from "./postList/PostList.js";
 import PostThumbnail from "./postList/PostThumbnail.js";
-import { Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Signup from "./Page/Signup/Signup.js";
 import Login from "./Page/Signup/Login.js";
 import FindId from "./Page/Signup/FindId.js";

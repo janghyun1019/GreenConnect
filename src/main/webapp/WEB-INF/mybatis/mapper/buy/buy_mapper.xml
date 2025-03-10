@@ -5,11 +5,32 @@
 
 	
 	<insert id="saveBuyInfo" parameterType="Buy">
-		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, buy_count, total_price, total_kg)
-	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{buyCount}, #{totalPrice}, #{totalKg})
+		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, buy_count, total_price, total_gram)
+	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{buyCount}, #{totalPrice}, #{totalGram})
 	</insert>
 	
-	
+<!-- 	<select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->
+<!-- 		SELECT  -->
+<!-- 		    b.buy_id, -->
+<!-- 		    b.user_id AS buy_user_id, -->
+<!-- 		    b.nick_name AS buy_nick_name, -->
+<!-- 		    b.board_id, -->
+<!-- 		    b.post_id, -->
+<!-- 		    b.buy_count, -->
+<!-- 		    b.total_price, -->
+<!-- 		    b.total_gram, -->
+<!-- 		    b.created_at AS buy_created_at, -->
+<!-- 		    p.user_id AS post_user_id, -->
+<!-- 		    p.post_title, -->
+<!--            p.post_product_type, -->
+<!-- 		    p.post_spot, -->
+<!--            p.store_id, -->
+<!--            p.post_state -->
+<!-- 		FROM  -->
+<!-- 		    buy b -->
+<!-- 		JOIN  -->
+<!-- 		    post p ON b.post_id = p.post_id -->
+<!-- 	</select> -->
 	
 	
 	

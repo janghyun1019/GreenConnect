@@ -66,9 +66,9 @@
 		DELETE FROM image WHERE post_id = #{postId}
 	</delete>
 	
-	<delete id="deletePostByPostId" parameterType="String">
-		DELETE FROM post WHERE post_id = #{postId}
-	</delete>
+	<update id="deletePostByPostId" parameterType="String">
+		UPDATE post SET post_state = 'N' WHERE post_id = #{postId}
+	</update>
 
 	<select id="getLastPostId" resultType="String">
 		SELECT post_id_seq.CURRVAL FROM DUAL
@@ -85,7 +85,7 @@
 	</select>
 	
 	<select id="getPostList" resultType="Post">
-		select * from post
+		select * from post where post_state = 'Y'
 	</select>
 
 	

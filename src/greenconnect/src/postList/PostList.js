@@ -12,7 +12,7 @@ function PostList() {
 
     // 포스트 정보
     const [postList, setPostList] = useState([]);
-    const [postThumbnailImage, setPostThumbnailImage] = useState([]);
+    const [visibleCount, setVisibleCount] = useState(9); // 처음에는 9개만 표시
 
     // 상태 관리
     const [loading, setLoading] = useState(true); // 로딩 상태
@@ -36,22 +36,10 @@ function PostList() {
         fetchPostList();
     }, []);
 
-    useEffect(() => {
-        // 서버에서 이미지데이터 가져오기
-        const fetchPostThumbnailImage = async () => {
-            try {
-                const response = await axios.get("/api/postThumnailImage");
-                setPostThumbnailImage(response.data); // 데이터 상태 업데이트
-                console.log(response.data);
-                setLoading(false); // 로딩 끝
-            } catch (err) {
-                setError(err.message); // 에러 상태 업데이트
-                setLoading(false); // 로딩 끝
-            }
-        };
 
-        fetchPostThumbnailImage();
-    }, []); // postId가 변경되면 다시 실행
+    const loadMore = () => {
+        setVisibleCount(prev => prev + 9); // 9개씩 추가
+    };
 
 
     return (
@@ -60,12 +48,22 @@ function PostList() {
             <div className='postListContainer'>
 
                 {
-                    postList.map((post) => (
+                    postList.slice(0, visibleCount).map((post) => (
                         <PostThumbnail post={post} />
                     ))
                 }
 
             </div>
+
+            {/* 더보기 버튼 (모든 게시글을 다 보여주면 버튼 숨김) */}
+            {
+                visibleCount < postList.length && (
+                    <button onClick={loadMore} className="loadMoreButton">
+                        더보기
+                    </button>
+                )
+            }
+
         </div>
     )
 

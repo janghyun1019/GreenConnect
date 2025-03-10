@@ -168,7 +168,7 @@ function WritePost() {
                         value={salesUnit}
                         onChange={(e) => setSalesUnit(e.target.value)}
                         required
-                        placeholder="판매단위를 입력하세요 ( kg단위, 숫자만 입력가능.)"
+                        placeholder="판매 단위를 입력하세요. < 단위: g ( 1kg = 1000g ), 숫자만 입력 가능. >"
                         min="0"
                         max="99999999"
                     />

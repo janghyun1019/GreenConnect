@@ -11,6 +11,6 @@ public class Buy {
 	private String postId;
 	private String buyCount;
 	private String totalPrice;
-	private String totalKg;
+	private String totalGram;
 
 }

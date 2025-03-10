@@ -10,9 +10,9 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
     const navigate = useNavigate();
     // 구매정보
-    const [buyCount, setBuyCount] = useState('');
+    const [buyCount, setBuyCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [totalKg, setTotalKg] = useState(0);
+    const [totalGram, setTotalGram] = useState(0);
     const [buyUser, setBuyUser] = useState(null);
 
     // 포스트 정보
@@ -86,11 +86,13 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     };
 
     const handleEditClick = () => { // 수정하기 버튼 수정페이지로 이동
-        navigate(`/modifyPostDetail/${postDetail.postId}`); // postId를 파라미터로 전달
+        if (window.confirm("판매글을 수정하시겠습니까?")) {
+            navigate(`/modifyPostDetail/${postDetail.postId}`); // postId를 파라미터로 전달
+        }
     };
 
     const handleDeleteClick = async () => { // 삭제하기 버튼 삭제 axios post 요청
-        if (window.confirm("판매글을 삭제하시겠습니까?")) {
+        if (window.confirm("판매글을 삭제하시겠습니까?")) { // 실제 삭제가아닌 판매상태만 N으로 업데이트됨!!(데이터정책)
             try {
                 const response = await axios.post("/api/deletePost/" + postId);
 
@@ -179,10 +181,10 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     // 총 주문 량 계산 (postSalesUnit * buyCount)
     useEffect(() => {
         if (postDetail && postDetail.postSalesUnit && buyCount > 0) {
-            const calculatedKg = (postDetail.postSalesUnit * buyCount);
-            setTotalKg(calculatedKg);
+            const calculatedGram = Number(postDetail.postSalesUnit) * Number(buyCount);
+            setTotalGram(calculatedGram);
         } else {
-            setTotalKg(0);
+            setTotalGram(0);
         }
     }, [buyCount, postDetail]);
 
@@ -216,7 +218,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 postId: postDetail.postId,
                 buyCount: buyCount,
                 totalPrice: totalPrice,
-                totalKg: totalKg,
+                totalGram: totalGram,
             };
 
             console.log(data);
@@ -314,7 +316,12 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                         <div>판매자 주소: {postDetail.postSpot}</div>
                         <div>조회수: {Number(postDetail.postViews).toLocaleString()} 회</div>
                         <div>판매글 작성일: {dayjs(postDetail.postCreateAt).format("YYYY년 MM월 DD일")}</div>
-                        <div>판매단위: {Number(postDetail.postSalesUnit).toLocaleString()} Kg</div>
+                        <div>판매단위: {
+                                postDetail.postSalesUnit <= 999
+                                ? `${postDetail.postSalesUnit}g`
+                                : `${(postDetail.postSalesUnit / 1000).toFixed(1)}kg`
+                        }
+                        </div>
                         <div>가격: {Number(postDetail.postPrice).toLocaleString()} 원</div>
                         <div>배송비: {Number(postDetail.postCost).toLocaleString()} 원</div>
                         <form id="buyProductForm" action="" method="post" onSubmit={handleSubmit}>
@@ -324,7 +331,10 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                                     id="buyCount"
                                     name="buyCount"
                                     value={buyCount}
-                                    onChange={(e) => setBuyCount(e.target.value)}
+                                    onChange={(e) => {
+                                        const value = Number(e.target.value);
+                                        setBuyCount(value);
+                                    }}
                                     required
                                     placeholder="구매수량을 입력하세요."
                                     min="0"
@@ -335,8 +345,13 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                             <input type="hidden" name="userId" value={buyUser?.userId || ""} /> {/* 구매자 아이디 */}
                             <input type="hidden" name="nickName" value={buyUser?.nickname || ""} /> {/* 구매자 닉네임 */}
                             <input type="hidden" name="totalPrice" value={totalPrice} /> {/* 총주문금액 */}
-                            <input type="hidden" name="totalKg" value={totalKg} /> {/* 총주문량 */}
+                            <input type="hidden" name="totalGram" value={totalGram} /> {/* 총주문량 */}
                         </form>
+                        <div>총 수량: {
+                            (buyCount*postDetail.postSalesUnit) <= 999
+                            ? `${Number(postDetail.postSalesUnit * buyCount)}g`
+                            : `${(Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString()}Kg`
+                        }</div>
                         <div>총 금액 (배송비 포함): {totalPrice.toLocaleString()} 원</div>
                         <div className='JCBBtnBox'>
                             <button>찜</button>

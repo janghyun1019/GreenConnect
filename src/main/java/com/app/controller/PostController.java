@@ -211,8 +211,8 @@ public class PostController {
 	@PostMapping("/api/deletePost/{postId}")
 	public ResponseEntity<?> deletePostByPostId(@PathVariable String postId){
 		try {
-            int deletedPost = postService.deletePostByPostId(postId);
-            int deletedImages = postService.deletePostImagesByPostId(postId);
+            int deletedPost = postService.deletePostByPostId(postId); // 실제로 delete 시키는게 아니고 판매상태만 N으로 update(데이터정책 상태관리)
+            //int deletedImages = postService.deletePostImagesByPostId(postId);
 
             if (deletedPost == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제할 게시글이 없습니다.");
