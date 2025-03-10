@@ -4,9 +4,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+
+import com.app.dao.signup.SnsUserDAO;
 import com.app.dao.signup.UserDAO;
 import com.app.dto.user.User;
 import com.app.service.signup.UserService;
@@ -16,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDAO userDAO;
+	SnsUserDAO snsUserDAO; //SnsUser 처리를 위한 새로만든 DAO
 
 	@Override
 	public int registerUser(User user) { // 유저 등록

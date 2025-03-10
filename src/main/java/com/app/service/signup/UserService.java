@@ -27,6 +27,7 @@ public interface UserService {
 	boolean isDuplicatedPassword(String password);
 	void updatePassword(String userId, String newPassword);
 	boolean isDuplicate(String type, String value);
+
 	
 	//로그인을 위해 새로은 기능 추가 
 }

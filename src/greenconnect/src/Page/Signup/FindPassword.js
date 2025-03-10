@@ -16,7 +16,7 @@ function FindPassword() {
             이메일 <input type="email" onChange={(e) => setEmail(e.target.value)} /> <br />
             <button onClick={() => {
                 axios.post(
-                    "user/find-password",
+                    "/api/user/find-password",
                     { 
                         userId,
                         userName,

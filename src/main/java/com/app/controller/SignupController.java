@@ -10,9 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,7 @@ public class SignupController {
 	@Autowired
 	private MailService emailService; // 이메일 전송 서비스
 
-	@PostMapping("/user/signup")
+	@PostMapping("api/user/signup")
 	public String signupAction(@RequestBody User user) {
 
 		if (user.getUserId() == null || user.getUserId().trim().isEmpty()) {
@@ -59,11 +61,13 @@ public class SignupController {
 			return "fail";
 		}
 	}
-
+	
+	
+	
 	// 로그인 시 API 발급 (JWT 방식)
-	@PostMapping("/user/login")
+	@PostMapping("api/user/login")
 	public String login(@RequestBody Map<String, String> loginInfo, User user) {
-
+		
 		try {
 			// 유저 비밀번호 암호화
 			String encPw = SHA256Encryptor.encrypt(loginInfo.get("password"));
@@ -96,12 +100,13 @@ public class SignupController {
 		System.out.println(accessToken);
 		System.out.println(refreshToken);
 		System.out.println(user.getNickName());
+		System.out.println(user.getUserId());
 
 		try {
 			// JSON 형태로 변환
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> response = Map.of("accessToken", accessToken, "refreshToken", refreshToken, "nickname",
-					user.getNickName());
+					user.getNickName(),"userId", user.getUserId());
 			return objectMapper.writeValueAsString(response); // JSON 문자열 반환
 		} catch (Exception e) {
 			return "{\"message\":\"서버 오류 발생\"}";
@@ -110,7 +115,7 @@ public class SignupController {
 	}
 
 	// 유저 이메일 발송
-	@PostMapping("/user/sendVerificationEmail")
+	@PostMapping("api/user/sendVerificationEmail")
 	public String sendVerificationEmail(@RequestBody Map<String, String> request, HttpSession session) {
 		String email = request.get("email");
 
@@ -135,7 +140,7 @@ public class SignupController {
 	}
 
 	// 유저 이메일 코드 이메일 인증
-	@PostMapping("/user/verifyEmail")
+	@PostMapping("api/user/verifyEmail")
 	public String verifyEmail(@RequestBody Map<String, String> request, HttpSession session) {
 
 		// 유저가 입력한 코드
@@ -163,7 +168,7 @@ public class SignupController {
 	}
 
 	// 유저 아이디 및 비밀번호 찾기
-	@PostMapping("/user/find-id")
+	@PostMapping("api/user/find-id")
 	public ResponseEntity<?> findUserId(@RequestBody Map<String, String> request) {
 		
 		String username = request.get("userName");
@@ -196,7 +201,7 @@ public class SignupController {
 	}
 
 	// 비밀번호 찾기 API (이메일로 비밀번호 재설정 링크 전송)
-	@PostMapping("/user/find-password")
+	@PostMapping("api/user/find-password")
 	public ResponseEntity<?> sendPasswordResetEmail(@RequestBody Map<String, String> request) {
 		
 		String userId = request.get("userId");
@@ -239,7 +244,7 @@ public class SignupController {
 	}
 
 	// 리셋 URL
-	@PostMapping("/user/reset-password")
+	@PostMapping("api/user/reset-password")
 	public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
 		String token = request.get("token");
 		String newPassword = request.get("newPassword");
@@ -263,7 +268,7 @@ public class SignupController {
 
 	// 유저 중복체크 검사
 
-	@RequestMapping("/user/checkDupId") // 아이디 중복체크
+	@RequestMapping("api/user/checkDupId") // 아이디 중복체크
 	public String checkDupId(@RequestBody Map<String, String> data) {
 
 		System.out.println("/user/checkDupId 요청 들어옴");
@@ -282,7 +287,7 @@ public class SignupController {
 		return result ? "Y" : "N";
 	}
 
-	@RequestMapping("/user/checkDupNickName")
+	@RequestMapping("api/user/checkDupNickName")
 	public String checkDupnickName(@RequestBody Map<String, String> data) {
 
 		System.out.println("/user/checkDupnickName요청 들어옴");
@@ -304,7 +309,7 @@ public class SignupController {
 
 	}
 
-	@RequestMapping("/user/checkDupTel")
+	@RequestMapping("api/user/checkDupTel")
 	public String checkDupnickTel(@RequestBody Map<String, String> data) {
 
 		System.out.println("/user/checkDupTel요청 들어옴");
@@ -321,7 +326,7 @@ public class SignupController {
 		return result ? "Y" : "N";
 	}
 
-	@RequestMapping("/user/checkDupEmail")
+	@RequestMapping("api/user/checkDupEmail")
 	public String checkDupEmail(@RequestBody Map<String, String> data) {
 
 		System.out.println("/user/checkDupEmail요청 들어옴");

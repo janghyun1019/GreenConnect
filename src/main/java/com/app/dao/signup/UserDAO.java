@@ -14,12 +14,12 @@ public interface UserDAO {
     User getUserByTel(String tel); // 사용자 전화번호으로 조회
     User getUserByEmail(String email); // 사용자 이메일으로 조회
     User getUserByPassword(String password); // 사용자 이메일으로 조회
-    int updateUser(User user);   // 정보 수정
     int deleteUser(String userId);  // 회원 삭제
     List<User> getAllUsers();    // 전체 회원 조회
     List<User> NotifyUserList();
     void resetReport(List<String> userIds);
     void updatePassword(String userId, String newPassword);
 	int isDuplicate(String type, String value);
+	int updateUser(User user);
 	
 }

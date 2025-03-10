@@ -68,7 +68,7 @@ function Signup() {
                 아이디 <input type="text" onChange={(e) => setUserId(e.target.value.trim())} 
                 onBlur={()=>{
                     axios.post(
-                        "user/checkDupId",
+                        "/api/user/checkDupId",
                         {
                             value : userId.trim()
                         },
@@ -102,7 +102,7 @@ function Signup() {
                 닉네임 <input type="text" onChange={(e) => setNickName(e.target.value)} 
                 onBlur={()=>{
                     axios.post(
-                        "user/checkDupNickName",
+                        "/api/user/checkDupNickName",
                         {
                             value : nickName.trim()
                         },
@@ -127,7 +127,7 @@ function Signup() {
                 휴대폰번호 <input type="tel" onChange={(e) => setTel(e.target.value)} 
                 onBlur={()=>{
                     axios.post(
-                        "user/checkDupTel",
+                        "/api/user/checkDupTel",
                         {
                             value : tel.trim()
                         },
@@ -150,7 +150,7 @@ function Signup() {
                 이메일 <input type="email" onChange={(e) => setEmail(e.target.value)} disabled={isVerified} 
                 onBlur={()=>{
                     axios.post(
-                        "user/checkDupEmail",
+                        "/api/user/checkDupEmail",
                         {
                             value : email.trim()
                         },
@@ -175,7 +175,7 @@ function Signup() {
                 {/* 유저 이메일 인증 버튼 */}
                 <button onClick={() => {
                     axios.post(
-                        "user/sendVerificationEmail",
+                        "/api/user/sendVerificationEmail",
                         {
                             email
                         },
@@ -200,7 +200,7 @@ function Signup() {
                 {/* 유저 인증코드 확인 버튼*/}
                 <button onClick={() => {
                     axios.post(
-                        "user/verifyEmail",
+                        "/api/user/verifyEmail",
                         {
                             code
                         },
@@ -238,7 +238,7 @@ function Signup() {
 
             <button onClick={() => {
                 axios.post(
-                    "user/signup",
+                    "/api/user/signup",
                     {
                         userId,
                         password,
