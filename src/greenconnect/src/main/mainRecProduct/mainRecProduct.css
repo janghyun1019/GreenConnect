@@ -12,6 +12,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: black;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
@@ -22,7 +24,7 @@
 
 .category-icon {
   width: 90%;
-  height: auto; 
+  height: auto;
   object-fit: contain;
   transition: opacity 0.3s ease-in-out;
 }
