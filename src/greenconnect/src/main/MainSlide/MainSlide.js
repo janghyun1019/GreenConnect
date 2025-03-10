@@ -22,23 +22,22 @@ const originalSlides = [
 // 설정 값
 const AUTO_PLAY_DELAY = 3000; // 3초마다 전환
 const TRANSITION_SPEED = 0.5; // 전환 속도 (초)
+const ITEMS_DESKTOP = 4; // 데스크톱에서 보이는 아이템 수
+const ITEMS_MOBILE = 1; // 모바일에서 보이는 아이템 수
 
 const MainSlide = () => {
-  const [currentIndex, setCurrentIndex] = useState(2); // 무한 루프 고려
+  const [currentIndex, setCurrentIndex] = useState(ITEMS_DESKTOP); // 무한 루프 고려
   const [isTransition, setIsTransition] = useState(true);
-  const [itemsToShow, setItemsToShow] = useState(2);
-  const [itemWidth, setItemWidth] = useState(580 * 2 + 16); // 기본 크기
+  const [itemsToShow, setItemsToShow] = useState(ITEMS_DESKTOP);
   const autoPlayRef = useRef(null);
 
-  // ✅ 반응형 설정: 화면 크기에 따라 슬라이드 개수 변경
+  // 반응형 설정: 화면 크기에 따라 슬라이드 개수 변경
   useEffect(() => {
     const updateSettings = () => {
       if (window.innerWidth <= 768) {
-        setItemsToShow(1);
-        setItemWidth(window.innerWidth - 80); // 모바일에서는 화면 꽉 차게
+        setItemsToShow(ITEMS_MOBILE);
       } else {
-        setItemsToShow(2);
-        setItemWidth(580 * 2 + 16); // 2개 슬라이드 크기 유지
+        setItemsToShow(ITEMS_DESKTOP);
       }
     };
 
@@ -48,7 +47,7 @@ const MainSlide = () => {
     return () => window.removeEventListener('resize', updateSettings);
   }, []);
 
-  // 자동 전환 (3초마다 1개 이동)
+  // 자동 전환
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
       setCurrentIndex(prev => prev + 1);
@@ -59,10 +58,10 @@ const MainSlide = () => {
 
   // transition 끝나면 무한 루프 처리
   const handleTransitionEnd = () => {
-    if (currentIndex >= originalSlides.length + 2) {
+    if (currentIndex >= originalSlides.length + itemsToShow) {
       setIsTransition(false);
-      setCurrentIndex(2);
-    } else if (currentIndex < 2) {
+      setCurrentIndex(itemsToShow);
+    } else if (currentIndex < itemsToShow) {
       setIsTransition(false);
       setCurrentIndex(originalSlides.length);
     }
@@ -77,8 +76,10 @@ const MainSlide = () => {
 
   // 이동 시 translateX 적용
   const sliderStyle = {
-    transform: `translateX(-${currentIndex * (itemWidth / itemsToShow)}px)`,
+    transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)`,
     transition: isTransition ? `transform ${TRANSITION_SPEED}s ease-in-out` : 'none',
+    width: `${(originalSlides.length + itemsToShow * 2) * (100 / itemsToShow)}%`,
+    display: "flex"
   };
 
   return (
@@ -86,8 +87,8 @@ const MainSlide = () => {
       <button className="arrow-button prev" onClick={() => setCurrentIndex(prev => prev - 1)}>&lt;</button>
       <div className="slider-wrapper">
         <div className="slider" style={sliderStyle} onTransitionEnd={handleTransitionEnd}>
-          {originalSlides.concat(originalSlides).map((imgSrc, idx) => (
-            <div className="slide-item" key={idx} style={{ width: `${itemWidth / itemsToShow}px` }}>
+          {[...originalSlides.slice(-itemsToShow), ...originalSlides, ...originalSlides.slice(0, itemsToShow)].map((imgSrc, idx) => (
+            <div className="slide-item" key={idx} style={{ width: `${100 / itemsToShow}%` }}>
               <img src={imgSrc} alt={`slide-${idx}`} />
             </div>
           ))}
