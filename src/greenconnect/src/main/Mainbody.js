@@ -1,14 +1,13 @@
 import React from 'react';
-
+import MainSlide from './MainSlide/MainSlide';
 
 
 function Mainbody() {
-  return (
-    <main style={{ flex: 1 }}>
+	return (
+		<main style={{ flex: 1 }}>
+			<MainSlide />
 
-
-    </main>
-  );
+		</main>
+	);
 }
-
 export default Mainbody;
