@@ -13,6 +13,8 @@ public interface PostService {
 	
 	int savePostImages(Image image);
 	
+	int saveThumbnailImage();
+	
 	int modifyPost(Post post);
 	
 	int modifyPostImages(Image image);
@@ -24,5 +26,8 @@ public interface PostService {
 	Post getPostDetailsByPostId(String postId);
 	
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
+	
+	List<Post> getPostList(); // 리스트에 사용 할 모든 판매글정보 가져오기
+	
 
 }

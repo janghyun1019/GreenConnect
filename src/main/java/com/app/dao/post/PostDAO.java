@@ -13,6 +13,8 @@ public interface PostDAO {
 	
 	int savePostImages(Image image);
 	
+	int saveThumbnailImage();
+	
 	int modifyPost(Post post);
 	
 	int modifyPostImages(Image image);
@@ -24,5 +26,9 @@ public interface PostDAO {
 	Post getPostDetailsByPostId(String postId);
 	
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
+	
+	List<Post> getPostList();
+	
+	
 
 }

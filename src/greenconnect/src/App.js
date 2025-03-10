@@ -3,6 +3,7 @@ import PostDetailIntro from "./postDetail/PostDetailIntro";
 import MainPage from "./mainpageTemp1111/MainPage";
 import WritePost from "./postDetail/WritePost";
 import PostList from "./postList/PostList.js";
+import PostThumbnail from "./postList/PostThumbnail.js";
 import { Router, Routes, Route } from "react-router-dom";
 import Signup from "./Page/Signup/Signup.js";
 import Login from "./Page/Signup/Login.js";
@@ -20,10 +21,11 @@ function App() {
         <Route path="/main" element={<MainPage />} />
 
         <Route path="/writePost" element={<WritePost />} />
-        <Route path="/postDetail" element={<PostDetail />} />
+        <Route path="/postDetail/:postId" element={<PostDetail />} />
         <Route path="/modifyPostDetail/:postId" element={<ModifyPostDetail />} />
         <Route path="/postDetailIntro" element={<PostDetailIntro />} />
         <Route path="/postList" element={<PostList />} />
+        <Route path="/postThumbnail" element={<PostThumbnail />} />
         
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

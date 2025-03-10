@@ -93,6 +93,9 @@ public class PostController {
 		                    // 이미지 정보 DB 저장
 		                    postService.savePostImages(img);
 		                    
+		                    // 맨처음 이미지의 url_file_path를 post 테이블의 url_file_path에 저장
+		                    postService.saveThumbnailImage();
+		                    
 		                    //post.setUrlFilePath(urlFilePath);  //이미지 urlfilepath 따온 후 post객체에 저장
 		                }
 		            }
@@ -182,6 +185,8 @@ public class PostController {
 		                    // 이미지 정보 DB 저장
 		                    postService.savePostImages(img);
 		                    
+		                    postService.saveThumbnailImage();
+		                    
 		                    //post.setUrlFilePath(urlFilePath);  //이미지 urlfilepath 따온 후 post객체에 저장
 		                }
 		            }
@@ -238,6 +243,18 @@ public class PostController {
 		return ResponseEntity.ok(imageUrls);
 	}
 	
+	@GetMapping("/api/postList")
+	public ResponseEntity<List<Post>> getPostList(){
+		List<Post> postList = postService.getPostList();
+		
+		System.out.println("판매글 리스트: " + postList);
+		
+		 if (postList.isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+		 
+		 return ResponseEntity.ok(postList);
+	}
 	
 	
 	

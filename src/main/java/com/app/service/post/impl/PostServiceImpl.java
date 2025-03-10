@@ -35,6 +35,12 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
+	public int saveThumbnailImage() {
+		int result = postDAO.saveThumbnailImage();
+		return result;
+	}
+	
+	@Override
 	public int modifyPost(Post post) {
 		int result = postDAO.modifyPost(post);
 		return result;
@@ -69,6 +75,16 @@ public class PostServiceImpl implements PostService {
 		List<String> imageUrls = postDAO.getPostDetailsImageUrlsByPostId(postId);
 		return imageUrls;
 	}
+
+	@Override
+	public List<Post> getPostList() {
+		List<Post> postList = postDAO.getPostList();
+		return postList;
+	}
+
+	
+
+	
 
 
 	

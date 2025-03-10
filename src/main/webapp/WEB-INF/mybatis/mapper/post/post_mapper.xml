@@ -27,6 +27,25 @@
 	    WHERE post_id = #{postId}
 	</update>
 	
+	<update id="saveThumbnailImage">
+		 UPDATE post p
+        SET p.url_file_path = (
+            SELECT i.url_file_path
+            FROM image i
+            WHERE i.post_id = p.post_id
+            AND i.image_id = (
+                SELECT MIN(image_id)
+                FROM image
+                WHERE post_id = p.post_id
+            )
+        )
+        WHERE EXISTS (
+            SELECT 1
+            FROM image i
+            WHERE i.post_id = p.post_id
+        )
+	</update>
+	
 	<update id="modifyPost" parameterType="Post">
 	    UPDATE post
 	    SET user_id = #{userId},
@@ -64,6 +83,11 @@
 		resultType="String">
 		select url_file_path from image where post_id = #{postId} order by post_id
 	</select>
+	
+	<select id="getPostList" resultType="Post">
+		select * from post
+	</select>
+
 	
 	
 	

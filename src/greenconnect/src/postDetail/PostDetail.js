@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from "dayjs";
 import '../css/PostDetail.css';
 
 
-function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
+function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
     const navigate = useNavigate();
     // 구매정보
@@ -15,6 +16,8 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
     const [buyUser, setBuyUser] = useState(null);
 
     // 포스트 정보
+    const { postId } = useParams();
+
     const [postDetail, setPostDetail] = useState(null); // 데이터를 저장할 상태
     const [postDetailImages, setPostDetailImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,7 +44,7 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         // 서버에서 데이터 가져오기
         const fetchPostDetail = async () => {
             try {
-                const response = await axios.get("/api/posts/" + 5); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                const response = await axios.get("/api/posts/" + postId);
                 setPostDetail(response.data); // 데이터 상태 업데이트
                 setLoading(false); // 로딩 끝
             } catch (err) {
@@ -57,7 +60,7 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
         // 서버에서 이미지데이터 가져오기
         const fetchPostDetailImages = async () => {
             try {
-                const response = await axios.get("/api/posts/images/" + 5); // postId로 수정해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                const response = await axios.get("/api/posts/images/" + postId);
                 setPostDetailImages(response.data); // 데이터 상태 업데이트
                 setLoading(false); // 로딩 끝
             } catch (err) {
@@ -89,7 +92,7 @@ function PostDetail({ postId }) {  // PostDetailIntro 위에 있는 화면
     const handleDeleteClick = async () => { // 삭제하기 버튼 삭제 axios post 요청
         if (window.confirm("판매글을 삭제하시겠습니까?")) {
             try {
-                const response = await axios.post("/api/deletePost/" + 5);
+                const response = await axios.post("/api/deletePost/" + postId);
 
                 if (response.status === 200) {
                     alert(response.data); // 성공 메시지 출력

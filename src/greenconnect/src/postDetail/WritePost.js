@@ -142,8 +142,8 @@ function WritePost() {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
-                        placeholder="제목을 입력하세요 (최대 33글자 까지 입력가능.)"
-                        maxLength="33"
+                        placeholder="제목을 입력하세요 (최대 25글자 까지 입력가능.)"
+                        maxLength="25"
                     />
                 </div>
 
@@ -170,6 +170,7 @@ function WritePost() {
                         required
                         placeholder="판매단위를 입력하세요 ( kg단위, 숫자만 입력가능.)"
                         min="0"
+                        max="99999999"
                     />
                 </div>
 
@@ -183,6 +184,7 @@ function WritePost() {
                         required
                         placeholder="판매단위당 판매가격을 입력하세요 (숫자만 입력가능.)"
                         min="0"
+                        max="99999999"
                     />
                 </div>
 
@@ -209,6 +211,7 @@ function WritePost() {
                         required
                         placeholder="배송비를 입력하세요."
                         min="0"
+                        max="99999999"
                     />
                 </div>
 

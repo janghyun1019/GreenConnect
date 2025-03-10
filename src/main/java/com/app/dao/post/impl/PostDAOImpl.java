@@ -36,6 +36,12 @@ public class PostDAOImpl implements PostDAO {
 	}
 	
 	@Override
+	public int saveThumbnailImage() {
+		int result = sqlSessionTemplate.update("post_mapper.saveThumbnailImage");
+		return result;
+	}
+	
+	@Override
 	public int modifyPost(Post post) {
 		int result = sqlSessionTemplate.update("post_mapper.modifyPost", post);
 		return result;
@@ -70,6 +76,16 @@ public class PostDAOImpl implements PostDAO {
 		List<String> imageUrls = sqlSessionTemplate.selectList("post_mapper.getPostDetailsImageUrlsByPostId", postId);
 		return imageUrls;
 	}
+
+	@Override
+	public List<Post> getPostList() {
+		List<Post> postList = sqlSessionTemplate.selectList("post_mapper.getPostList");
+		return postList;
+	}
+
+	
+
+	
 
 
 	
