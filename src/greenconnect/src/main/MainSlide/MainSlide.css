@@ -1,2 +1,86 @@
-@charset "UTF-8";
+.main-slide-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  background-color: #f3f3f3;
+  margin: 0 auto;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
 
+/* 슬라이드 영역 */
+.slider-wrapper {
+  overflow: hidden;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* 각 슬라이드 아이템 */
+.slide-item {
+  flex: 0 0 auto;
+  margin-right: 16px;
+  box-sizing: border-box;
+}
+
+.slide-item:last-child {
+  margin-right: 0;
+}
+
+/* 슬라이드 이미지 */
+.slide-item img {
+  width: 500px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* 좌우 화살표 버튼 */
+.arrow-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  outline: none;
+}
+
+.arrow-button:hover {
+  background: #ddd;
+}
+
+.arrow-button.prev {
+  left: 10px;
+}
+
+.arrow-button.next {
+  right: 10px;
+}
+
+/* ✅ 반응형: 768px 이하일 때 */
+@media screen and (max-width: 768px) {
+  .slider-wrapper {
+    width: 100%;
+  }
+
+  .slide-item {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .slide-item img {
+    width: 100%;
+    height: auto;
+  }
+}
