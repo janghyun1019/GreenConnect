@@ -14,6 +14,7 @@ function Address() {
                 <button className={activeTab === 'address' ? 'active':''}
                 onClick={()=> setActiveTab('address')}
                 >주소등록</button>
+                
             </div>
             <div className='tab-content'>
                 {activeTab === 'card' ? <CardRegistration/>:<AddressRegistration/>}

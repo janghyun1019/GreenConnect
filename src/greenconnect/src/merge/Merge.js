@@ -17,7 +17,7 @@ function Merge() {
         
             <div className="merge-container">
             <Routes>
-                <Route path="/" element={<MyPage />} />
+                <Route path="/Mypage" element={<MyPage />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/Address" element={<Address />} />
                 <Route path="/Post" element={<Post />} />

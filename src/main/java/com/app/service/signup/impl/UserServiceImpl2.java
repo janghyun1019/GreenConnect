@@ -12,7 +12,7 @@ import com.app.dto.user.User;
 import com.app.service.signup.UserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl2 implements UserService {
 
 	@Autowired
 	UserDAO userDAO;

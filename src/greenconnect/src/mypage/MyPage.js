@@ -36,12 +36,12 @@ function MyPage() {
             <h2 className="mypageLogo">마이페이지</h2>
             <div className="mypageSide">
                 <ul>
-                    <li><Link to="/">프로필관리</Link></li>
+                    <li><Link to="/Mypage">프로필관리</Link></li>
                     <li><Link to="/Cart">장바구니</Link></li>
                     <li><Link to="/Address">주소/결재수단</Link></li>
                     <li><Link to="/Post">작성글 목록</Link></li>
-                    <li><Link to="/likes">즐겨찾기/좋아요</Link></li>
-                    <li><Link to="/Chat">1:1채팅목록</Link></li>
+                    <li><Link to="/likes">찜한 목록</Link></li>
+                    <li><Link to="/Chat">1:1채팅이력</Link></li>
                     <li className="adminLink"><Link to="/Admin">관리자 페이지</Link></li>
                 </ul>
                 <div className="dashboard">

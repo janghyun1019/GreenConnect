@@ -13,7 +13,7 @@ import com.app.dao.signup.UserDAO;
 import com.app.dto.user.User;
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl2 implements UserDAO{
 
 	@Autowired			
 	SqlSessionTemplate sqlSessionTemplate;

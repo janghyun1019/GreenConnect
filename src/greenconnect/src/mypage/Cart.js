@@ -16,10 +16,8 @@ function Cart() {
     const fetchCartItems = async () => {
         try {
             const userId = localStorage.getItem('userId');
-            const response = await axios.get(`http://localhost:8080/cart/${userId}`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+            const response = await axios.get(`/mypage/Cart/${userId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             setCartItems(response.data);
             setLoading(false);
@@ -33,10 +31,8 @@ function Cart() {
     const fetchTransactions = async () => {
         try {
             const userId = localStorage.getItem('userId');
-            const response = await axios.get(`http://localhost:8080/transactions/${userId}`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+            const response = await axios.get(`/transactions/${userId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             setTransactions(response.data);
         } catch (error) {
@@ -44,75 +40,64 @@ function Cart() {
         }
     };
     
-    const updateQuantity = async (itemId, newQuantity) => {
-        if (newQuantity < 1) return;
+    const updateQuantity = async (postId, newCount) => {
+        if (newCount < 1) return;
         
         try {
             const userId = localStorage.getItem('userId');
-            await axios.put(`http://localhost:8080/cart/update`, {
+            await axios.post(`http://localhost:8080/mypage/Cart/update`, {
                 userId,
-                itemId,
-                quantity: newQuantity
+                postId,
+                count: newCount
             }, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
-            
+
             setCartItems(cartItems.map(item => 
-                item.id === itemId ? {...item, quantity: newQuantity} : item
+                item.postId === postId ? { ...item, count: newCount } : item
             ));
         } catch (error) {
             console.error('수량 업데이트 실패:', error);
         }
     };
     
-    const removeItem = async (itemId) => {
+    const removeItem = async (postId) => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.delete(`http://localhost:8080/cart/remove/${userId}/${itemId}`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+            await axios.post(`http://localhost:8080/mypage/Cart/remove`, {
+                userId,
+                postId
+            }, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
-            
-            setCartItems(cartItems.filter(item => item.id !== itemId));
+
+            setCartItems(cartItems.filter(item => item.postId !== postId));
         } catch (error) {
             console.error('아이템 삭제 실패:', error);
         }
     };
     
-    const checkout = async () => {
-        if (cartItems.length === 0) {
-            alert('장바구니가 비어있습니다.');
-            return;
-        }
-        
+    const clearCart = async () => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/checkout/${userId}`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+            await axios.post(`http://localhost:8080/mypage/Cart/clear`, { userId }, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
-            
-            alert('결제가 완료되었습니다.');
+
             setCartItems([]);
-            fetchTransactions();
         } catch (error) {
-            console.error('결제 실패:', error);
-            alert('결제 중 오류가 발생했습니다.');
+            console.error('장바구니 비우기 실패:', error);
         }
     };
-    
+
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        return cartItems.reduce((total, item) => total + (item.price * item.count), 0);
     };
-    
+
     if (loading) {
         return <div className="Cart-container"><p>로딩 중...</p></div>;
     }
-    
+
     if (error) {
         return <div className="Cart-container"><p>{error}</p></div>;
     }
@@ -128,36 +113,36 @@ function Cart() {
                     ) : (
                         <div className="cart-items">
                             {cartItems.map(item => (
-                                <div className="cart-item" key={item.id}>
+                                <div className="cart-item" key={item.postId}>
                                     <img 
                                         src={item.imageUrl || '/placeholder-image.jpg'} 
-                                        alt={item.name} 
+                                        alt={item.title} 
                                         className="item-image" 
                                     />
                                     <div className="item-details">
-                                        <div className="item-name">{item.name}</div>
+                                        <div className="item-title">{item.title}</div>
                                         <div className="item-price">{item.price.toLocaleString()}원</div>
                                         <div className="item-quantity">
                                             <button 
                                                 className="quantity-btn"
-                                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                onClick={() => updateQuantity(item.postId, item.count - 1)}
                                             >-</button>
                                             <input 
                                                 type="text" 
                                                 className="quantity-input" 
-                                                value={item.quantity}
+                                                value={item.count}
                                                 readOnly
                                             />
                                             <button 
                                                 className="quantity-btn"
-                                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                onClick={() => updateQuantity(item.postId, item.count + 1)}
                                             >+</button>
                                         </div>
                                     </div>
                                     <div className="item-actions">
                                         <button 
                                             className="action-btn remove"
-                                            onClick={() => removeItem(item.id)}
+                                            onClick={() => removeItem(item.postId)}
                                         >삭제</button>
                                     </div>
                                 </div>
@@ -168,8 +153,8 @@ function Cart() {
                                 <span className="total-price">{calculateTotal().toLocaleString()}원</span>
                             </div>
                             
-                            <button className="checkout-btn" onClick={checkout}>
-                                결제하기
+                            <button className="checkout-btn" onClick={clearCart}>
+                                장바구니 비우기
                             </button>
                         </div>
                     )}

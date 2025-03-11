@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 
 function AddressRegistration() {
     const [address, setAddress] = useState([
@@ -33,6 +34,25 @@ function AddressRegistration() {
 
     const [error, setError] = useState({});
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        fetchAddresses();
+    }, []);
+
+    const fetchAddresses = async () => {
+        setIsLoading(true);
+        try {
+            // Spring Boot 서버 API 엔드포인트 호출
+            const response = await axios.get('/api/addresses');
+            setAddress(response.data);
+        } catch (error) {
+            console.error("주소 목록을 불러오는데 실패했습니다:", error);
+            alert("주소 목록을 불러오는데 실패했습니다.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -73,56 +93,78 @@ function AddressRegistration() {
         return isValid;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            const newAddress = {
-                id: 'user' + Date.now(), // 백틱을 문자열 연결 연산자로 변경
-                postal_code: formData.postal_code,
-                address1: formData.address1,
-                address2: formData.address2,
-                receiver: formData.receiver,
-                phone: formData.phone,
-                is_default: formData.is_default
-            };
+            setIsLoading(true);
+            try {
+                // 서버로 전송할 주소 데이터 객체
+                const addressData = {
+                    receiver: formData.receiver,
+                    phone: formData.phone,
+                    postal_code: formData.postal_code,
+                    address1: formData.address1,
+                    address2: formData.address2,
+                    is_default: formData.is_default
+                };
 
-            let updateAddresses = [...address];
-            if (formData.is_default) {
-                updateAddresses = updateAddresses.map(addr => ({
-                    ...addr,
+                // 서버 API에 POST 요청으로 데이터 전송
+                await axios.post('/api/addresses', addressData);
+                
+                // 주소 목록 새로고침
+                await fetchAddresses();
+                
+                // 폼 초기화
+                setFormData({
+                    receiver: '',
+                    phone: '',
+                    postal_code: '',
+                    address1: '',
+                    address2: '',
                     is_default: false
-                }));
+                });
+                
+                setIsFormVisible(false);
+                alert('주소가 성공적으로 등록되었습니다.');
+            } catch (error) {
+                console.error("주소 등록 실패:", error);
+                alert("주소 등록에 실패했습니다.");
+            } finally {
+                setIsLoading(false);
             }
-
-            setAddress([...updateAddresses, newAddress]);
-            setFormData({
-                receiver: '',
-                phone: '',
-                postal_code: '',
-                address1: '',
-                address2: '',
-                is_default: false
-            });
-            setIsFormVisible(false);
-
-            alert('주소가 성공적으로 등록되었습니다.');
+        }
+    };
+    const setDefaultAddress = async (addressId) => {
+        setIsLoading(true);
+        try {
+            // PUT 요청으로 기본 주소 설정
+            await axios.put(`/api/addresses/${addressId}/default`);
+            // 변경된 주소 목록 다시 불러오기
+            await fetchAddresses();
+        } catch (error) {
+            console.error("기본 주소 설정 실패:", error);
+            alert("기본 주소 설정에 실패했습니다.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const setDefaultAddress = (addressId) => {
-        const updateAddresses = address.map(addr => ({
-            ...addr,
-            is_default: addr.id === addressId
-        }));
-
-        setAddress(updateAddresses);
-    };
-
-    const deleteAddress = (addressId) => {
+    // 주소 삭제 함수 - 서버 API 호출
+    const deleteAddress = async (addressId) => {
         if (window.confirm('이 주소를 정말 삭제하시겠습니까?')) {
-            const updateAddresses = address.filter(addr => addr.id !== addressId);
-            setAddress(updateAddresses);
+            setIsLoading(true);
+            try {
+                // DELETE 요청으로 주소 삭제
+                await axios.delete(`/api/addresses/${addressId}`);
+                // 주소 목록 다시 불러오기
+                await fetchAddresses();
+            } catch (error) {
+                console.error("주소 삭제 실패:", error);
+                alert("주소 삭제에 실패했습니다.");
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
