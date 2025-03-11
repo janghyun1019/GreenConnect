@@ -1,0 +1,44 @@
+/* 기본 폰트 및 전체 배경 */
+.wrap-all {
+  font-family: "Nanum Gothic", sans-serif;
+  color: #333;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* 헤더, 네비게이션, 검색영역 등 원본 스타일을 참고 */
+.header { background: #fff; border-bottom: 1px solid #ddd; }
+.headWrap { padding: 10px 20px; }
+.logo a { text-decoration: none; color: #333; font-size: 1.8rem; font-weight: bold; }
+
+/* 검색 입력 및 버튼 */
+.searchkeyword { margin: 10px 0; }
+.searchText { padding: 8px; width: 250px; }
+
+/* 네비게이션 */
+.gnbWrap { background: #f8f8f8; }
+.gnbList { list-style: none; display: flex; }
+.gnbList li { margin-right: 20px; }
+
+/* 컨텐츠 영역 */
+#container { padding: 20px; }
+
+/* 필터 및 차트 영역 */
+.filterWrap2 { margin-bottom: 20px; }
+.market-charts, .best-view { margin: 20px 0; padding: 15px; background: #fafafa; border: 1px solid #eee; }
+.chart-placeholder { height: 150px; display: flex; align-items: center; justify-content: center; color: #888; }
+
+/* 공공데이터 버튼 */
+.fetch-area { margin: 20px 0; }
+.fetch-area button { background: #4285f4; color: #fff; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+.fetch-area button:hover { background: #3367d6; }
+.fetch-message { margin-top: 10px; font-weight: bold; }
+
+/* 테이블 */
+.garak-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.garak-table th, .garak-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+.garak-table th { background: #f2f2f2; }
+
+/* Footer */
+footer { background: #f8f8f8; padding: 20px; margin-top: 40px; font-size: 0.9rem; color: #666; }
+.address { margin-top: 10px; text-align: center; }

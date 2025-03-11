@@ -1,80 +1,101 @@
 <beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc
-http://www.springframework.org/schema/mvc/spring-mvc.xsd
-http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context.xsd">
+    xmlns="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<annotation-driven />
+    <annotation-driven />
 
-	<context:component-scan
-		base-package="com.app.controller"></context:component-scan>
-	<context:component-scan
-		base-package="com.app.service"></context:component-scan>
-	<context:component-scan
-		base-package="com.app.dao"></context:component-scan>
-	<!-- <context:component-scan base-package="com.app.config"></context:component-scan> -->
+    <context:component-scan base-package="com.app.controller" />
+    <context:component-scan base-package="com.app.service" />
+    <context:component-scan base-package="com.app.dao" />
+    <!-- <context:component-scan base-package="com.app.config"></context:component-scan> -->
 
-	<annotation-driven>
-		<message-converters>
-			<!-- @ResponseBody로 String 처리할때 한글처리 -->
-			<beans:bean
-				class="org.springframework.http.converter.StringHttpMessageConverter">
-				<beans:property name="supportedMediaTypes">
-					<beans:list>
-						<beans:value>text/html;charset=UTF-8</beans:value>
-						<beans:value>application/text;charset=UTF-8</beans:value>
-						<beans:value>text/plain;charset=UTF-8</beans:value>
-						<beans:value>application/json;charset=UTF-8</beans:value>
-					</beans:list>
-				</beans:property>
-			</beans:bean>
-		</message-converters>
-	</annotation-driven>
+    <annotation-driven>
+        <message-converters>
+            <!-- @ResponseBody로 String 처리할 때 한글 처리 -->
+            <beans:bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <beans:property name="supportedMediaTypes">
+                    <beans:list>
+                        <beans:value>text/html;charset=UTF-8</beans:value>
+                        <beans:value>application/text;charset=UTF-8</beans:value>
+                        <beans:value>text/plain;charset=UTF-8</beans:value>
+                        <beans:value>application/json;charset=UTF-8</beans:value>
+                    </beans:list>
+                </beans:property>
+            </beans:bean>
+        </message-converters>
+    </annotation-driven>
 
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/"></beans:property>
-		<beans:property name="suffix" value=".jsp"></beans:property>
-	</beans:bean>
-	<resources location="/resources/" mapping="/**"></resources>
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
 
+    <resources location="/resources/" mapping="/**" />
 
-<!-- 이메일 발송 빈 -->
+    <!-- ====================================== -->
+    <!--       MyBatis & DataSource 추가        -->
+    <!-- ====================================== -->
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <beans:property name="username" value="scott" />
+        <beans:property name="password" value="tiger" />
+    </beans:bean>
 
-	<beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 위에서 정의한 DataSource 주입 -->
+        <beans:property name="dataSource" ref="dataSource" />
 
-		<!-- JavaMailSender 설정 -->
-		<bean id="mailSender"
-			class="org.springframework.mail.javamail.JavaMailSenderImpl">
-			<property name="host" value="smtp.gmail.com" />
-			<property name="port" value="587" />
-			<property name="username" value="bjh9312@gmail.com" />
-			<property name="password" value="nifk hcxb nwip gxox" />
+        <!-- MyBatis 전역 설정파일 (mybatis-config.xml) 경로 
+             - 예: /WEB-INF/mybatis/mybatis-config.xml을 classpath로 빌드 시
+               "classpath:mybatis/mybatis-config.xml" 로 접근 가능 
+             - 또는 "file:WEB-INF/mybatis/mybatis-config.xml" 로 직접 경로 지정 가능 -->
+        <beans:property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
 
-			<property name="javaMailProperties">
-				<props>
-					<prop key="mail.transport.protocol">smtp</prop>
-					<prop key="mail.smtp.auth">true</prop>
-					<prop key="mail.smtp.starttls.enable">true</prop>
-					<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
-				</props>
-			</property>
-		</bean>
+        <!-- 매퍼 XML 위치 스캔 (예: marketInfo/*.xml) -->
+        <beans:property name="mapperLocations" value="classpath:mybatis/marketInfo/*.xml" />
+    </beans:bean>
 
-		<!-- MailService 등록 -->
-		<bean id="mailService" class="com.app.service.signup.MailService">
-			<property name="mailSender" ref="mailSender" />
-		</bean>
-	</beans>
+    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- DAO 인터페이스(Mapper) 패키지 스캔 -->
+        <beans:property name="basePackage" value="com.app.dao" />
+        <beans:property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </beans:bean>
 
+    <!-- 이메일 발송 빈  -->
+    <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+        <!-- JavaMailSender 설정 -->
+        <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+            <property name="host" value="smtp.gmail.com" />
+            <property name="port" value="587" />
+            <property name="username" value="bjh9312@gmail.com" />
+            <property name="password" value="nifk hcxb nwip gxox" />
+
+            <property name="javaMailProperties">
+                <props>
+                    <prop key="mail.transport.protocol">smtp</prop>
+                    <prop key="mail.smtp.auth">true</prop>
+                    <prop key="mail.smtp.starttls.enable">true</prop>
+                    <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+                </props>
+            </property>
+        </bean>
+
+        <!-- MailService 등록 -->
+        <bean id="mailService" class="com.app.service.signup.MailService">
+            <property name="mailSender" ref="mailSender" />
+        </bean>
+    </beans>
 </beans:beans>
