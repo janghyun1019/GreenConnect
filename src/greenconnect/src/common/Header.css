@@ -17,23 +17,14 @@
 
 /* 공통 컨테이너 */
 .header-inner {
-	width: 1190px;
+	max-width: 1190px;
 	margin: 0 auto;
-	padding: 0 16px;
-	overflow: hidden; /* float 해제 */
-}
-
-.header-inner2 {
-	width: 1190px;
-	margin: 0 auto;
-	padding: 0 16px;
 	overflow: hidden; /* float 해제 */
 }
 
 .header-inner3 {
-	width: 1190px;
+	max-width: 1190px;
 	margin: 0 auto;
-	padding: 0 16px;
 	overflow: hidden; /* float 해제 */
 }
 
@@ -42,14 +33,19 @@
 	width: 100%;
 	height: 51px;
 	overflow: hidden; /* float 해제 */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .top-left {
-	float: left;
+	display: flex;
+	align-items: center;
 }
 
 .top-right {
-	float: right;
+	display: flex;
+	align-items: center;
 }
 
 /* 로그인/회원가입, 내상점, 판매자센터 */
@@ -69,14 +65,17 @@
 	background: none;
 	border: none;
 	cursor: pointer;
-	float: left;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }
 
 .bookmark-img {
-	width: 79px;
-	height: auto; object-fit : contain;
-	display: block;
+	width: 80%;
+	height: auto;
 	object-fit: contain;
+	display: block;
 }
 
 /* 판매자센터 버튼 */
@@ -86,36 +85,43 @@
 
 .seller-center-button img {
 	width: 85px;
-	height: auto; object-fit : contain;
-	display: block;
+	height: auto;
 	object-fit: contain;
+	display: block;
 }
 
 /* -----------------------------
    기본(PC) - "로고 + 검색창 + 아이콘" 한 줄 유지
 ----------------------------- */
+.header-inner2 {
+	max-width: 1190px;
+	height: 110px;
+	margin: 0 auto;
+	overflow: hidden; /* float 해제 */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .main-bar {
 	width: 100%;
 	overflow: hidden;
 }
 
 .logo-area {
-	width: 20%;
-	height: 100px;
 	float: left;
 }
 
 .logo-img {
-	width: 180px;
-	height: auto; object-fit : contain;
-	display: block;
+	width: 90%;
+	height: auto;
 	object-fit: contain;
+	display: block;
 }
 
 /* 검색 영역 */
 .search-area {
-	width: 40%;
-	height: 100px;
+	width: 52%;
 	float: left;
 }
 
@@ -127,7 +133,7 @@
 
 .search-input {
 	width: 100%;
-	height: 38px;
+	height: 40px;
 	padding: 8px 40px 8px 8px;
 	font-size: 14px;
 	border: 3px solid #21a12e;
@@ -144,19 +150,16 @@
 
 /* 메뉴 영역 */
 .menu-area {
-	width: 40%;
-	height: 100px;
-	float: left;
+	float: right;
 }
 
 .menu-link {
 	display: inline-block;
-	margin-left: 5px;
 }
 
 /* 각 아이콘 */
 .menu-img-sell, .menu-img-shop, .menu-img-greentalk {
-	width: 75%;
+	width: 92%;
 	height: auto;
 	object-fit: contain;
 }
@@ -184,11 +187,9 @@
    768px 이하 (태블릿)
 ----------------------------- */
 @media screen and (max-width: 768px) {
-	
-	.top-right{
-		float:left;
+	.top-right {
+		float: left;
 	}
-	
 	.bookmark-btn {
 		display: none;
 	}
@@ -230,38 +231,5 @@
 	.bottom-bar {
 		text-align: left;
 		margin-top: 10px;
-	}
-}
-
-/* -----------------------------
-   480px 이하 (모바일 - 줄어들지 않게)
------------------------------ */
-@media screen and (max-width: 480px) {
-	.header {
-		min-width: 480px;
-	}
-
-	/* 검색창 크기 고정 */
-	.search-input {
-		width: 280px;
-		height: 36px;
-		font-size: 13px;
-		border: 2px solid #21a12e;
-	}
-
-	/* 로고 크기 고정 */
-	.logo-img {
-		width: 140px;
-	}
-
-	/* 아이콘 크기 유지 */
-	.menu-img-sell, .menu-img-shop, .menu-img-greentalk {
-		width: 55px;
-	}
-
-	/* 햄버거 버튼 왼쪽 */
-	.bottom-bar {
-		width: 100%;
-		text-align: left;
 	}
 }

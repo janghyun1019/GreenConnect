@@ -79,20 +79,26 @@ function Header() {
 
 				{/* 메뉴 영역 (판매하기, 내상점, 그린톡) */}
 				<div className="menu-area">
-					<Link to="/sell" className="menu-link">
-						<img src={sellImg} alt="판매하기" className="menu-img-sell" />
-					</Link>
-					<Link to="/shop" className="menu-link">
-						<img src={shopImg} alt="내상점" className="menu-img-shop" />
-					</Link>
-					<Link to="/greentalk" className="menu-link">
-						<img src={greentalkImg} alt="그린톡" className="menu-img-greentalk" />
-					</Link>
+					<div className="menu-link">
+						<Link to="/sell">
+							<img src={sellImg} alt="판매하기" className="menu-img-sell" />
+						</Link>
+					</div>
+					<div className="menu-link">
+						<Link to="/shop">
+							<img src={shopImg} alt="내상점" className="menu-img-shop" />
+						</Link>
+					</div>
+					<div className="menu-link">
+						<Link to="/greentalk">
+							<img src={greentalkImg} alt="그린톡" className="menu-img-greentalk" />
+						</Link>
+					</div>
 				</div>
 			</div>
 
 			{/* 하단 (햄버거 버튼) */}
-			<div className="header-inner2">
+			<div className="header-inner3">
 				<div className="bottom-bar">
 					<button className="hamburger-btn" onClick={openDrawer}>
 						<FaBars />
@@ -101,7 +107,7 @@ function Header() {
 			</div>
 			{/* 드로어(슬라이드 메뉴) */}
 			{isDrawerOpen && <ModalContent closeDrawer={closeDrawer} />}
-		</header>
+		</header >
 	);
 }
 
