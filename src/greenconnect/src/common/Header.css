@@ -106,6 +106,9 @@
 .main-bar {
 	width: 100%;
 	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .logo-area {
@@ -184,52 +187,63 @@
 }
 
 /* -----------------------------
-   768px 이하 (태블릿)
+   768px 이하 (태블릿 & 모바일)
 ----------------------------- */
 @media screen and (max-width: 768px) {
-	.top-right {
-		float: left;
-	}
-	.bookmark-btn {
-		display: none;
-	}
-	.main-bar {
-		width: 100%;
-	}
+    .top-right {
+        float: left;
+    }
+    .bookmark-btn {
+        display: none;
+    }
+    .main-bar {
+        width: 100%;
+    }
 
-	/* 로고를 상단으로 이동 */
-	.logo-area {
-		float: none;
-		width: 100%;
-		text-align: center;
-	}
+    /* .header-inner2 구조 변경 */
+    .header-inner2 {
+        max-width: 1190px;
+        height: auto; /* 높이 자동 조정 */
+        margin: 0 auto;
+        overflow: hidden; /* float 해제 */
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center; /* 중앙 정렬 */
+        justify-content: center;
+        gap: 15px; /* 요소 간 간격 추가 */
+    }
 
-	/* 검색창을 로고 아래로 배치 */
-	.search-area {
-		float: none;
-		width: 100%;
-		text-align: center;
-		margin-top: 10px;
-	}
-	.search-input-wrapper {
-		width: 90%;
-	}
+    /* 로고를 상단 중앙 정렬 */
+    .logo-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-	/* 아이콘을 검색창 아래 배치 */
-	.menu-area {
-		float: none;
-		width: 100%;
-		text-align: center;
-		margin-top: 10px;
-	}
-	.menu-link {
-		display: inline-block;
-		margin: 0 5px;
-	}
+    /* 검색창을 로고 아래 중앙 정렬 */
+    .search-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .search-input-wrapper {
+        width: 80%;
+    }
 
-	/* 햄버거 버튼도 왼쪽으로 */
-	.bottom-bar {
-		text-align: left;
-		margin-top: 10px;
-	}
+    /* 아이콘을 검색창 아래 중앙 정렬 */
+    .menu-area {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .menu-link {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    /* 햄버거 버튼도 왼쪽으로 */
+    .bottom-bar {
+        text-align: left;
+        margin-top: 10px;
+    }
 }

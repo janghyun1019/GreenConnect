@@ -9,6 +9,7 @@ import Footer from "./common/Footer";
 import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
 import Main from "./main/main";
 
+
 function App() {
   // 이미 Router 컨텍스트 내에 있는지 확인합니다.
   const inRouter = useInRouterContext();
