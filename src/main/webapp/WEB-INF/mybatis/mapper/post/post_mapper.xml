@@ -16,6 +16,14 @@
 	    VALUES (post_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postProductType}, #{postTitle}, #{postContent}, #{postSalesUnit}, #{postPrice}, #{postSpot},#{postCost}, #{storeId})
 	</insert>
 	
+	<insert id="savePostJjim" parameterType="Jjim">
+		INSERT INTO jjim (post_id, user_id) VALUES (#{postId}, #{userId})
+	</insert>
+	
+	<select id="getPostJjim" parameterType="Jjim" resultType="Jjim">
+		SELECT * FROM jjim WHERE post_id = #{postId} AND user_id = #{userId}
+	</select>
+	
 	<update id="modifyPostImages" parameterType="Image">
 	    UPDATE image
 	    SET file_name = #{fileName},
@@ -68,6 +76,10 @@
 	
 	<delete id="deletePostImagesByPostId" parameterType="String">
 		DELETE FROM image WHERE post_id = #{postId}
+	</delete>
+	
+	<delete id="deletePostJjim" parameterType="Jjim">
+		DELETE FROM jjim WHERE post_id = #{postId} AND user_id = #{userId}
 	</delete>
 	
 	<update id="deletePostByPostId" parameterType="String">

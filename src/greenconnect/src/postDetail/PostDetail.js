@@ -21,6 +21,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     const [postDetail, setPostDetail] = useState(null); // 데이터를 저장할 상태
     const [postDetailImages, setPostDetailImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [postJjim, setPostJjim] = useState(false);
 
     // 신고 기능
     const [showReportPopup, setShowReportPopup] = useState(false);
@@ -188,6 +189,69 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
         }
     }, [buyCount, postDetail]);
 
+
+    const handleCartSubmit = async (e) => { // 장바구니 버튼 클릭시 실행
+        e.preventDefault(); // 기본 폼 제출 방지
+        // 로그인 확인
+        if (!buyUser) {
+            if (window.confirm('로그인 후 담기가 가능합니다. 로그인 하시겠습니까?')) {
+                window.location.href = '/login'; // 로그인 페이지로 이동
+            }
+            return; // 로그인하지 않으면 함수 종료
+        }
+
+        // 구매 수량 확인
+        if (!buyCount || buyCount <= 0) {
+            alert('구매수량을 선택 해 주세요.');
+            return;
+        }
+
+        // 구매 확인 창
+        if (!window.confirm("장바구니에 담으시겠습니까?")) {
+            return; // 취소하면 함수 종료
+        }
+
+        try {
+            // Data 생성
+            const data = {
+                userId: buyUser.userId,
+                nickName: buyUser.nickname,
+                boardId: 1,
+                postId: postDetail.postId,
+                buyCount: buyCount,
+                totalPrice: totalPrice,
+                totalGram: totalGram,
+            };
+
+            console.log(data);
+
+            // 백엔드 API로 데이터 전송
+            const response = await axios.post('/api/buyProduct', data, {
+                headers: {
+                    'Content-Type': 'application/json', // JSON 형식으로 보내기
+                }
+            });
+
+            if (response.data === "성공") {
+                alert("해당 상품이 장바구니에 담겼습니다!");
+                console.log('성공:', response.data);
+                if (window.confirm("장바구니로 이동 하시겠습니까?")) {
+                    navigate("/"); // 장바구니 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                }
+
+            } else if (response.data === "실패") {
+                alert("구매 요청이 실패했습니다.");
+            } else {
+                // 예기치 않은 응답 처리
+                alert('알 수 없는 오류가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('에러:', error); // 에러 처리
+            alert('구매 요청에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
+
+
     const handleSubmit = async (e) => { // 바로구매 버튼 클릭시 실행
         e.preventDefault(); // 기본 폼 제출 방지
         // 로그인 확인
@@ -244,8 +308,114 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
             console.error('에러:', error); // 에러 처리
             alert('구매 요청에 실패했습니다. 다시 시도해주세요.');
         }
-
     };
+
+
+    useEffect(() => { // 여기서 찜데이터(postId,userId) 불러온것으로 찜한지안한지 비교한다
+        const fetchPostJjim = async () => {
+            if (!buyUser || !buyUser.userId) {
+                return;
+            }
+            console.log("jjimPostId: ", postId);
+            console.log("jjimUserId: ", buyUser.userId);
+            const jjimData = {
+                postId: postId,
+                userId: buyUser.userId
+            }
+            try {
+                // 서버에서 데이터 가져오기
+                const response = await axios.post("/api/getPostJjim",
+                    jjimData
+                    ,
+                    {
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                );
+                console.log('최초 postjjim : ');
+                console.log(response.data); // 찜 했으면 데이터나옴, 안했으면 빈값
+                if(response.data == null || response.data == '' ){
+                    console.log("찜 안한 상태");
+                    setPostJjim(false); // 안했으면 false로 찜버튼 상태관리(찜하기 출력)
+                } else {
+                    console.log("찜 한 상태");
+                    setPostJjim(true); // 했으면 true로 찜버튼 상태관리(찜취소 출력)
+                }
+                setLoading(false); // 로딩 끝
+            } catch (err) {
+                setError(err.message); // 에러 상태 업데이트
+                setLoading(false); // 로딩 끝
+            }
+        };
+        fetchPostJjim();
+    }, [buyUser, postId]);
+
+
+    const handleSaveJjimSubmit = async () => {  // 찜 하기
+        if (!buyUser) {
+            if (window.confirm('로그인 후 가능합니다. 로그인 하시겠습니까?')) {
+                window.location.href = '/login'; // 로그인 페이지로 이동
+            }
+            return; // 로그인 안하면 종료
+        }
+        console.log(buyUser.userId);
+        console.log(postId);
+        try {
+            const JjimData = {
+                userId: buyUser.userId,
+                postId: postId
+            }
+            
+            // 찜 추가
+            const response = await axios.post('/api/savePostJjim', JjimData, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.data === "jjimOk") {
+                alert("해당 판매글을 찜 하였습니다!");
+                console.log("찜성공!!!");
+                console.log(response.data);
+                setPostJjim(true); // 찜 상태 업데이트
+            } else if (response.data == "jjimFail") {
+                alert("찜 추가에 실패했습니다.");
+            } else {
+                alert("알 수 없는 오류가 발생했습니다.");
+            }
+            
+        } catch (error) {
+            alert("이미 찜 한 상품입니다.");
+        }
+    }
+
+
+    const handleDeleteJjimSubmit = async () => { // 찜 취소 하기
+        console.log(buyUser.userId);
+        console.log(postId);
+        try {
+            const JjimData = {
+                userId: buyUser.userId,
+                postId: postId
+            }
+            
+            if (postJjim) {
+                    // 찜 취소
+                    const response = await axios.post('/api/deletePostJjim', JjimData, {
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (response.data === "jjimDeleteOk") {
+                        alert("찜이 취소되었습니다.");
+                        console.log("찜취소성공!!!");
+                        setPostJjim(false); // 찜 취소 후 상태 업데이트
+                    } else if (response.data == "jjimDeleteFail") {
+                        alert("찜 취소에 실패했습니다.");
+                    } else {
+                        alert("알 수 없는 오류가 발생했습니다.");
+                    }
+            }
+        } catch (error) {
+            alert("찜 취소에 실패했습니다.");
+        }
+    }
 
 
     if (loading) return <div>Loading...</div>;
@@ -317,7 +487,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                         <div>조회수: {Number(postDetail.postViews).toLocaleString()} 회</div>
                         <div>판매글 작성일: {dayjs(postDetail.postCreateAt).format("YYYY년 MM월 DD일")}</div>
                         <div>판매단위: {
-                                postDetail.postSalesUnit <= 999
+                            postDetail.postSalesUnit <= 999
                                 ? `${postDetail.postSalesUnit}g`
                                 : `${(postDetail.postSalesUnit / 1000).toFixed(1)}kg`
                         }
@@ -348,15 +518,22 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                             <input type="hidden" name="totalGram" value={totalGram} /> {/* 총주문량 */}
                         </form>
                         <div>총 수량: {
-                            (buyCount*postDetail.postSalesUnit) <= 999
-                            ? `${Number(postDetail.postSalesUnit * buyCount)}g`
-                            : `${(Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString()}Kg`
+                            (buyCount * postDetail.postSalesUnit) <= 999
+                                ? `${Number(postDetail.postSalesUnit * buyCount)}g`
+                                : `${(Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString()}Kg`
                         }</div>
                         <div>총 금액 (배송비 포함): {totalPrice.toLocaleString()} 원</div>
                         <div className='JCBBtnBox'>
-                            <button>찜</button>
+                            {
+                                postJjim ? 
+                                    <button onClick={handleDeleteJjimSubmit}>찜 취소</button>
+                                    : 
+                                    <button onClick={handleSaveJjimSubmit}>찜 하기</button>
+                                    
+                            }
                             <button>채팅</button>
                             <button onClick={handleSubmit}>바로구매</button>
+                            <button onClick={handleCartSubmit}>장바구니</button>
                         </div>
                     </div>
                 </div>

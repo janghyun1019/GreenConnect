@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.dao.post.PostDAO;
 import com.app.dto.image.Image;
+import com.app.dto.jjim.Jjim;
 import com.app.dto.post.Post;
 import com.app.service.post.PostService;
 
@@ -69,11 +70,29 @@ public class PostServiceImpl implements PostService {
 		int result = postDAO.addPostViewsByPostId(postId);
 		return result;
 	}
+	
+	@Override
+	public int savePostJjim(Jjim jjim) {
+		int result = postDAO.savePostJjim(jjim);
+		return result;
+	}
+	
+	@Override
+	public int deletePostJjim(Jjim jjim) {
+		int result = postDAO.deletePostJjim(jjim);
+		return result;
+	}
 
 	@Override
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = postDAO.getPostDetailsByPostId(postId);
 		return post;
+	}
+	
+	@Override
+	public Jjim getPostJjim(Jjim jjim) {
+		Jjim userJjim = postDAO.getPostJjim(jjim);
+		return userJjim;
 	}
 
 	@Override
@@ -87,6 +106,12 @@ public class PostServiceImpl implements PostService {
 		List<Post> postList = postDAO.getPostList();
 		return postList;
 	}
+
+	
+
+	
+
+	
 
 	
 

@@ -13,8 +13,12 @@ function PostThumbnail({ post }) {
     const handleThumbnailClick = async () => {
         try {
             // post_views 1 증가 요청
-            await axios.post('/api/addPostViews/' + post.postId);
-            navigate("/postDetail/" + post.postId);
+            const response = await axios.post('/api/addPostViews/' + post.postId);
+            if(response.data){
+                navigate("/postDetail/" + post.postId);
+            } else {
+                alert('게시글을 읽어오는데 실패했습니다. 다시 시도 해 주세요');
+            }
         } catch (error) {
             console.error('Error updating post views:', error);
             alert('게시글 조회수를 업데이트하는 데 오류가 발생했습니다.');

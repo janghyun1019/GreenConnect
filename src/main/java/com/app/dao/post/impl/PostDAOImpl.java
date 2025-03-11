@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.dao.post.PostDAO;
 import com.app.dto.image.Image;
+import com.app.dto.jjim.Jjim;
 import com.app.dto.post.Post;
 
 @Repository
@@ -72,9 +73,27 @@ public class PostDAOImpl implements PostDAO {
 	}
 	
 	@Override
+	public int savePostJjim(Jjim jjim) {
+		int result = sqlSessionTemplate.insert("post_mapper.savePostJjim", jjim);
+		return result;
+	}
+	
+	@Override
+	public int deletePostJjim(Jjim jjim) {
+		int result = sqlSessionTemplate.delete("post_mapper.deletePostJjim", jjim);
+		return result;
+	}
+
+	@Override
 	public Post getPostDetailsByPostId(String postId) {
 		Post post = sqlSessionTemplate.selectOne("post_mapper.getPostDetailsByPostId", postId);
 		return post;
+	}
+	
+	@Override
+	public Jjim getPostJjim(Jjim jjim) {
+		Jjim userJjim = sqlSessionTemplate.selectOne("post_mapper.getPostJjim", jjim);
+		return userJjim;
 	}
 
 	@Override
@@ -89,6 +108,11 @@ public class PostDAOImpl implements PostDAO {
 		return postList;
 	}
 
+	
+
+	
+
+	
 	
 
 	

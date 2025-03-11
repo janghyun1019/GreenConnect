@@ -25,13 +25,13 @@ CREATE TABLE post
   url_file_path varchar2(500),
   post_sales_unit varchar2(100),
   post_price varchar2(64),
-  post_spot varchar2(100),
+  post_spot varchar2(500),
   post_cost varchar2(64),
-  store_id varchar2(100),
+  store_id varchar2(500),
   post_create_at TIMESTAMP DEFAULT SYSTIMESTAMP,
-  post_views number
+  post_views number DEFAULT '0' NOT NULL,
+  post_state varchar2(10) DEFAULT 'Y'  --상태관리: 게시글 삭제하면 N으로 변경
 );
-
 select * from post;
 
 create sequence post_id_seq
@@ -59,7 +59,6 @@ INCREMENT BY 1
 NOCACHE
 NOCYCLE;
 
-
 CREATE TABLE BUY (
     buy_id      NUMBER PRIMARY KEY,
     user_id     VARCHAR2(50) NOT NULL,   -- 사용자 ID
@@ -68,10 +67,9 @@ CREATE TABLE BUY (
     post_id     VARCHAR2(50) NOT NULL,         -- 게시글 ID (숫자로 저장)
     buy_count   VARCHAR2(50) NOT NULL,         -- 구매 수량 (숫자로 저장)
     total_price VARCHAR2(50) NOT NULL,         -- 총 가격 (숫자로 저장)
-    total_kg    VARCHAR2(50) NOT NULL,         -- 총 주문량 (숫자로 저장)
+    total_gram    VARCHAR2(50) NOT NULL,         -- 총 주문량 (숫자로 저장)
     created_at  TIMESTAMP DEFAULT SYSTIMESTAMP  -- 주문 날짜 (기본값: 현재 시간)
 );
-
 select * from buy;
 
 create sequence buy_id_seq
@@ -80,13 +78,12 @@ INCREMENT BY 1
 NOCACHE
 NOCYCLE;
 
-
 CREATE Table user_report(
   user_id varchar2(32) not null, -- 신고하는 유저아이디
   reported_user_id varchar2 (32) not null, --신고당하는 유저아이디
   reported_user_nick_name varchar2 (32) not null, -- 신고당하는 유저닉네임
   reported_post_id varchar2 (32), -- 신고당하는 포스트아이디
-  report_content varchar2(32) not null, -- 신고사유
+  report_content varchar2(1000) not null, -- 신고사유
   report_result varchar2(32) -- 신고 결과
 );
 select * from user_report;
@@ -102,3 +99,31 @@ START WITH 1
 INCREMENT BY 1
 NOCACHE
 NOCYCLE;
+
+SELECT ---------------------- 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리
+    b.buy_id,
+    b.user_id AS buy_user_id,
+    b.nick_name AS buy_nick_name,
+    b.board_id,
+    b.post_id,
+    b.buy_count,
+    b.total_price,
+    b.total_gram,
+    b.created_at AS buy_created_at,
+    p.user_id AS post_user_id,
+    p.post_title,
+    p.post_product_type,
+    p.post_spot,
+    p.store_id,
+    p.post_state
+FROM 
+    buy b
+JOIN 
+    post p ON b.post_id = p.post_id;
+
+CREATE Table jjim (
+  post_id varchar2(32),
+  user_id varchar2(32),
+  CONSTRAINT jjim_unique UNIQUE (post_id, user_id) -- postid와userid 묶어서 유니크
+);
+select * from jjim;

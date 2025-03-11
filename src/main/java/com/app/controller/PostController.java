@@ -11,17 +11,20 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.post.Post;
 import com.app.service.post.PostService;
 import com.app.dto.image.Image;
+import com.app.dto.jjim.Jjim;
 
 @Controller
 public class PostController {
@@ -215,15 +218,62 @@ public class PostController {
             //int deletedImages = postService.deletePostImagesByPostId(postId);
 
             if (deletedPost == 0) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제할 게시글이 없습니다.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFoundPost");
             }
 
             // 삭제된 이미지가 없어도 게시글이 삭제되었다면 성공
-            return ResponseEntity.ok("게시글 삭제 성공");
+            return ResponseEntity.ok("deletePostOk");
             
         } catch (Exception e) {
             // 예외 발생 시 롤백 및 에러 응답
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류 발생: " + e.getMessage());
+        }
+	}
+	
+	
+	@PostMapping("/api/getPostJjim")
+	public ResponseEntity<Jjim> getPostJjim(@RequestBody Jjim jjim) {
+		if(jjim != null) {
+			Jjim userJjim = postService.getPostJjim(jjim);
+			System.out.println("찜 데이터: "+ userJjim);
+			return ResponseEntity.ok(userJjim);
+		}
+		return ResponseEntity.ok(null);
+	}
+	
+	
+	@PostMapping("/api/savePostJjim")
+	public ResponseEntity<?> updatePostJjimByPostId(@RequestBody Jjim jjim) {
+		try {
+	        System.out.println(jjim);
+	        System.out.println(jjim.getUserId());
+	        System.out.println(jjim.getPostId());
+
+	        int result = postService.savePostJjim(jjim);
+
+	        if (result > 0) {
+	        	System.out.println("찜성공: " + jjim.getUserId() + " 가 " + jjim.getPostId() + "번 게시글을 찜함");
+	            return ResponseEntity.ok("jjimOk");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("jjimFail");
+	        }
+	    } catch (DataIntegrityViolationException e) {
+	    	System.out.println("이미 찜한 게시글에 접근함!!");
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("alreadyJjimed");
+	    } catch (Exception e) { 
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("severError");
+	    }
+	}
+	
+	@PostMapping("/api/deletePostJjim")
+	public ResponseEntity<?> deletePostJjim(@RequestBody Jjim jjim) { // jjim 에는 userId,postId 들어있음
+		
+		int result = postService.deletePostJjim(jjim);
+		if (result > 0) {
+			System.out.println("찜취소: " + jjim.getUserId() + " 가 " + jjim.getPostId() + "번 게시글을 찜 취소함");
+            return ResponseEntity.ok("jjimDeleteOk");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("jjimDeleteFail");
         }
 	}
 	
@@ -262,12 +312,12 @@ public class PostController {
 		int addPostViews = postService.addPostViewsByPostId(postId);
 		try {
 			if(addPostViews > 0) {
-				return ResponseEntity.ok("조회수 업데이트 성공");
+				return ResponseEntity.ok("viewsUpdateOk");
 			} else {
-				return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+				return ResponseEntity.status(404).body("notFoundViews");
 			}
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("조회수 업데이트 실패");
+            return ResponseEntity.status(500).body("updateViewsFail");
         }
 	}
 	

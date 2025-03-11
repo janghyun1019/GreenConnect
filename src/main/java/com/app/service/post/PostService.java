@@ -3,6 +3,7 @@ package com.app.service.post;
 import java.util.List;
 
 import com.app.dto.image.Image;
+import com.app.dto.jjim.Jjim;
 import com.app.dto.post.Post;
 
 public interface PostService {
@@ -25,7 +26,13 @@ public interface PostService {
 	
 	int addPostViewsByPostId(String postId);
 	
+	int savePostJjim(Jjim jjim);
+	
+	int deletePostJjim(Jjim jjim);
+	
 	Post getPostDetailsByPostId(String postId);
+	
+	Jjim getPostJjim(Jjim jjim);
 	
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
 	
