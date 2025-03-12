@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import './MarketInfoPage.css';
 import { Card, CardContent } from "../../components/card";
 import { Input } from "../../components/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/table";
@@ -10,6 +11,7 @@ export default function MarketInfoPage() {
     const [searchItem, setSearchItem] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [recentData, setRecentData] = useState([]);
 
     useEffect(() => {
         fetch("/getMarketData") // 백엔드 API 호출
@@ -22,6 +24,11 @@ export default function MarketInfoPage() {
             .then(data => {
                 setData(data);
                 setLoading(false);
+                if (data.length > 0) {
+                    const latestDate = data.reduce((latest, item) => item.getDate > latest ? item.getDate : latest, "");
+                    const latestData = data.filter(item => item.getDate === latestDate).slice(0, 4);
+                    setRecentData(latestData);
+                }
             })
             .catch(error => {
                 setError(error.message);
@@ -46,6 +53,42 @@ export default function MarketInfoPage() {
         <div className="p-6">
             <h1 className="text-2xl font-bold">가락시장 농산물 도매가격</h1>
             
+            {/* 최신 날짜의 4개 데이터만 그래프로 표시 */}
+            <div className="grid grid-cols-2 gap-4 my-4">
+                <Card>
+                    <CardContent>
+                        <ResponsiveContainer width="100%" height={200}>
+                            <LineChart data={recentData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="getDate" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Line type="monotone" dataKey="avP" stroke="#8884d8" />
+                                <Line type="monotone" dataKey="miP" stroke="#82ca9d" />
+                                <Line type="monotone" dataKey="maP" stroke="#ffdc39" />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardContent>
+                        <ResponsiveContainer width="100%" height={200}>
+                            <BarChart data={recentData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="getDate" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="avP" fill="#8884d8" />
+                                <Bar dataKey="miP" fill="#82ca9d" />
+                                <Bar dataKey="maP" fill="#ffdc39" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
+            </div>
+
             {/* 검색 필터 */}
             <div className="flex space-x-4 my-4">
                 <Input 
@@ -60,64 +103,22 @@ export default function MarketInfoPage() {
                 />
             </div>
 
-            {/* 가격 변화 차트 */}
-            {filteredData.length > 0 ? (
-                <Card>
-                    <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={filteredData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="getDate" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="avP" stroke="#8884d8" />
-                                <Line type="monotone" dataKey="miP" stroke="#82ca9d" />
-                                <Line type="monotone" dataKey="maP" stroke="#ff7300" />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </CardContent>
-                </Card>
-            ) : (
-                <div className="text-center text-gray-500">해당 조건에 맞는 데이터가 없습니다.</div>
-            )}
-
-            {/* 거래량 차트 */}
+            {/* 검색 결과 테이블 */}
             {filteredData.length > 0 && (
-                <Card className="mt-6">
-                    <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={filteredData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="getDate" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="avP" fill="#8884d8" />
-                                <Bar dataKey="miP" fill="#82ca9d" />
-                                <Bar dataKey="maP" fill="#ff7300" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </CardContent>
-                </Card>
-            )}
-
-            {/* 테이블 데이터 */}
-            <Table className="mt-6">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>거래날짜</TableHead>
-                        <TableHead>품목</TableHead>
-                        <TableHead>등급</TableHead>
-                        <TableHead>평균가</TableHead>
-                        <TableHead>최저가</TableHead>
-                        <TableHead>최고가</TableHead>
-                        <TableHead>시장</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {filteredData.length > 0 ? (
-                        filteredData.map((item, index) => (
+                <Table className="mt-6">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>거래날짜</TableHead>
+                            <TableHead>품목</TableHead>
+                            <TableHead>등급</TableHead>
+                            <TableHead>평균가</TableHead>
+                            <TableHead>최저가</TableHead>
+                            <TableHead>최고가</TableHead>
+                            <TableHead>시장</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {filteredData.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>{item.getDate}</TableCell>
                                 <TableCell>{item.pumNm}</TableCell>
@@ -127,14 +128,10 @@ export default function MarketInfoPage() {
                                 <TableCell>{item.maP.toLocaleString()} 원</TableCell>
                                 <TableCell>{item.sPosGubun}</TableCell>
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={7} className="text-center text-gray-500">데이터가 없습니다.</TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        ))}
+                    </TableBody>
+                </Table>
+            )}
         </div>
     );
 }
