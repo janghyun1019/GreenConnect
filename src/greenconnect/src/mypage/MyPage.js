@@ -42,7 +42,6 @@ function MyPage() {
                     <li><Link to="/Post">작성글 목록</Link></li>
                     <li><Link to="/likes">찜한 목록</Link></li>
                     <li><Link to="/Chat">1:1채팅이력</Link></li>
-                    <li className="adminLink"><Link to="/Admin">관리자 페이지</Link></li>
                 </ul>
                 <div className="dashboard">
                     <div className="card">

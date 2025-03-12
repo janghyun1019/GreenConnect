@@ -6,11 +6,16 @@ import Address from "../mypage/Address";
 import Post from "../mypage/Post";
 import Likes from "../mypage/Likes";
 import Chat from "../mypage/Chat";
-import Admin from "../mypage/Admin";
 import Profile from '../mypage/Profile';
 import UserInfo from '../mypage/UserInfo';
+import Admin from "../admin/Admin";
 import Login from '../Page/Signup/Login';
 import Signup from '../Page/Signup/Signup';
+import Customer from '../admin/Customer';
+import Trade from '../admin/Trade';
+import Quality from '../admin/Quality';
+import System from '../admin/System';
+import CuSupport from '../admin/CuSupport';
 function Merge() {
 
     return (
@@ -23,9 +28,15 @@ function Merge() {
                 <Route path="/Post" element={<Post />} />
                 <Route path="/likes" element={<Likes />} />
                 <Route path="/Chat" element={<Chat />} />
-                <Route path="/Admin" element={<Admin />} />
                 <Route path="/Profile" element={<Profile />} />
                 <Route path="/userinfo" element={<UserInfo />}/>
+                <Route path="/Admin" element={<Admin />} />
+                <Route path="/Customer" element={<Customer />} />
+                <Route path="/Trade" element={<Trade/>} />
+                <Route path="/Quality" element={<Quality/>} />
+                <Route path="/System" element={<System/>} />
+                <Route path="/CuSupport" element={<CuSupport/>} />
+                
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<Signup/>}/>
             </Routes>

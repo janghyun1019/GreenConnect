@@ -16,5 +16,6 @@
 		<typeAlias type="com.app.dto.post.Post" alias="Post"/>
 		<typeAlias type="com.app.dto.cart.Cart" alias="Cart"/>
 		<typeAlias type="com.app.dto.jjim.Jjim" alias="Jjim"/>
+		<typeAlias type="com.app.dto.jjim.JjimVO" alias="JjimVO"/>
 	</typeAliases>
 </configuration>

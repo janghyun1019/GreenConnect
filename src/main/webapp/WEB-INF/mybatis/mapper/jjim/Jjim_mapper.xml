@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Jjim_Mapper">
-   <select id="getJjimListByUserId" parameterType="String" resultType="com.example.domain.JjimVO">
-        SELECT j.post_id as postId, j.user_id as userId, p.title, p.price, p.image_url as imageUrl
+<mapper namespace="Jjim_mapper">
+   <select id="getJjimListByUserId" parameterType="String" resultType="JjimVO">
+        SELECT j.post_id as postId, j.user_id as userId, p.title
         FROM Jjim j
-        JOIN Post p ON j.post_id = p.post_id
+        JOIN Posts p ON j.post_id = p.post_id
         WHERE j.user_id = #{userId}
     </select>
 
@@ -16,7 +16,7 @@
     </select>
     
 
-    <insert id="addJjim" parameterType="com.example.domain.JjimVO">
+    <insert id="addJjim" parameterType="JjimVO">
         INSERT INTO Jjim (post_id, user_id)
         VALUES (#{postId}, #{userId})
     </insert>
