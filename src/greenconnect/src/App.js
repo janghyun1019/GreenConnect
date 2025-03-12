@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-d
 import Main from "./main/main";
 import MarketInfo from "./Page/MarketInfo/MarketInfo.js"; // 기존 페이지
 import MarketInfoFullPage from "./Page/MarketInfo/MarketInfoFullPage.js"; // 추가된 페이지
+import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js"; // 추가된 페이지
 
 function App() {
   // 이미 Router 컨텍스트 내에 있는지 확인합니다.
@@ -31,6 +32,7 @@ function App() {
           <Route path="/marketInfo" element={<MarketInfo />} />
           {/* 추가된 라우트 */}
           <Route path="/marketInfoFull" element={<MarketInfoFullPage />} />
+          <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
         </Routes>
         <Footer />
       </div>

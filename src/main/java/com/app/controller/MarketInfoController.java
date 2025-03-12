@@ -3,6 +3,7 @@ package com.app.controller;
 import com.app.dto.marketInfo.MarketInfoDTO;
 import com.app.service.marketInfo.MarketInfoService;
 import com.app.utill.MarketInfoParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,11 +16,8 @@ import java.util.List;
 @Controller
 public class MarketInfoController {
 
+    @Autowired // MarketInfoService 자동 주입
     private MarketInfoService marketInfoService;
-
-    public void setMarketInfoService(MarketInfoService marketInfoService) {
-        this.marketInfoService = marketInfoService;
-    }
 
     @GetMapping("/fetchMarketData")
     @ResponseBody

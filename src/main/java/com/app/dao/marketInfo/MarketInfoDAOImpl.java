@@ -48,6 +48,41 @@ public class MarketInfoDAOImpl implements MarketInfoDAO {
     }
 
     @Override
+    public int updateMarketInfo(MarketInfoDTO marketInfo) {
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        boolean isSuccess = false;
+        int updateCount = 0;
+
+        String sqlQuery = "UPDATE MARKET_INFO " +
+                          "SET AV_P = ?, MI_P = ?, MA_P = ?, S_POS_GUBUN = ? " +
+                          "WHERE GETDATE = ? AND PUM_NM = ? AND G_NAME = ?";
+
+        try {
+            conn = DBConnectionManager.connectDB();
+            psmt = conn.prepareStatement(sqlQuery);
+
+            psmt.setInt(1, marketInfo.getAvP());
+            psmt.setInt(2, marketInfo.getMiP());
+            psmt.setInt(3, marketInfo.getMaP());
+            psmt.setString(4, marketInfo.getSPosGubun());
+            psmt.setString(5, marketInfo.getGetDate());
+            psmt.setString(6, marketInfo.getPumNm());
+            psmt.setString(7, marketInfo.getGName());
+
+            updateCount = psmt.executeUpdate();
+            isSuccess = true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnectionManager.disconnectDB(conn, psmt, null, isSuccess);
+        }
+
+        return updateCount;
+    }
+
+    @Override
     public List<MarketInfoDTO> getMarketInfo() {
         Connection conn = null;
         PreparedStatement psmt = null;

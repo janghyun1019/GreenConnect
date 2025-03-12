@@ -2,16 +2,15 @@ package com.app.service.marketInfo;
 
 import com.app.dao.marketInfo.MarketInfoDAO;
 import com.app.dto.marketInfo.MarketInfoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service // Spring 서비스 등록
 public class MarketInfoServiceImpl implements MarketInfoService {
 
+    @Autowired // ✅ MarketInfoDAO 자동 주입
     private MarketInfoDAO marketInfoDAO;
-
-    // DAO 주입 (Setter Injection 방식)
-    public void setMarketInfoDAO(MarketInfoDAO marketInfoDAO) {
-        this.marketInfoDAO = marketInfoDAO;
-    }
 
     // 공공 API 데이터를 DB에 저장하고 저장된 개수(int)를 반환하는 메서드
     @Override
