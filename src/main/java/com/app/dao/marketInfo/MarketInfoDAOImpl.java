@@ -1,62 +1,85 @@
 package com.app.dao.marketInfo;
 
-import java.util.List;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 import com.app.dto.marketInfo.MarketInfoDTO;
+import com.app.utill.DBConnectionManager;
 
-@Repository
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 public class MarketInfoDAOImpl implements MarketInfoDAO {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    // ✅ JdbcTemplate을 생성자 주입
-    public MarketInfoDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private final RowMapper<MarketInfoDTO> rowMapper = (rs, rowNum) -> new MarketInfoDTO(
-        rs.getLong("id"),
-        rs.getString("marketName"),
-        rs.getString("location"),
-        rs.getString("category"),
-        rs.getTimestamp("createdAt").toLocalDateTime()
-    );
-
     @Override
-    public int insertMarketInfo(MarketInfoDTO dto) {
-        String sql = "INSERT INTO MARKET_INFO (marketName, location, category, createdAt) VALUES (?, ?, ?, NOW())";
-        return jdbcTemplate.update(sql, dto.getMarketName(), dto.getLocation(), dto.getCategory());
-    }
+    public int insertMarketInfo(List<MarketInfoDTO> marketInfoList) {
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        boolean isSuccess = false;
+        int insertCount = 0;
 
-    @Override
-    public MarketInfoDTO selectById(Long id) {
-        String sql = "SELECT * FROM MARKET_INFO WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
-    }
+        String sqlQuery = "INSERT INTO MARKET_INFO (ID, GETDATE, PUM_NM, G_NAME, AV_P, MI_P, MA_P, S_POS_GUBUN) " +
+                          "VALUES (MARKET_INFO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
 
-    @Override
-    public List<MarketInfoDTO> selectByCondition(MarketInfoDTO dto) {
-        String sql = "SELECT * FROM MARKET_INFO WHERE category = ?";
-        return jdbcTemplate.query(sql, rowMapper, dto.getCategory());
-    }
+        try {
+            conn = DBConnectionManager.connectDB();
+            psmt = conn.prepareStatement(sqlQuery);
 
-    @Override
-    public List<MarketInfoDTO> selectAll() {
-        String sql = "SELECT * FROM MARKET_INFO ORDER BY createdAt DESC";
-        return jdbcTemplate.query(sql, rowMapper);
+            for (MarketInfoDTO info : marketInfoList) {
+                psmt.setString(1, info.getGetDate());
+                psmt.setString(2, info.getPumNm());
+                psmt.setString(3, info.getGName());
+                psmt.setInt(4, info.getAvP());
+                psmt.setInt(5, info.getMiP());
+                psmt.setInt(6, info.getMaP());
+                psmt.setString(7, info.getSPosGubun());
+
+                insertCount += psmt.executeUpdate();
+            }
+
+            isSuccess = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnectionManager.disconnectDB(conn, psmt, null, isSuccess);
+        }
+
+        return insertCount;
     }
 
     @Override
-    public int updateMarketInfo(MarketInfoDTO dto) {
-        String sql = "UPDATE MARKET_INFO SET marketName = ?, location = ?, category = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, dto.getMarketName(), dto.getLocation(), dto.getCategory(), dto.getId());
-    }
+    public List<MarketInfoDTO> getMarketInfo() {
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        List<MarketInfoDTO> marketInfoList = new java.util.ArrayList<>();
 
-    @Override
-    public int deleteMarketInfo(Long id) {
-        String sql = "DELETE FROM MARKET_INFO WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+        String sqlQuery = "SELECT * FROM MARKET_INFO ORDER BY GETDATE DESC";
+
+        try {
+            conn = DBConnectionManager.connectDB();
+            psmt = conn.prepareStatement(sqlQuery);
+            rs = psmt.executeQuery();
+
+            while (rs.next()) {
+                MarketInfoDTO dto = new MarketInfoDTO();
+                dto.setId(rs.getInt("ID"));
+                dto.setGetDate(rs.getString("GETDATE"));
+                dto.setPumNm(rs.getString("PUM_NM"));
+                dto.setGName(rs.getString("G_NAME"));
+                dto.setAvP(rs.getInt("AV_P"));
+                dto.setMiP(rs.getInt("MI_P"));
+                dto.setMaP(rs.getInt("MA_P"));
+                dto.setSPosGubun(rs.getString("S_POS_GUBUN"));
+
+                marketInfoList.add(dto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnectionManager.disconnectDB(conn, psmt, rs, true);
+        }
+
+        return marketInfoList;
     }
 }

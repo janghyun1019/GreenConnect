@@ -1,12 +1,9 @@
 package com.app.service.marketInfo;
 
-import java.util.List;
 import com.app.dto.marketInfo.MarketInfoDTO;
+import java.util.List;
 
 public interface MarketInfoService {
-    // 공공데이터 API -> DB 저장
-    int fetchAndSaveMarketData(String date);
-
-    // DB 조회
-    List<MarketInfoDTO> getAllData();
+    int saveMarketInfo(List<MarketInfoDTO> marketInfoList);  // DB 저장 후 저장된 개수 반환
+    List<MarketInfoDTO> getMarketInfo();  // 저장된 도매가격 데이터 조회
 }

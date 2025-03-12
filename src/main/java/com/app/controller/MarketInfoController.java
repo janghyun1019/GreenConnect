@@ -2,38 +2,43 @@ package com.app.controller;
 
 import com.app.dto.marketInfo.MarketInfoDTO;
 import com.app.service.marketInfo.MarketInfoService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.app.utill.MarketInfoParser;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 @Controller
-@RequestMapping("/marketInfo")
 public class MarketInfoController {
 
-    @Autowired
     private MarketInfoService marketInfoService;
 
-    // (1) 공공데이터 → DB 저장
-    //  예: GET /marketInfo/fetch?date=2025-03-11
-    @GetMapping("/fetch")
-    @ResponseBody
-    public String fetchData(@RequestParam(required=false) String date) {
-        if(date == null) date = "2025-03-11";
-        int count = marketInfoService.fetchAndSaveMarketData(date);
-        return count + "건 저장 완료!";
+    public void setMarketInfoService(MarketInfoService marketInfoService) {
+        this.marketInfoService = marketInfoService;
     }
 
-    // (2) DB 전체 조회 후 JSP로 포워딩
-    //  예: GET /marketInfo/list
-    @GetMapping("/list")
-    public String getAllData(Model model) {
-        List<MarketInfoDTO> list = marketInfoService.getAllData();
-        model.addAttribute("marketList", list);
-        return "marketInfoList"; 
-        // => /WEB-INF/views/marketInfoList.jsp
+    @GetMapping("/fetchMarketData")
+    @ResponseBody
+    public String fetchMarketData(@RequestParam String apiUrl) {
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            List<MarketInfoDTO> marketInfoList = MarketInfoParser.parseMarketInfo(conn.getInputStream());
+
+            marketInfoService.saveMarketInfo(marketInfoList);
+            return "데이터 저장 완료!";
+        } catch (Exception e) {
+            return "API 호출 실패: " + e.getMessage();
+        }
+    }
+
+    @GetMapping("/getMarketData")
+    @ResponseBody
+    public List<MarketInfoDTO> getMarketData() {
+        return marketInfoService.getMarketInfo();
     }
 }
