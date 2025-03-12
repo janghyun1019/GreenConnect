@@ -1,120 +1,50 @@
 package com.app.dao.marketInfo;
 
 import com.app.dto.marketInfo.MarketInfoDTO;
-import com.app.utill.DBConnectionManager;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
+@Repository
 public class MarketInfoDAOImpl implements MarketInfoDAO {
 
-    @Override
-    public int insertMarketInfo(List<MarketInfoDTO> marketInfoList) {
-        Connection conn = null;
-        PreparedStatement psmt = null;
-        boolean isSuccess = false;
-        int insertCount = 0;
+    private final SqlSession sqlSession;
 
-        String sqlQuery = "INSERT INTO MARKET_INFO (ID, GETDATE, PUM_NM, G_NAME, AV_P, MI_P, MA_P, S_POS_GUBUN) " +
-                          "VALUES (MARKET_INFO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
-
-        try {
-            conn = DBConnectionManager.connectDB();
-            psmt = conn.prepareStatement(sqlQuery);
-
-            for (MarketInfoDTO info : marketInfoList) {
-                psmt.setString(1, info.getGetDate());
-                psmt.setString(2, info.getPumNm());
-                psmt.setString(3, info.getGName());
-                psmt.setInt(4, info.getAvP());
-                psmt.setInt(5, info.getMiP());
-                psmt.setInt(6, info.getMaP());
-                psmt.setString(7, info.getSPosGubun());
-
-                insertCount += psmt.executeUpdate();
-            }
-
-            isSuccess = true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DBConnectionManager.disconnectDB(conn, psmt, null, isSuccess);
-        }
-
-        return insertCount;
+    public MarketInfoDAOImpl(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
     }
 
     @Override
-    public int updateMarketInfo(MarketInfoDTO marketInfo) {
-        Connection conn = null;
-        PreparedStatement psmt = null;
-        boolean isSuccess = false;
-        int updateCount = 0;
-
-        String sqlQuery = "UPDATE MARKET_INFO " +
-                          "SET AV_P = ?, MI_P = ?, MA_P = ?, S_POS_GUBUN = ? " +
-                          "WHERE GETDATE = ? AND PUM_NM = ? AND G_NAME = ?";
-
-        try {
-            conn = DBConnectionManager.connectDB();
-            psmt = conn.prepareStatement(sqlQuery);
-
-            psmt.setInt(1, marketInfo.getAvP());
-            psmt.setInt(2, marketInfo.getMiP());
-            psmt.setInt(3, marketInfo.getMaP());
-            psmt.setString(4, marketInfo.getSPosGubun());
-            psmt.setString(5, marketInfo.getGetDate());
-            psmt.setString(6, marketInfo.getPumNm());
-            psmt.setString(7, marketInfo.getGName());
-
-            updateCount = psmt.executeUpdate();
-            isSuccess = true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DBConnectionManager.disconnectDB(conn, psmt, null, isSuccess);
-        }
-
-        return updateCount;
+    public int insertMarketInfo(MarketInfoDTO marketInfo) {
+        return sqlSession.insert("com.app.dao.marketInfo.MarketInfoDAO.insertMarketInfo", marketInfo);
     }
 
     @Override
     public List<MarketInfoDTO> getMarketInfo() {
-        Connection conn = null;
-        PreparedStatement psmt = null;
-        ResultSet rs = null;
-        List<MarketInfoDTO> marketInfoList = new java.util.ArrayList<>();
-
-        String sqlQuery = "SELECT * FROM MARKET_INFO ORDER BY GETDATE DESC";
-
-        try {
-            conn = DBConnectionManager.connectDB();
-            psmt = conn.prepareStatement(sqlQuery);
-            rs = psmt.executeQuery();
-
-            while (rs.next()) {
-                MarketInfoDTO dto = new MarketInfoDTO();
-                dto.setId(rs.getInt("ID"));
-                dto.setGetDate(rs.getString("GETDATE"));
-                dto.setPumNm(rs.getString("PUM_NM"));
-                dto.setGName(rs.getString("G_NAME"));
-                dto.setAvP(rs.getInt("AV_P"));
-                dto.setMiP(rs.getInt("MI_P"));
-                dto.setMaP(rs.getInt("MA_P"));
-                dto.setSPosGubun(rs.getString("S_POS_GUBUN"));
-
-                marketInfoList.add(dto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DBConnectionManager.disconnectDB(conn, psmt, rs, true);
-        }
-
-        return marketInfoList;
+        return sqlSession.selectList("com.app.dao.marketInfo.MarketInfoDAO.selectAll");
     }
+
+	@Override
+	public int insertMarketInfo(List<MarketInfoDTO> marketInfoList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MarketInfoDTO> selectByDate(String date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MarketInfoDTO> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MarketInfoDTO> selectLatest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
