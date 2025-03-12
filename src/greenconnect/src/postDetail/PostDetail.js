@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import dayjs from "dayjs";
 import '../css/PostDetail.css';
 import PostDetailBottom from './PostDetailBottom';
 import PostSlide from '../postList/PostSlide';
+import PostDetailTop from './PostDetailTop';
+import PostDetailReview from './PostDetailReview';
 
 
 function PostDetail() {  // PostDetailIntro 위에 있는 화면
@@ -74,19 +75,6 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
         fetchPostDetailImages();
     }, [postId]); // postId가 변경되면 다시 실행
-
-
-    const goToNextImage = () => { //이미지 다음버튼
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === postDetailImages.length - 1 ? 0 : prevIndex + 1
-        );
-    };
-
-    const goToPreviousImage = () => { //이미지 이전버튼
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? postDetailImages.length - 1 : prevIndex - 1
-        );
-    };
 
     const handleEditClick = () => { // 수정하기 버튼 수정페이지로 이동
         if (window.confirm("판매글을 수정하시겠습니까?")) {
@@ -335,7 +323,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 );
                 console.log('최초 postjjim : ');
                 console.log(response.data); // 찜 했으면 데이터나옴, 안했으면 빈값
-                if(response.data == null || response.data == '' ){
+                if (response.data == null || response.data == '') {
                     console.log("찜 안한 상태");
                     setPostJjim(false); // 안했으면 false로 찜버튼 상태관리(찜하기 출력)
                 } else {
@@ -366,7 +354,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 userId: buyUser.userId,
                 postId: postId
             }
-            
+
             // 찜 추가
             const response = await axios.post('/api/savePostJjim', JjimData, {
                 headers: { 'Content-Type': 'application/json' }
@@ -382,7 +370,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
             } else {
                 alert("알 수 없는 오류가 발생했습니다.");
             }
-            
+
         } catch (error) {
             alert("이미 찜 한 상품입니다.");
         }
@@ -397,22 +385,22 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 userId: buyUser.userId,
                 postId: postId
             }
-            
-            if (postJjim) {
-                    // 찜 취소
-                    const response = await axios.post('/api/deletePostJjim', JjimData, {
-                        headers: { 'Content-Type': 'application/json' }
-                    });
 
-                    if (response.data === "jjimDeleteOk") {
-                        alert("찜이 취소되었습니다.");
-                        console.log("찜취소성공!!!");
-                        setPostJjim(false); // 찜 취소 후 상태 업데이트
-                    } else if (response.data == "jjimDeleteFail") {
-                        alert("찜 취소에 실패했습니다.");
-                    } else {
-                        alert("알 수 없는 오류가 발생했습니다.");
-                    }
+            if (postJjim) {
+                // 찜 취소
+                const response = await axios.post('/api/deletePostJjim', JjimData, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.data === "jjimDeleteOk") {
+                    alert("찜이 취소되었습니다.");
+                    console.log("찜취소성공!!!");
+                    setPostJjim(false); // 찜 취소 후 상태 업데이트
+                } else if (response.data == "jjimDeleteFail") {
+                    alert("찜 취소에 실패했습니다.");
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
             }
         } catch (error) {
             alert("찜 취소에 실패했습니다.");
@@ -427,123 +415,40 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
     return (
         <div className='postDetailMainContainer'>
-            <div className="postDetailContainer">
 
-                <div className="postDetailTitle"> {postDetail.postTitle} </div>
+            <PostDetailTop
+                postDetail={postDetail}
+                postDetailImages={postDetailImages}
+                currentImageIndex={currentImageIndex}
+                setCurrentImageIndex={setCurrentImageIndex}
+                buyUser={buyUser}
+                handleEditClick={handleEditClick}
+                handleDeleteClick={handleDeleteClick}
+                handleReportClick={handleReportClick}
+                showReportPopup={showReportPopup}
+                reportContent={reportContent}
+                setReportContent={setReportContent}
+                handleReportSubmit={handleReportSubmit}
+                handleCancelReport={handleCancelReport}
+                buyCount={buyCount}
+                setBuyCount={setBuyCount}
+                totalPrice={totalPrice}
+                totalGram={totalGram}
+                handleSubmit={handleSubmit}
+                handleCartSubmit={handleCartSubmit}
+                postJjim={postJjim}
+                handleSaveJjimSubmit={handleSaveJjimSubmit}
+                handleDeleteJjimSubmit={handleDeleteJjimSubmit}
+            />
 
-                <div className='postDetailBtnBox'>
-                    {buyUser?.userId === postDetail.userId ? (
-                        <>
-                            <button className="postDetailEditBtn" onClick={handleEditClick}> 수정하기 </button>
-                            <button className="postDetailDeleteBtn" onClick={handleDeleteClick}> 삭제하기 </button>
-                        </>
-                    ) : (
-                        <button className='postDetailReportBtn' onClick={handleReportClick}> 신고하기 </button>
-                    )}
-                </div>
-
-                {/* 신고 팝업창 */}
-                {showReportPopup && (
-                    <div className="reportPopup">
-                        <div className="reportPopupContent">
-                            <h2>신고하기</h2>
-                            <p><strong>신고자: </strong> {buyUser?.userId}</p>
-                            <p><strong>신고 대상 닉네임: </strong> {postDetail.nickName}</p>
-                            <p><strong>게시글 제목: </strong> {postDetail.postTitle}</p>
-                            <textarea
-                                placeholder="신고 사유를 입력하세요."
-                                value={reportContent}
-                                onChange={(e) => setReportContent(e.target.value)}
-                            />
-                            <div className="reportPopupButtons">
-                                <button onClick={handleReportSubmit}>신고하기</button>
-                                <button onClick={handleCancelReport}>취소하기</button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                <div className="postDetailTop">
-                    <div className="postDetailTopImagesBox">
-                        <button className='prevBtn' onClick={goToPreviousImage}>이전</button>
-                        {postDetailImages && postDetailImages.length > 0 ? (
-                            // 이미지가 있을 경우
-                            <img
-                                src={postDetailImages[currentImageIndex]}
-                                alt={`상품이미지 ${currentImageIndex + 1}`}
-                            />
-                        ) : (
-                            // 이미지가 없을 경우 유저이미지 표시
-                            <img
-                                src="/images/userImage.jpg"
-                                alt="이미지가 없습니다."
-                            />
-                        )}
-                        <button className='nextBtn' onClick={goToNextImage}>다음</button>
-                    </div>
-                    <div className="postDetailTopPtcrInfo">
-                        {/* <div>제목: {postDetail.postTitle}</div> 위쪽에 이미 제목이있어서 일단 제거함 */}
-                        <div>품목: {postDetail.postProductType}</div>
-                        <div>판매자 닉네임: {postDetail.nickName}</div>
-                        <div>판매자 주소: {postDetail.postSpot}</div>
-                        <div>조회수: {Number(postDetail.postViews).toLocaleString()} 회</div>
-                        <div>판매글 작성일: {dayjs(postDetail.postCreateAt).format("YYYY년 MM월 DD일")}</div>
-                        <div>판매단위: {
-                            postDetail.postSalesUnit <= 999
-                                ? `${postDetail.postSalesUnit}g`
-                                : `${(postDetail.postSalesUnit / 1000).toFixed(1)}kg`
-                        }
-                        </div>
-                        <div>가격: {Number(postDetail.postPrice).toLocaleString()} 원</div>
-                        <div>배송비: {Number(postDetail.postCost).toLocaleString()} 원</div>
-                        <form id="buyProductForm" action="" method="post" onSubmit={handleSubmit}>
-                            <div>구매수량:
-                                <input className='buyCount'
-                                    type="number"
-                                    id="buyCount"
-                                    name="buyCount"
-                                    value={buyCount}
-                                    onChange={(e) => {
-                                        const value = Number(e.target.value);
-                                        setBuyCount(value);
-                                    }}
-                                    required
-                                    placeholder="구매수량을 입력하세요."
-                                    min="0"
-                                />
-                            </div>
-                            <input type="hidden" name="boardId" value="1" />
-                            <input type="hidden" name="postId" value={postDetail.postId} /> {/* 현재주문하고있는 포스트아이디 */}
-                            <input type="hidden" name="userId" value={buyUser?.userId || ""} /> {/* 구매자 아이디 */}
-                            <input type="hidden" name="nickName" value={buyUser?.nickname || ""} /> {/* 구매자 닉네임 */}
-                            <input type="hidden" name="totalPrice" value={totalPrice} /> {/* 총주문금액 */}
-                            <input type="hidden" name="totalGram" value={totalGram} /> {/* 총주문량 */}
-                        </form>
-                        <div>총 수량: {
-                            (buyCount * postDetail.postSalesUnit) <= 999
-                                ? `${Number(postDetail.postSalesUnit * buyCount)}g`
-                                : `${(Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString()}Kg`
-                        }</div>
-                        <div>총 금액 (배송비 포함): {totalPrice.toLocaleString()} 원</div>
-                        <div className='JCBBtnBox'>
-                            {
-                                postJjim ? 
-                                    <button onClick={handleDeleteJjimSubmit}>찜 취소</button>
-                                    : 
-                                    <button onClick={handleSaveJjimSubmit}>찜 하기</button>
-                                    
-                            }
-                            <button>채팅</button>
-                            <button onClick={handleSubmit}>바로구매</button>
-                            <button onClick={handleCartSubmit}>장바구니</button>
-                        </div>
-                    </div>
-                </div>
-
-
+            <div className='navBarContainer'>
+                <div className='navPostDetailBottomContent' >판매글 내용</div>
+                <div className='navPostDetailBottomReview' >판매글 별점 및 후기</div>
             </div>
 
-            <PostDetailBottom post={postDetail} postImages={postDetailImages}/>
+            {/* 위의 네비바클릭 하면 화면에 아래 컴포넌트 보여주는거 변경 하는 기능 넣기 */}
+            <PostDetailBottom post={postDetail} postImages={postDetailImages} />
+            <PostDetailReview post={postDetail} />
 
             <div className='PostListContainerTitleBottom'>
                 <h2>현재 보고 계신 상품과 비슷한 상품 리스트</h2> {/* 현재페이지 관련 상품 db에서 가져와야함 */}

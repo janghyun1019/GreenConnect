@@ -1,14 +1,11 @@
 import '../css/PostList.css';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PostThumbnail from './PostThumbnail';
 import PostSlide from './PostSlide';
 
 
 function PostList() {
-
-    const navigate = useNavigate();
 
     // 포스트 정보
     const [postList, setPostList] = useState([]);

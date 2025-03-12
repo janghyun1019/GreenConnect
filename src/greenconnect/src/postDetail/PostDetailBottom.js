@@ -1,19 +1,11 @@
-import { Navigate, useNavigate } from 'react-router-dom';
 import '../css/PostDetailBottom.css'
 
 
 function PostDetailBottom({ post, postImages }) {
 
-    const navigate = useNavigate();
-
     return (
 
         <div className="PostDetailBottomMainContainer">
-
-            <div className='navBarContainer'>
-                <div className='navPostDetailBottomContent' onClick={()=>navigate("/postDetail/" + post.postId)}>판매글 내용</div>
-                <div className='navPostDetailBottomReview' onClick={()=>navigate("/postDetailReview/" + post.postId)}>판매글 별점 및 후기</div>
-            </div>
             
             <div className='PostDetailBottomContent'>
                 <pre> {post.postContent} </pre>

@@ -199,6 +199,29 @@
     max-width: 90%;
 }
 
+.navBarContainer {
+    margin: auto;
+    width: 90%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navPostDetailBottomContent, .navPostDetailBottomReview {
+    width: 50%;
+    height: 100%;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBarContainer div:hover {
+    cursor: pointer;
+}
 
 
 
