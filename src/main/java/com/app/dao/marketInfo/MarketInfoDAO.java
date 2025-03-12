@@ -1,12 +1,15 @@
 package com.app.dao.marketInfo;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import com.app.dto.marketInfo.MarketInfoDTO;
 
+@Mapper // MyBatis 매퍼로 등록
 public interface MarketInfoDAO {
-    // 단일 저장
     int insertMarketInfo(MarketInfoDTO dto);
-
-    // 전체 조회
+    MarketInfoDTO selectById(Long id);
+    List<MarketInfoDTO> selectByCondition(MarketInfoDTO dto);
     List<MarketInfoDTO> selectAll();
+    int updateMarketInfo(MarketInfoDTO dto);
+    int deleteMarketInfo(Long id);
 }

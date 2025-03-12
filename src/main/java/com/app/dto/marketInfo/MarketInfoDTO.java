@@ -1,5 +1,7 @@
 package com.app.dto.marketInfo;
 
+import java.time.LocalDateTime;
+
 public class MarketInfoDTO {
     private String itemName;   // 품목명
     private String marketName; // 도매시장명
@@ -9,7 +11,10 @@ public class MarketInfoDTO {
     private int maxPrice;      // 최고가
     private int minPrice;      // 최저가
 
-    // getter / setter
+    public MarketInfoDTO(long long1, String string, String string2, String string3, LocalDateTime localDateTime) {
+		// TODO Auto-generated constructor stub
+	}
+	// getter / setter
     public String getItemName() { return itemName; }
     public void setItemName(String itemName) { this.itemName = itemName; }
 
@@ -41,4 +46,16 @@ public class MarketInfoDTO {
             + ", maxPrice=" + maxPrice
             + ", minPrice=" + minPrice + "]";
     }
+	public Object getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Object getCategory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Object getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

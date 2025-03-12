@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.dao.marketInfo.MarketInfoDAO">
+
+    <!-- DB INSERT -->
+    <insert id="insertMarketInfo" parameterType="com.app.dto.marketInfo.MarketInfoDTO">
+        INSERT INTO MARKET_INFO
+        (
+            ID,
+            ITEM_NAME,
+            MARKET_NAME,
+            GRADE,
+            UNIT,
+            AVG_PRICE,
+            MAX_PRICE,
+            MIN_PRICE
+        )
+        VALUES
+        (
+            MARKET_INFO_SEQ.NEXTVAL,
+            #{itemName},
+            #{marketName},
+            #{grade},
+            #{unit},
+            #{avgPrice},
+            #{maxPrice},
+            #{minPrice}
+        )
+    </insert>
+
+    <!-- 전체 목록 조회 -->
+    <select id="selectAll" resultType="com.app.dto.marketInfo.MarketInfoDTO">
+        SELECT
+            ID,
+            ITEM_NAME       AS itemName,
+            MARKET_NAME     AS marketName,
+            GRADE,
+            UNIT,
+            AVG_PRICE       AS avgPrice,
+            MAX_PRICE       AS maxPrice,
+            MIN_PRICE       AS minPrice
+        FROM MARKET_INFO
+        ORDER BY ID DESC
+    </select>
+
+</mapper>
