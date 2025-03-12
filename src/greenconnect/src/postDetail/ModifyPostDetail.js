@@ -76,7 +76,7 @@ function ModifyPostDetail() {
                     if (response.data.status === "success") {
                         alert("게시글이 수정되었습니다!");
                         console.log('성공:', response.data); // 서버 응답 데이터 처리
-                        navigate("/"); // 저장 후 메인 이동
+                        navigate("/postDetail/" + postId); // 저장 후 상품페이지이동
                     } else {
                         alert(response.data.message);
                     }
@@ -101,7 +101,7 @@ function ModifyPostDetail() {
     const handleCancel = () => {
         const isConfirmed = window.confirm("취소하시겠습니까?");
         if (isConfirmed) {
-            navigate("/main"); // 취소 후 /main 페이지로 이동
+            navigate("/postDetail/" + postId); // 취소 후 기존 상품페이지이동
         } else {
             // 취소 시 아무것도 하지 않음
             return;
@@ -184,8 +184,8 @@ function ModifyPostDetail() {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
-                        placeholder="제목을 입력하세요 (최대 33글자 까지 입력가능.)"
-                        maxLength="33"
+                        placeholder="제목을 입력하세요 (최대 25글자 까지 입력가능.)"
+                        maxLength="25"
                     />
                 </div>
 
@@ -210,8 +210,9 @@ function ModifyPostDetail() {
                         value={salesUnit}
                         onChange={(e) => setSalesUnit(e.target.value)}
                         required
-                        placeholder="판매단위를 입력하세요 ( kg단위, 숫자만 입력가능.)"
+                        placeholder="판매 단위를 입력하세요. < 단위: g ( 1kg = 1000g ), 숫자만 입력 가능. >"
                         min="0"
+                        max="99999999"
                     />
                 </div>
 
@@ -225,6 +226,7 @@ function ModifyPostDetail() {
                         required
                         placeholder="판매단위당 판매가격을 입력하세요 (숫자만 입력가능.)"
                         min="0"
+                        max="99999999"
                     />
                 </div>
 
@@ -251,6 +253,7 @@ function ModifyPostDetail() {
                         required
                         placeholder="배송비를 입력하세요."
                         min="0"
+                        max="99999999"
                     />
                 </div>
 

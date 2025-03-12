@@ -68,7 +68,7 @@ function WritePost() {
                     if (response.data.status === "success") {
                         alert("게시글이 등록되었습니다!");
                         console.log('성공:', response.data); // 서버 응답 데이터 처리
-                        navigate("/"); // 저장 후 메인 이동
+                        navigate("/postList"); // 저장 후 메인 이동
                     } else {
                         alert(response.data.message);
                     }
@@ -93,7 +93,7 @@ function WritePost() {
     const handleCancel = () => {
         const isConfirmed = window.confirm("취소하시겠습니까?");
         if (isConfirmed) {
-            navigate("/main"); // 취소 후 /main 페이지로 이동
+            navigate("/postList"); // 취소 후 /main 페이지로 이동
         } else {
             // 취소 시 아무것도 하지 않음
             return;
