@@ -236,6 +236,11 @@ function WritePost() {
                         multiple
                         onChange={handleImageChange} // 이미지 선택 시 상태 업데이트
                     />
+                    {images.length === 0 && ( // 이미지 선택시 사라짐
+                        <div className='postImageUploadText'>
+                            (최대한 500x500 사이즈의 사진을 업로드 해 주세요.)
+                        </div>
+                    )}
                 </div>
 
                 <div className='postImageUploadList'>

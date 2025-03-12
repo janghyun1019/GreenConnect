@@ -16,6 +16,7 @@ function PostThumbnail({ post }) {
             const response = await axios.post('/api/addPostViews/' + post.postId);
             if(response.data){
                 navigate("/postDetail/" + post.postId);
+                window.scrollTo(0, 0);
             } else {
                 alert('게시글을 읽어오는데 실패했습니다. 다시 시도 해 주세요');
             }

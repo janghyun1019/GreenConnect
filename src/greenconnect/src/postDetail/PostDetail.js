@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from "dayjs";
 import '../css/PostDetail.css';
+import PostDetailBottom from './PostDetailBottom';
+import PostSlide from '../postList/PostSlide';
 
 
 function PostDetail() {  // PostDetailIntro 위에 있는 화면
@@ -540,6 +542,14 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
 
             </div>
+
+            <PostDetailBottom post={postDetail} postImages={postDetailImages}/>
+
+            <div className='PostListContainerTitleBottom'>
+                <h2>현재 보고 계신 상품과 비슷한 상품 리스트</h2> {/* 현재페이지 관련 상품 db에서 가져와야함 */}
+                <PostSlide />  {/* 가져와서 여기다 넘겨줘 */}
+            </div>
+
         </div>
     )
 }

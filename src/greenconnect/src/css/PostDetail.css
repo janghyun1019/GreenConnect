@@ -8,7 +8,6 @@
     width: 100%;
     display : flex;
     flex-direction: column;
-    border: 1px solid black;
 }
 
 .postDetailContainer {
@@ -25,7 +24,7 @@
     text-align: center;
     font-size: 40px;
     font-weight: bold;
-    border: 1px solid black;
+    border: 1px solid gray;
 }
 
 .postDetailBtnBox {
@@ -43,7 +42,7 @@
     height: 25px;
     width: 80px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid gray;
     border-radius: 5px;
     font-size: 12px;
     font-weight: bold;
@@ -58,7 +57,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    border: 1px solid black;
+    border: 1px solid gray;
 }
 
 .postDetailTopImagesBox {
@@ -67,7 +66,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
+    border: 1px solid gray;
     overflow: hidden;
 }
 .postDetailTopImagesBox img {
@@ -104,7 +103,7 @@
     justify-content: space-around;
     padding: 10px;
     font-weight: bold;
-    border: 1px solid black;
+    border: 1px solid gray;
 }
 
 .JCBBtnBox {
@@ -195,10 +194,10 @@
     color: white;
 }
 
-
-
-
-
+.PostListContainerTitleBottom {
+    margin: 50px auto;
+    max-width: 90%;
+}
 
 
 
