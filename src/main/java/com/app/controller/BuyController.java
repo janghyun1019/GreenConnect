@@ -19,6 +19,8 @@ public class BuyController {
 	@PostMapping("/api/buyProduct")
     public ResponseEntity<?> buyProduct(@RequestBody Buy buy) {
 		
+		System.out.println("구매하려는 정보: " + buy);
+		
         int result = buyService.saveBuyInfo(buy);
 
         if (result > 0) {
@@ -31,6 +33,9 @@ public class BuyController {
 	@PostMapping("/api/getBuyInfo")
 	public ResponseEntity<?> getBuyInfoByUserIdAndPostId(@RequestBody Buy buy) { //구매유저아이디, 포스트아이디 들어있음
 		Buy buyInfo = buyService.getBuyInfoByUserIdAndPostId(buy);
+		
+		System.out.println("buyInfo 요청들어옴");
+		System.out.println(buyInfo);
 		
 		if (buyInfo != null) {
 	        return ResponseEntity.ok(buyInfo);

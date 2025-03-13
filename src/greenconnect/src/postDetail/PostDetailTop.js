@@ -130,12 +130,16 @@ function PostDetailTop({
                                 name="buyCount"
                                 value={buyCount}
                                 onChange={(e) => {
-                                    const value = Number(e.target.value);
+                                    let value = Number(e.target.value);
+                                    if (value > 9999) {
+                                        value = 9999;
+                                    } else if (value < 0) {
+                                        value = 0;
+                                    }
                                     setBuyCount(value);
                                 }}
                                 required
                                 placeholder="구매수량을 입력하세요."
-                                min="0"
                             />
                         </div>
                         <input type="hidden" name="boardId" value="1" />

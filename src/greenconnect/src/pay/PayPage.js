@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../css/PayPage.css';
-
 
 
 
 function PayPage() {
 
     const { postId } = useParams();
+    const navigate = useNavigate();
 
     // 데이터 불러온 것 상태 관리
     const [buyInfo, setBuyInfo] = useState(null);
@@ -17,6 +17,18 @@ function PayPage() {
     // 상태 관리
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
+
+    const truncateText = (text, maxLength) => { // 제목이 너무 길면 잘라냄
+        return text.length > maxLength ? text.substring(0, maxLength) + ".." : text;
+    };
+
+    // 결제 input 입력한 정보들 담는 것들
+    const [tradingType, setTradingType] = useState('commonTrading'); // 거래방식 택배, 만나서거래
+    const [buyerAdress, setBuyerAdress] = useState(null); // 구매자 주소정보
+    const [requestContent, setRequestContent] = useState(null); // 구매자 배송요청사항
+    const [paymentType, setPaymentType] = useState(''); // 결제수단 g-pay, 일반결제
+    const [isApplied, setIsApplied] = useState(false); // 소득공제 신청 여부
+    const [receiptType, setReceiptType] = useState(null); // 개인소득공제용 or 사업자증빙용
 
     useEffect(() => {
         // 세션에서 사용자 정보 가져오기 (localStorage나 sessionStorage에서)
@@ -29,22 +41,21 @@ function PayPage() {
     // 컴포넌트가 마운트될 때 데이터 요청
     useEffect(() => {
         // 서버에서 데이터 가져오기
+        if (!buyUser || !buyUser.userId || !postId) return;
+
         const fetchBuyInfo = async () => {
 
-            if(!buyUser || !buyUser.userId || !postId){
-                return;
-            }
-
-            const buyData = {
-                userId: buyUser.userId,
-                postId: postId
-            }
-
             try {
+                const buyData = {
+                    userId: buyUser.userId,
+                    postId: postId
+                }
+
+
                 const response = await axios.post("/api/getBuyInfo",
                     buyData,
                     {
-                        headers: {'Content-Type': 'application/json'}
+                        headers: { 'Content-Type': 'application/json' }
                     }
                 );
                 console.log(response.data);
@@ -70,61 +81,113 @@ function PayPage() {
             <h1>결제페이지</h1>
             <div className='payPageContainer'>
 
-                <div className='payProductInfoBox'>
-                    <div className='payProductInfoTitle'>구매 상품 정보</div>
-                    <div>판매글 이미지: {buyInfo.urlFilePath}</div>
-                    <div>판매글 제목: {buyInfo.postTitle}</div>
-                    <div>총 구매 금액: {buyInfo.totalPrice}</div>
-                </div>
+                {loading ? <p>로딩 중...</p> : error ? <p>{error}</p> : //데이터 불러오기 전 출력 방지
+                    <div className='payProductInfoBox'>
+                        <div className='payProductInfoTitle'>구매 상품 정보</div>
+                        <div><img src={buyInfo.urlFilePath} style={{ width: '100px', borderRadius: '12px' }}></img></div>
+                        <div>판매글 제목: {truncateText(buyInfo.postTitle, 10)}</div>
+                        <div>총 구매 금액: {Number(buyInfo.totalPrice).toLocaleString()}원</div>
+                    </div>
+                }
 
                 <div className='payTradingTypeBox'>
-                    <div className='payTradingTypeTitle'>거래 방식</div>
-                    <div>라디오: 일반택배(선불)</div>
-                    <div>라디오: 만나서 거래(택배비 차감)</div> {/* 체크시 -postCost */}
+                    <div className='payTradingTypeTitle'>거래 방식 *</div>
+                    <div><label><input type='radio' name='tradingType' value='commonTrading' checked={tradingType === 'commonTrading'} onChange={(e) => setTradingType(e.target.value)} /> 일반택배(선불)</label></div>
+                    <div><label><input type='radio' name='tradingType' value='meetTrading' checked={tradingType === 'meetTrading'} onChange={(e) => setTradingType(e.target.value)} /> 만나서 거래(택배비 차감)</label></div> {/* 체크시 -postCost */}
                 </div>
 
                 <div className='payBuyerAdressBox'>
-                    <div className='payBuyerAdressTitle'>배송지</div>
-                    <div>인풋박스 홀더: 배송받을 주소를 입력해 주세요.</div>
+                    <div className='payBuyerAdressTitle'>배송지 *</div>
+                    <div><input type='text' name='buyerAdress' maxLength='60' placeholder='배송받을 주소를 입력해 주세요.' onChange={(e) => setBuyerAdress(e.target.value)} /></div>
                 </div>
 
                 <div className='payRequestBox'>
                     <div className='payRequestTitle'>거래 요청사항</div>
-                    <div>판매자 및 배송기사에게 전달되는 요청사항이에요.</div>
-                    <div>인풋박스 홀더: 예) 포장 꼼꼼하게 부탁드려요.</div>
+                    <div style={{ fontSize: '12px', fontWeight: 'bold', color: 'gray', padding: '0 0 5px 0' }}>판매자 및 배송기사에게 전달되는 요청사항이에요.</div>
+                    <div><input type='text' name='requestContent' placeholder='예) 포장 꼼꼼하게 부탁드려요.' onChange={(e) => setRequestContent(e.target.value)} /></div>
                 </div>
 
                 <div className='paymentType'>
-                    <div paymentTypeTitle>결제수단</div>
-                    <div>라디오: G-PAY 결제</div>
-                    <div>라디오: 일반결제</div>
+                    <div className='paymentTypeTitle'>결제수단 *</div>
+                    <div><label><input type='radio' name='paymentType' value='gpay' checked={paymentType === 'gpay'} onChange={(e) => setPaymentType(e.target.value)} /> G-PAY 결제</label></div>
+                    <div><label><input type='radio' name='paymentType' value='common' checked={paymentType === 'common'} onChange={(e) => setPaymentType(e.target.value)} /> 일반결제</label></div>
                 </div>
-                <div className='selectGpayBox'>  {/* 결제수단 체크따라 화면표시 */}
-                    <div>지페이 결제</div>
-                </div>
-                <div className='selectCommonPayBox'>  {/* 결제수단 체크따라 화면표시 */}
-                    <div>일반결제</div>
-                    <div className='CommonPayTypeBox'>
-                        <div>카드결제</div>
-                        <div>무통장(가상계좌)</div>
+                {paymentType === 'gpay' && (
+                    <div className='selectGpayBox'>
+                        <div>지페이 결제</div>
                     </div>
-                </div>
+                )}
+                {paymentType === 'common' && (
+                    <div className='selectCommonPayBox'>
+                        <div>일반결제</div>
+                        <div className='CommonPayTypeBox'>
+                            <div>카드결제</div>
+                            <div>무통장(가상계좌)</div>
+                        </div>
+                    </div>
+                )}
 
                 <div className='payTotalPriceBox'>
                     <div className='payTotalPriceTitle'>결제금액</div>
-                    <div>결제금액 정보 창</div>
+                    <div className='payTotalPriceCRBox'>
+                        <div className='payTotalPriceContent'>
+                            <div>상품금액</div>
+                            <div>배송비</div>
+                            <div>총 결제금액</div>
+                        </div>
+                        {loading ? <p>로딩 중...</p> : error ? <p>{error}</p> : //데이터 불러오기 전 출력 방지
+                            <div className='payTotalPriceResult'>
+                                <div>{Number(buyInfo.postPrice).toLocaleString()} 원</div>
+                                <div>{tradingType == 'meetTrading' ? 0 : Number(buyInfo.postCost).toLocaleString()} 원</div>
+                                <div>{(Number(buyInfo.postPrice) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0))).toLocaleString()} 원</div>
+                            </div>
+                        }
+                    </div>
                 </div>
 
                 <div className='payCashReceiptBox'>
                     <div className='payCashReceiptTitle'>현금 영수증</div>
-                    <div>라디오: 신청</div>
-                    <div>라디오: 미신청</div>
 
-                    <div>라디오: 개인소득공채용</div>
-                    <div>라디오: 사업자증빙용</div>
+                    {/* 신청 / 미신청 선택 */}
+                    <div className='payCashReceiptRadioBox'>
+                        <div
+                            className={`radioBox ${isApplied ? 'selected' : ''}`}
+                            onClick={() => setIsApplied(true)}
+                        >신청</div>
+                        <div
+                            className={`radioBox ${!isApplied ? 'selected' : ''}`}
+                            onClick={() => {
+                                setIsApplied(false);
+                                setReceiptType(null); // 신청 해제 시 타입 초기화
+                            }}
+                        >미신청</div>
+                    </div>
 
-                    <div>인풋박스: 휴대폰 번호를 입력해주세요.</div>
-                    <div>인풋박스: 사업자등록번호를 입력해주세요.</div>
+                    {/* 신청 시만 표시 */}
+                    {isApplied && (
+                        <div>
+                            {/* 개인소득공제용 / 사업자증빙용 선택 */}
+                            <div className='receiptTypeBox'>
+                                <div
+                                    className={`radioBox ${receiptType === 'personal' ? 'selected' : ''}`}
+                                    onClick={() => setReceiptType('personal')}
+                                >개인소득공제용</div>
+                                <div
+                                    className={`radioBox ${receiptType === 'business' ? 'selected' : ''}`}
+                                    onClick={() => setReceiptType('business')}
+                                >사업자증빙용</div>
+                            </div>
+
+                            {/* 선택에 따라 정보 입력 박스 출력 */}
+                            {receiptType === 'personal' && (
+                                <div><input type='text' placeholder='휴대폰 번호를 입력해주세요. - 포함 / 예) 000-0000-0000'/></div>
+                            )}
+
+                            {receiptType === 'business' && (
+                                <div><input type='text' placeholder='사업자등록번호를 입력해주세요. -포함 / 예) 123-45-67890'/></div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className='payAgreeBox'>
@@ -150,7 +213,7 @@ function PayPage() {
                 <div className='payBottomTextBox'>
                     <div>그린커넥트는 통신판매중개자이며...그린커넥트에게귀속합니다.</div>
                 </div>
-                
+
             </div>
 
         </div>

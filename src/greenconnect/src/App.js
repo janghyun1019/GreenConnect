@@ -31,7 +31,7 @@ function App() {
         <Route path="/postList" element={<PostList />} />
         <Route path="/postThumbnail" element={<PostThumbnail />} />
 
-        <Route path="/paymentPage/:postId" element={<PayPage />} />
+        <Route path="/payPage/:postId" element={<PayPage />} />
         {/* <Route path="/gpayChargePage" element={<GpayChargePage />} /> */}
         
         <Route path="/login" element={<Login />} />
