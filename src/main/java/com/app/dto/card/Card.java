@@ -6,7 +6,7 @@ import lombok.Data;
 public class Card {
 	int cardId;
 	String userId;
-	String cardtype;
+	String cardType;
 	String cardProvider;
 	String lastFour;
 	String expires;

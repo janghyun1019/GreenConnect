@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.users.Users;
@@ -36,46 +38,55 @@ public class UserController {
         throw new RuntimeException("인증 정보가 없습니다.");
     }
 
-    @GetMapping("/info")
+    @GetMapping("/user/info")
     public ResponseEntity<Users> getUserInfo(HttpServletRequest request) {
         String userId = getUserIdFromToken(request);
         Users users = userService.getUserInfo(userId);
         return ResponseEntity.ok(users);
     }
     
-    @GetMapping("/detail")
+    @GetMapping("/user/detail")
     public ResponseEntity<Users> getUserDetail(HttpServletRequest request) {
         String userId = getUserIdFromToken(request);
         Users user = userService.getUserDetail(userId);
         return ResponseEntity.ok(user);
     }
     
-    @GetMapping("/balance")
-    public ResponseEntity<Map<String, Integer>> getUserBalance(HttpServletRequest request) {
-        String userId = getUserIdFromToken(request);
-        int balance = userService.getUserBalance(userId);
-        return ResponseEntity.ok(Map.of("balance", balance));
-    }
-    
-    @PutMapping("/update")
+    @PutMapping("/user/update")
     public ResponseEntity<String> updateUserInfo(HttpServletRequest request, @RequestBody Users user) {
         String userId = getUserIdFromToken(request);
         user.setUserId(userId);
-        userService.updateUserInfo(user);
+        userService.updateUserRole(user);
         return ResponseEntity.ok("사용자 정보가 업데이트되었습니다.");
     }
+ // 사용자 목록 조회
+    @GetMapping("/admin/users")
+    public List<Users> getUserList() {
+    	List<Users> users = userService.getUserList();
+    	System.out.println(users);
+        return users;
+    }
+
+    // 사용자 권한 수정
+    @PostMapping("/admin/users/role")
+    public void updateUserRole(@RequestBody Users user) {
+        userService.updateUserRole(user);
+    }
+
+    // 사용자 계정 정지
+    @PostMapping("/admin/users/suspend")
+    public void suspendUser(@RequestParam("userId") String userId, @RequestParam("status") String status) {
+        if ("active".equals(status) || "suspended".equals(status)) {
+            userService.suspendUser(userId, status);
+        } else {
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+    }
+
+    // 사용자 활동 로그 조회
+    @GetMapping("/admin/users/activity")
+    public List<Map<String, Object>> getUserActivityLog(@RequestParam("userId") String userId) {
+        return userService.getUserActivityLog(userId);
+    }
     
-    
-//    @PostMapping("/charge")
-//    public ResponseEntity<String> chargeBalance(HttpServletRequest request, @RequestBody Map<String, Integer> payload) {
-//        String userId = getUserIdFromToken(request);
-//        Integer amount = payload.get("amount");
-//        
-//        if (amount == null || amount <= 0) {
-//            return ResponseEntity.badRequest().body("유효한 금액을 입력해주세요.");
-//        }
-//        
-//        userService.chargeBalance(userId, amount);
-//        return ResponseEntity.ok("잔액이 충전되었습니다.");
-//    }
 }

@@ -65,3 +65,16 @@ BEGIN
     INTO :NEW.POST_ID
     FROM DUAL;
 END;
+
+CREATE TABLE AdminDashboard (
+    stat_id NUMBER PRIMARY KEY,
+    user_count NUMBER,
+    daily_sales NUMBER(10,2),
+    weekly_sales NUMBER(10,2),
+    monthly_sales NUMBER(10,2),
+    new_users NUMBER,
+    pending_reports NUMBER,
+    transaction_count NUMBER,
+    system_status VARCHAR2(50),
+    update_time TIMESTAMP DEFAULT SYSTIMESTAMP
+);

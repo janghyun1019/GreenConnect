@@ -1,47 +1,47 @@
 package com.app.dao.users.impl;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.app.dao.users.UserDAO;
 import com.app.dto.users.Users;
+
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
-	@Autowired
-	SqlSessionTemplate sqlSessionTemplate;
-	
-	@Override
-	public Users getUserInfo(String userId) {
-		 return sqlSessionTemplate.selectOne("User_mapper.getUserInfo", userId);
-	}
+    @Autowired
+    SqlSessionTemplate sqlSessionTemplate;
 
-	@Override
-	public Users getUserDetail(String userId) {
-		 return sqlSessionTemplate.selectOne("User_mapper.getUserDetail", userId);
-	}
+    @Override
+    public Users getUserInfo(String userId) {
+        return sqlSessionTemplate.selectOne("User_mapper.getUserInfo", userId);
+    }
 
-	@Override
-	public int getUserBalance(String userId) {
-		 return sqlSessionTemplate.selectOne("User_mapper.getUserBalance", userId);
-	}
+    @Override
+    public Users getUserDetail(String userId) {
+        return sqlSessionTemplate.selectOne("User_mapper.getUserDetail", userId);
+    }
 
-	@Override
-	public void updateUserInfo(Users user) {
-		sqlSessionTemplate.update("User_mapper.updateUserInfo", user);
-	}
+    @Override
+    public List<Users> getUserList() {
+        return sqlSessionTemplate.selectList("User_mapper.getUserList");
+    }
 
+    @Override
+    public List<Map<String, Object>> getUserActivityLog(String userId) {
+        return sqlSessionTemplate.selectList("User_mapper.getUserActivityLog", userId);
+    }
 
-//	@Override
-//	public void chargeBalance(String userId, int amount) {
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("userId", userId);
-//        params.put("amount", amount);
-//        sqlSessionTemplate.update("User_mapper.chargeBalance", params);
-//	}
+    @Override
+    public void updateUserRole(Users user) {
+        sqlSessionTemplate.update("User_mapper.updateUserRole", user);
+    }
 
+    @Override
+    public void suspendUser(Users user) {
+        sqlSessionTemplate.update("User_mapper.suspendUser", user);
+    }
 }
