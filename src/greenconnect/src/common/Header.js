@@ -94,9 +94,9 @@ function Header() {
 							<img src={greentalkImg} alt="그린톡" className="menu-img-greentalk" />
 						</Link>
 					</div>
-				</div>
+				</div>			
 			</div>
-
+		
 			{/* 하단 (햄버거 버튼) */}
 			<div className="header-inner3">
 				<div className="bottom-bar">
@@ -107,7 +107,12 @@ function Header() {
 			</div>
 			{/* 드로어(슬라이드 메뉴) */}
 			{isDrawerOpen && <ModalContent closeDrawer={closeDrawer} />}
+			
+			{/* 가로 구분선 */}
+			<div className="top-bar-separator"></div>	
 		</header >
+		
+		
 	);
 }
 

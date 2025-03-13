@@ -28,6 +28,11 @@
 	overflow: hidden; /* float 해제 */
 }
 
+.top-bar-separator {
+	height: 1px;
+	background-color: #f2f2f2;
+}
+
 /* 상단 바 */
 .top-bar {
 	width: 100%;
