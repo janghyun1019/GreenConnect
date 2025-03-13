@@ -6,6 +6,7 @@
 
 .postDetailMainContainer {
     width: 100%;
+    height: auto;
     display : flex;
     flex-direction: column;
 }
@@ -207,6 +208,10 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
 
 .navPostDetailBottomContent, .navPostDetailBottomReview {

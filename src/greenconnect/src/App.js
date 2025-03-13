@@ -12,6 +12,8 @@ import FindPassword from "./Page/Signup/FindPassword.js";
 import ResetPassword from "./Page/Signup/ResetPassword.js";
 import ModifyPostDetail from "./postDetail/ModifyPostDetail.js";
 import PostDetailReview from "./postDetail/PostDetailReview.js";
+import PayPage from "./pay/PayPage.js";
+import GpayChargePage from "./pay/GpayChargePage.js";
 
 function App() {
   return (
@@ -28,6 +30,9 @@ function App() {
         <Route path="/postDetailIntro" element={<PostDetailIntro />} />
         <Route path="/postList" element={<PostList />} />
         <Route path="/postThumbnail" element={<PostThumbnail />} />
+
+        <Route path="/paymentPage/:postId" element={<PayPage />} />
+        {/* <Route path="/gpayChargePage" element={<GpayChargePage />} /> */}
         
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

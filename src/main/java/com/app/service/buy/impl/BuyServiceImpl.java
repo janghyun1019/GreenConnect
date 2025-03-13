@@ -19,6 +19,12 @@ public class BuyServiceImpl implements BuyService {
 		return result;
 	}
 
+	@Override
+	public Buy getBuyInfoByUserIdAndPostId(Buy buy) {
+		Buy buyInfo = buyDAO.getBuyInfoByUserIdAndPostId(buy);
+		return buyInfo;
+	}
+
 	
 	
 }

@@ -12,5 +12,13 @@ public class Buy {
 	private String buyCount;
 	private String totalPrice;
 	private String totalGram;
+	
+	// postId로 조인해서 가져온 post테이블 정보 담는 변수
+	private String postUserId;
+	private String postNickName;
+	private String postTitle;
+	private String urlFilePath;
+	private String postPrice;
+	private String postCost;
 
 }

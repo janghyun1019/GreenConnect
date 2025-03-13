@@ -30,6 +30,9 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     const [showReportPopup, setShowReportPopup] = useState(false);
     const [reportContent, setReportContent] = useState('');
 
+    // NavBar 탭 관리
+    const [activeTab, setActiveTab] = useState('content');
+
     // 상태 관리
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
@@ -230,14 +233,14 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 }
 
             } else if (response.data === "실패") {
-                alert("구매 요청이 실패했습니다.");
+                alert("장바구니를 불러오는 데 실패했습니다.");
             } else {
                 // 예기치 않은 응답 처리
                 alert('알 수 없는 오류가 발생했습니다.');
             }
         } catch (error) {
             console.error('에러:', error); // 에러 처리
-            alert('구매 요청에 실패했습니다. 다시 시도해주세요.');
+            alert('장바구니를 불러오는 데 실패했습니다. 다시 시도해주세요.');
         }
     };
 
@@ -287,7 +290,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
             if (response.data === "성공") {
                 alert("결제페이지로 이동!");
                 console.log('성공:', response.data);
-                navigate("/"); // 결제페이지 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                navigate("/paymentPage/" + postDetail.postId); // 결제페이지 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             } else if (response.data === "실패") {
                 alert("구매 요청이 실패했습니다.");
             } else {
@@ -442,13 +445,17 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
             />
 
             <div className='navBarContainer'>
-                <div className='navPostDetailBottomContent' >판매글 내용</div>
-                <div className='navPostDetailBottomReview' >판매글 별점 및 후기</div>
+                <div className={`navPostDetailBottomContent ${activeTab === 'content' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('content')} >판매글 내용</div>
+                <div className={`navPostDetailBottomReview ${activeTab === 'review' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('review')} >판매글 별점 및 후기</div>
             </div>
 
-            {/* 위의 네비바클릭 하면 화면에 아래 컴포넌트 보여주는거 변경 하는 기능 넣기 */}
-            <PostDetailBottom post={postDetail} postImages={postDetailImages} />
-            <PostDetailReview post={postDetail} />
+            {activeTab === 'content' ? (
+                <PostDetailBottom post={postDetail} postImages={postDetailImages} />
+            ) : (
+                <PostDetailReview post={postDetail} />
+            )}
 
             <div className='PostListContainerTitleBottom'>
                 <h2>현재 보고 계신 상품과 비슷한 상품 리스트</h2> {/* 현재페이지 관련 상품 db에서 가져와야함 */}
