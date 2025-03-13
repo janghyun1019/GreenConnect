@@ -16,34 +16,35 @@ function Footer() {
 					<span> | </span>
 					<a href="/">이용안내</a>
 				</div>
-				<hr />				
+				<hr />
 			</div>
 
 			{/* 메인 정보 영역 */}
 			<div className="footer-content">
 				{/* 왼쪽: 프로젝트/회사 정보 */}
 				<div className="footer-info">
-					<h2>그커마켓 프로젝트정보</h2>
-					<p>팀명: 장현&nbsp; 팀원: 김도현 박철중 변준현 / 개인정보보호책임자: 장현</p>
-					<p>사업자등록번호: 000-00-11111 &nbsp;|&nbsp; 통신판매업번호: 2025-충남 천안-1111</p>
-					<p>주소: 충남 천안시 동남구 대흥로 215 7층,8층</p>
+					<div className="footer-title">그커마켓 프로젝트정보</div>
+					<div className="footer-text"></div>
+					<div className="footer-text">프로젝트 팀명 : Green Connect<span> | </span>팀장 : 장현<span> | </span>팀원 : 김도현 박철중 변준현</div>
+					<div className="footer-text">사업자등록번호: 000-00-11111<span> | </span>통신판매업번호: 2025-충남 천안-1111</div>
+					<div className="footer-text">주소: 충남 천안시 동남구 대흥로 215 7층, 8층</div>
 				</div>
 
 				{/* 오른쪽: 고객센터 정보 */}
 				<div className="footer-customer-center">
-					<h2>고객센터</h2>
-					<p className="footer-customer-phone">1566-9564</p>
-					<p>운영시간 평일 09:00 ~ 18:00 (점심 12:00~13:00) / 공휴일 휴무</p>
-					<p>
-						<a href="/">1:1 문의</a>
+					<div className="footer-title">고객센터</div>
+					<div className="footer-customer-phone">1566-9564</div>
+					<div className="footer-text">운영시간 평일 09:00 ~ 18:00 (점심 12:00~13:00) / 공휴일 휴무</div>
+					<div className="footer-text">
+						<a href="/">공지사항</a>
 						<span> | </span>
-						<a href="/">자주묻는질문</a>
+						<a href="/">1:1 문의</a>
 						<span> | </span>
 						<a href="/">운영정책</a>
 						<span> | </span>
 						<a href="/">이메일 무단수집거부</a>
-					</p>
-					<p>COPYRIGHT (C) GreenConnect project. All rights reserved.</p>
+					</div>
+					<div className="footer-text">COPYRIGHT ⓒ <b>GreenConnect project</b>. All rights reserved.</div>
 				</div>
 			</div>
 
