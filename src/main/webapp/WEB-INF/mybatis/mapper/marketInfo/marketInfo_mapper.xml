@@ -46,7 +46,7 @@
     </insert>
 
     <!-- 전체 목록 조회 -->
-    <select id="selectAll" resultType="com.app.dto.marketInfo.MarketInfoDTO">
+    <select id="getMarketInfo" resultType="com.app.dto.marketInfo.MarketInfoDTO">  <!-- ✅ id 변경 -->
         SELECT
             ID,
             GET_DATE       AS getDate,
@@ -92,7 +92,22 @@
 
     <!-- 최신 데이터 조회 -->
     <select id="selectLatest" resultType="com.app.dto.marketInfo.MarketInfoDTO">
-        SELECT *
+        SELECT
+            ID,
+            GET_DATE       AS getDate,
+            PUM_NM         AS pumNm,
+            G_NAME         AS gName,
+            AV_P           AS avP,
+            MI_P           AS miP,
+            MA_P           AS maP,
+            PAV_P          AS pavP,
+            FLUC           AS fluc,
+            U_NAME         AS uName,
+            D_MARK         AS dMark,
+            J_7            AS j7,
+            J_7_MARK       AS j7Mark,
+            S_POS_GUBUN    AS sPosGubun,
+            CREATED_AT
         FROM MARKET_INFO
         WHERE GET_DATE = (SELECT MAX(GET_DATE) FROM MARKET_INFO)
         ORDER BY ID DESC

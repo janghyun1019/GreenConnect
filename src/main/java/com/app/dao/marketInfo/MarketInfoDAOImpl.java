@@ -15,36 +15,17 @@ public class MarketInfoDAOImpl implements MarketInfoDAO {
     }
 
     @Override
-    public int insertMarketInfo(MarketInfoDTO marketInfo) {
-        return sqlSession.insert("com.app.dao.marketInfo.MarketInfoDAO.insertMarketInfo", marketInfo);
+    public List<MarketInfoDTO> getMarketInfo() {
+        return sqlSession.selectList("com.app.dao.marketInfo.MarketInfoDAO.getMarketInfo");  // ✅ 정확한 SQL 매핑 경로 사용
     }
 
     @Override
-    public List<MarketInfoDTO> getMarketInfo() {
-        return sqlSession.selectList("com.app.dao.marketInfo.MarketInfoDAO.selectAll");
+    public List<MarketInfoDTO> selectByDate(String date) {
+        return sqlSession.selectList("com.app.dao.marketInfo.MarketInfoDAO.selectByDate", date);
     }
 
-	@Override
-	public int insertMarketInfo(List<MarketInfoDTO> marketInfoList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<MarketInfoDTO> selectByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MarketInfoDTO> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MarketInfoDTO> selectLatest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<MarketInfoDTO> selectLatest() {
+        return sqlSession.selectList("com.app.dao.marketInfo.MarketInfoDAO.selectLatest");
+    }
 }

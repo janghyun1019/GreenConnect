@@ -2,10 +2,13 @@ package com.app.dto.marketInfo;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MarketInfoDTO {
     private int id;
     private String getDate;   // 거래일자
     private String pumNm;     // 품목명
+    @JsonProperty("gName") // JSON 응답에서 gName으로 매핑
     private String gName;     // 등급
     private int avP;          // 평균가
     private int miP;          // 최저가
