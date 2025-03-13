@@ -8,8 +8,6 @@ import Header from "./common/Header";
 import Footer from "./common/Footer";
 import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
 import Main from "./main/main";
-import MarketInfo from "./Page/MarketInfo/MarketInfo.js"; // 기존 페이지
-import MarketInfoFullPage from "./Page/MarketInfo/MarketInfoFullPage.js"; // 추가된 페이지
 import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js"; // 추가된 페이지
 
 function App() {
@@ -29,9 +27,7 @@ function App() {
           <Route path="/findId" element={<FindId />} />
           <Route path="/findPassword" element={<FindPassword />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
-          <Route path="/marketInfo" element={<MarketInfo />} />
           {/* 추가된 라우트 */}
-          <Route path="/marketInfoFull" element={<MarketInfoFullPage />} />
           <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
         </Routes>
         <Footer />
