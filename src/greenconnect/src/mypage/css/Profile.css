@@ -67,7 +67,7 @@
     justify-content: center;
 }
 
-button {
+/* button {
     background-color: #89AC46;
     color: white;
     border: none;
@@ -78,11 +78,11 @@ button {
     font-weight: 500;
     width: auto;
     min-width: 120px;
-}
+} */
 
-button:hover {
+/* button:hover {
     background-color: #77963d;
-}
+} */
 
 .card input[type="text"] {
     width: 100%;
