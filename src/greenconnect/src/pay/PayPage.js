@@ -26,9 +26,12 @@ function PayPage() {
     const [tradingType, setTradingType] = useState('commonTrading'); // 거래방식 택배, 만나서거래
     const [buyerAdress, setBuyerAdress] = useState(null); // 구매자 주소정보
     const [requestContent, setRequestContent] = useState(null); // 구매자 배송요청사항
-    const [paymentType, setPaymentType] = useState(''); // 결제수단 g-pay, 일반결제
+
+    // 사용자 선택 상태관리
+    const [paymentType, setPaymentType] = useState(''); // 결제수단 g-pay or 일반결제
     const [isApplied, setIsApplied] = useState(false); // 소득공제 신청 여부
     const [receiptType, setReceiptType] = useState(null); // 개인소득공제용 or 사업자증빙용
+    const [commonPayType, setCommonPayType] = useState(null); // 카드결제 or 무통장입금
 
     useEffect(() => {
         // 세션에서 사용자 정보 가져오기 (localStorage나 sessionStorage에서)
@@ -114,17 +117,25 @@ function PayPage() {
                 </div>
                 {paymentType === 'gpay' && (
                     <div className='selectGpayBox'>
-                        <div>지페이 결제</div>
+                        <div>현재 G-PAY 잔액: 원</div>  {/* gpay정보 불러와서입력 */}
+                        <div>결제 후 예상 G-PAY 잔액: 원</div>
                     </div>
                 )}
                 {paymentType === 'common' && (
                     <div className='selectCommonPayBox'>
-                        <div>일반결제</div>
-                        <div className='CommonPayTypeBox'>
-                            <div>카드결제</div>
-                            <div>무통장(가상계좌)</div>
+                        <div className='commonPayTypeBox'>
+                            <div className={`payOption ${commonPayType === 'card' ? 'selected' : ''}`} onClick={() => setCommonPayType('card')} >카드결제</div>
+                            <div className={`payOption ${commonPayType === 'bankBook' ? 'selected' : ''}`} onClick={() => setCommonPayType('bankBook')} >무통장(가상계좌)</div>
                         </div>
                     </div>
+                )}
+                {commonPayType === 'card' && (
+                    <div className='selectCardPay'>
+                        
+                    </div>
+                )}
+                {commonPayType === 'bankBook' && (
+                    <div className='selectBankBookPay'>무통장결제시 띄우는 창</div>
                 )}
 
                 <div className='payTotalPriceBox'>
@@ -180,11 +191,11 @@ function PayPage() {
 
                             {/* 선택에 따라 정보 입력 박스 출력 */}
                             {receiptType === 'personal' && (
-                                <div><input type='text' placeholder='휴대폰 번호를 입력해주세요. - 포함 / 예) 000-0000-0000'/></div>
+                                <div><input type='text' placeholder='휴대폰 번호를 입력해주세요. - 포함 / 예) 000-0000-0000' /></div>
                             )}
 
                             {receiptType === 'business' && (
-                                <div><input type='text' placeholder='사업자등록번호를 입력해주세요. -포함 / 예) 123-45-67890'/></div>
+                                <div><input type='text' placeholder='사업자등록번호를 입력해주세요. -포함 / 예) 123-45-67890' /></div>
                             )}
                         </div>
                     )}
