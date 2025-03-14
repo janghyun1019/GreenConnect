@@ -1,4 +1,4 @@
-import '../css/PostDetailReview.css';
+import './css/PostDetailReview.css';
 
 
 function PostDetailReview(){

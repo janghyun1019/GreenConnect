@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from "dayjs";
-import '../css/PostDetail.css'; // 스타일 파일이 필요하다면 유지
+import './css/PostDetail.css'; // 스타일 파일이 필요하다면 유지
 
 function PostDetailTop({
     postDetail,

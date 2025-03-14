@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import '../css/PostDetail.css';
+import './css/PostDetail.css';
 import PostDetailBottom from './PostDetailBottom';
 import PostSlide from '../postList/PostSlide';
 import PostDetailTop from './PostDetailTop';

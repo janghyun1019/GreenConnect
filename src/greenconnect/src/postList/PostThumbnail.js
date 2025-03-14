@@ -1,4 +1,4 @@
-import '../css/PostThumbnail.css';
+import './css/PostThumbnail.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

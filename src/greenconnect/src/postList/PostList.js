@@ -1,4 +1,4 @@
-import '../css/PostList.css';
+import './css/PostList.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostThumbnail from './PostThumbnail';

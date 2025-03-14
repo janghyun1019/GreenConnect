@@ -11,7 +11,10 @@ signup TIMESTAMP DEFAULT SYSTIMESTAMP,
 terms TIMESTAMP DEFAULT SYSTIMESTAMP --약관동의시간
 );
 
-select * from users;
+CREATE TABLE user_profile (
+    user_id    NUMBER PRIMARY KEY,
+    image_url  VARCHAR2(255)
+);
 
 CREATE TABLE post
 (
@@ -32,7 +35,40 @@ CREATE TABLE post
   post_views number DEFAULT '0' NOT NULL,
   post_state varchar2(10) DEFAULT 'Y'  --상태관리: 게시글 삭제하면 N으로 변경
 );
-select * from post;
+
+CREATE TABLE POSTS (
+    POST_ID VARCHAR2(255) PRIMARY KEY,
+    USER_ID VARCHAR2(255),
+    TITLE VARCHAR2(255),
+    CONTENT CLOB,
+    CREATED_AT TIMESTAMP
+);
+
+CREATE SEQUENCE POSTS_SEQ
+START WITH 1
+INCREMENT BY 1;
+
+-- 트리거 생성
+CREATE OR REPLACE TRIGGER POSTS_BEFORE_INSERT
+BEFORE INSERT ON POSTS
+FOR EACH ROW
+BEGIN
+    SELECT POSTS_SEQ.NEXTVAL
+    INTO :NEW.POST_ID
+    FROM DUAL;
+END;
+
+CREATE TABLE address (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
+    address1 VARCHAR(255) NOT NULL,
+    address2 VARCHAR(255),
+    receiver VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE,
+    INDEX idx_user_id (user_id)
+);
 
 create sequence post_id_seq
 START WITH 1
@@ -51,7 +87,6 @@ create table image
     file_extension VARCHAR2(10), -- 확장자
     uploaded_at TIMESTAMP DEFAULT SYSTIMESTAMP -- 업로드 시간
 );
-select * from image;
 
 create sequence images_id_seq
 START WITH 1
@@ -70,7 +105,6 @@ CREATE TABLE BUY (
     total_gram    VARCHAR2(50) NOT NULL,         -- 총 주문량 (숫자로 저장)
     created_at  TIMESTAMP DEFAULT SYSTIMESTAMP  -- 주문 날짜 (기본값: 현재 시간)
 );
-select * from buy;
 
 create sequence buy_id_seq
 START WITH 1
@@ -86,7 +120,6 @@ CREATE Table user_report(
   report_content varchar2(1000) not null, -- 신고사유
   report_result varchar2(32) -- 신고 결과
 );
-select * from user_report;
 
 CREATE Table report(
   report_id number primary key, -- 시퀀스
@@ -94,11 +127,25 @@ CREATE Table report(
   report_count number, -- 신고당한 횟수
   report_punish varchar2(32) -- 처벌
 );
+
 create sequence report_id_seq
 START WITH 1
 INCREMENT BY 1
 NOCACHE
 NOCYCLE;
+
+CREATE TABLE AdminDashboard (
+    stat_id NUMBER PRIMARY KEY,
+    user_count NUMBER,
+    daily_sales NUMBER(10,2),
+    weekly_sales NUMBER(10,2),
+    monthly_sales NUMBER(10,2),
+    new_users NUMBER,
+    pending_reports NUMBER,
+    transaction_count NUMBER,
+    system_status VARCHAR2(50),
+    update_time TIMESTAMP DEFAULT SYSTIMESTAMP
+);
 
 SELECT ---------------------- 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리
     b.buy_id,

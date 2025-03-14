@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PostDetail from '../postDetail/PostDetail';
-import '../css/PostDetailIntro.css';
+import './css/PostDetailIntro.css';
 import axios from 'axios';
 import dayjs from "dayjs";
 

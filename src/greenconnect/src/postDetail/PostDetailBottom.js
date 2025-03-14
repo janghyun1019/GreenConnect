@@ -1,4 +1,4 @@
-import '../css/PostDetailBottom.css'
+import './css/PostDetailBottom.css'
 
 
 function PostDetailBottom({ post, postImages }) {

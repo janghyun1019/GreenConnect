@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import '../css/PayPage.css';
+import './css/PayPage.css';
 
 
 
