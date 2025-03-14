@@ -1,5 +1,4 @@
 package com.app.controller;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.post.Post;
 import com.app.service.post.PostService;
@@ -245,24 +247,24 @@ public class PostController {
 	@PostMapping("/api/savePostJjim")
 	public ResponseEntity<?> updatePostJjimByPostId(@RequestBody Jjim jjim) {
 		try {
-	        System.out.println(jjim);
-	        System.out.println(jjim.getUserId());
-	        System.out.println(jjim.getPostId());
+			System.out.println(jjim);
+			System.out.println(jjim.getUserId());
+			System.out.println(jjim.getPostId());
 
-	        int result = postService.savePostJjim(jjim);
+			int result = postService.savePostJjim(jjim);
 
-	        if (result > 0) {
-	        	System.out.println("찜성공: " + jjim.getUserId() + " 가 " + jjim.getPostId() + "번 게시글을 찜함");
-	            return ResponseEntity.ok("jjimOk");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("jjimFail");
-	        }
-	    } catch (DataIntegrityViolationException e) {
-	    	System.out.println("이미 찜한 게시글에 접근함!!");
-	        return ResponseEntity.status(HttpStatus.CONFLICT).body("alreadyJjimed");
-	    } catch (Exception e) { 
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("severError");
-	    }
+			if (result > 0) {
+				System.out.println("찜성공: " + jjim.getUserId() + " 가 " + jjim.getPostId() + "번 게시글을 찜함");
+				return ResponseEntity.ok("jjimOk");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("jjimFail");
+			}
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("이미 찜한 게시글에 접근함!!");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("alreadyJjimed");
+		} catch (Exception e) { 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("severError");
+		}
 	}
 	
 	@PostMapping("/api/deletePostJjim")
@@ -299,11 +301,11 @@ public class PostController {
 		
 		System.out.println("판매글 리스트: " + postList);
 		
-		 if (postList.isEmpty()) {
-	            return ResponseEntity.noContent().build();
-	        }
-		 
-		 return ResponseEntity.ok(postList);
+		if (postList.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.ok(postList);
 	}
 	
 	@PostMapping("/api/addPostViews/{postId}")
@@ -321,13 +323,21 @@ public class PostController {
         }
 	}
 	
+	@GetMapping("/mypage/post/user/{userId}")
+	public List<Post> getPostByUserId(@PathVariable String userId){
+		
+		return postService.getPostsByuserId(userId);
+	}
+
+	@GetMapping("/mypage/post/{postId}")
+	public Post getPostById(@PathVariable int postId) {
+		return postService.getPostById(postId);
+	}
 	
-	
-	
-	
-	
-	
+
 }
+
+
 
 
 

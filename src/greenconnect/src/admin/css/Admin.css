@@ -1,0 +1,230 @@
+/* 전체 컨테이너 */
+.adminContainer {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+}
+
+/* 사이드바 */
+.adminAside {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.adminAside ul {
+    list-style: none;
+    padding: 0;
+}
+
+.adminAside li {
+    margin: 20px 0;
+}
+
+.adminAside a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.adminAside a:hover {
+    color: #3498db;
+}
+
+/* 사용자 목록 컨테이너 */
+.userList {
+    flex: 1;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 사용자 항목 */
+.userItem {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.userItem:hover {
+    background-color: #f9f9f9;
+}
+
+.userItem input[type="checkbox"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.userItem span {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 버튼과 셀렉트 박스 컨테이너 */
+.userItem div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 셀렉트 박스 */
+.userItem select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.userItem select:hover,
+.userItem select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* 버튼 스타일 */
+.userItem button,
+.userList > button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.userItem button {
+    background-color: #3498db;
+    color: white;
+}
+
+.userItem button:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.userItem button:active {
+    transform: translateY(0);
+}
+
+/* 정지/활성화 버튼 색상 구분 */
+.userItem button:nth-child(2) {
+    background-color: #e74c3c; /* 정지 버튼은 빨강 */
+}
+
+.userItem button:nth-child(2):hover {
+    background-color: #c0392b;
+}
+
+/* 일괄 처리 버튼 */
+.userList > button {
+    margin-top: 20px;
+    margin-right: 10px;
+    background-color: #2ecc71;
+    color: white;
+}
+
+.userList > button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.userList > button:nth-child(2) {
+    background-color: #e74c3c; /* 정지 버튼 */
+}
+
+.userList > button:nth-child(2):hover {
+    background-color: #c0392b;
+}
+
+.userList > button:hover:not(:disabled) {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+}
+
+.userList > button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* 빈 목록 메시지 */
+.userList p {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .adminContainer {
+        flex-direction: column;
+    }
+
+    .adminAside {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .userList {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .userItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .userItem div {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+.activityLog {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.activityLog h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.activityLog ul {
+    list-style: none;
+    padding: 0;
+}
+
+.activityLog li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #555;
+}
+
+.activityLog li:last-child {
+    border-bottom: none;
+}
+
+.activityLog p {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+}
