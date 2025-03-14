@@ -33,4 +33,8 @@
 		<typeAlias type="com.app.dto.review.Comment" alias="Comment" />
 		<typeAlias type="com.app.dto.review.ReviewImages" alias="ReviewImages" /> -->
 	</typeAliases>
+	
+	
+	
+	
 </configuration>

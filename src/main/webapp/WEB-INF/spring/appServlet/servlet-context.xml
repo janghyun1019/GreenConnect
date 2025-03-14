@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<annotation-driven />
+<annotation-driven />
 
 	<context:component-scan
 		base-package="com.app.controller"></context:component-scan>
@@ -54,34 +54,60 @@
 
 <!-- 이메일 발송 빈 -->
 
-	<beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-		<!-- JavaMailSender 설정 -->
-		<bean id="mailSender"
-			class="org.springframework.mail.javamail.JavaMailSenderImpl">
-			<property name="host" value="smtp.gmail.com" />
-			<property name="port" value="587" />
-			<property name="username" value="bjh9312@gmail.com" />
-			<property name="password" value="nifk hcxb nwip gxox" />
+<!-- JavaMailSender 설정 -->
+<bean id="mailSender"
+class="org.springframework.mail.javamail.JavaMailSenderImpl">
+<property name="host" value="smtp.gmail.com" />
+<property name="port" value="587" />
+<property name="username" value="bjh9312@gmail.com" />
+<property name="password" value="nifk hcxb nwip gxox" />
 
-			<property name="javaMailProperties">
-				<props>
-					<prop key="mail.transport.protocol">smtp</prop>
-					<prop key="mail.smtp.auth">true</prop>
-					<prop key="mail.smtp.starttls.enable">true</prop>
-					<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
-				</props>
-			</property>
-		</bean>
+<property name="javaMailProperties">
+<props>
+<prop key="mail.transport.protocol">smtp</prop>
+<prop key="mail.smtp.auth">true</prop>
+<prop key="mail.smtp.starttls.enable">true</prop>
+<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+</props>
+</property>
+</bean>
 
-		<!-- MailService 등록 -->
-		<bean id="mailService" class="com.app.service.signup.MailService">
-			<property name="mailSender" ref="mailSender" />
-		</bean>
-	</beans>
+<!-- MailService 등록 -->
+<bean id="mailService" class="com.app.service.signup.MailService">
+<property name="mailSender" ref="mailSender" />
+</bean>
+</beans>
+
+<!-- <interceptors> -->
+<!-- <interceptor> -->
+<!-- <mapping path="/customer/**" /> -->
+<!-- <exclude-mapping path="/customer/login" /> -->
+<!-- <exclude-mapping path="/customer/signup" /> -->
+<!-- <exclude-mapping path="/customer/checkDupIdJson" /> -->
+<!-- <beans:bean class="com.app.interceptor.LoginInterceptor"></beans:bean> -->
+<!-- </interceptor> -->
+<!-- <mapping path="/**"/> -->
+<!-- <exclude-mapping path="/customer/login"/> -->
+<!-- <exclude-mapping path="/customer/signup"/> -->
+<!-- <exclude-mapping path="/customer/checkDupIdJson"/> -->
+<!-- <exclude-mapping path="/main"/> -->
+<!-- <exclude-mapping path="/"/> -->
+<!-- <exclude-mapping path="/js/**"/> -->
+<!-- <exclude-mapping path="/css/**"/> -->
+<!-- <exclude-mapping path="/image/**"/> -->
+<!-- <beans:bean class="com.app.interceptor.LoginInterceptor"></beans:bean> -->
+<!-- </interceptor> -->
+<!-- <interceptor> -->
+<!-- <mapping path="/admin/**" /> -->
+<!-- <exclude-mapping path="/admin/login" /> -->
+<!-- <beans:bean class="com.app.interceptor.AdminInterceptor"></beans:bean> -->
+<!-- </interceptor> -->
+<!-- </interceptors> -->
 
 	<!-- <interceptors> -->
 	<!-- <interceptor> -->
