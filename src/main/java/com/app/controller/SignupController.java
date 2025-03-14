@@ -65,9 +65,9 @@ public class SignupController {
 	
 	
 	// 로그인 시 API 발급 (JWT 방식)
-	@PostMapping("api/user/login")
+	@PostMapping("/api/user/login")
 	public String login(@RequestBody Map<String, String> loginInfo, User user) {
-		
+		System.out.println("로그인 요청 처리 중: " + loginInfo.get("userId"));
 		try {
 			// 유저 비밀번호 암호화
 			String encPw = SHA256Encryptor.encrypt(loginInfo.get("password"));

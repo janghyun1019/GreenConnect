@@ -18,6 +18,8 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		base-package="com.app.service"></context:component-scan>
 	<context:component-scan
 		base-package="com.app.dao"></context:component-scan>
+	<context:component-scan
+		base-package="com.app.chatapp"></context:component-scan>
 	<!-- <context:component-scan base-package="com.app.config"></context:component-scan> -->
 
 	<annotation-driven>

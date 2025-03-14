@@ -10,6 +10,7 @@
 	<typeAliases>	 	
 		<typeAlias type="com.app.dto.user.User" alias="User" />
 		<typeAlias type="com.app.dto.user.SnsUser" alias="SnsUser" />
+		<typeAlias type="com.app.chatapp.dto.ChatRoomDTO" alias="ChatRoom" />
 <!-- 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/> -->
 <!-- 		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/> -->
 <!-- 		<typeAlias type="com.app.dto.attraction.AttractionInfo" alias="AttractionInfo"/> -->

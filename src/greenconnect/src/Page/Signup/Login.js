@@ -13,10 +13,10 @@ function Login() {
     // 로그인 처리 함수
     const handleLogin = () => {
         axios.post(
-            "api/user/login",
+            "/api/user/login",
             {
                 userId,
-                password
+                password,
             },
             {
                 headers: {

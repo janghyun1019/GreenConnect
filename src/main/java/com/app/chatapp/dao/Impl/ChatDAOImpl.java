@@ -2,7 +2,8 @@ package com.app.chatapp.dao.Impl;
 
 import com.app.chatapp.dao.ChatDAO;
 import com.app.chatapp.dto.ChatRoomDTO;
-import org.mybatis.spring.SqlSessionTemplate;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -11,19 +12,22 @@ import java.util.Map;
 
 @Repository
 public class ChatDAOImpl implements ChatDAO {
-    private final SqlSessionTemplate sqlSession;
+    private final SqlSession sqlSession;
 
-    public ChatDAOImpl(SqlSessionTemplate sqlSession) {
+    @Autowired
+    public ChatDAOImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;
     }
-   
-    // userId에 해당하는 모든 채팅방을 조회
+
     @Override
-    public List<ChatRoomDTO> findChatRoomsByUserId(String userId) {
-        return sqlSession.selectList("ChatMapper.findChatRoomsByUserId", userId);
+    public List<Map<String, Object>> getMessagesByRoomId(Long roomId, int page, int size) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("roomId", roomId);
+        params.put("offset", page * size);
+        params.put("size", size);
+        return sqlSession.selectList("ChatMapper.getMessagesByRoomId", params);
     }
 
-    // 새로운 메시지를 저장
     @Override
     public Long saveMessage(Long roomId, String senderId, String content, String imageUrls) {
         Map<String, Object> params = new HashMap<>();
@@ -32,28 +36,60 @@ public class ChatDAOImpl implements ChatDAO {
         params.put("content", content);
         params.put("imageUrls", imageUrls);
         sqlSession.insert("ChatMapper.saveMessage", params);
-        return sqlSession.selectOne("ChatMapper.getLastInsertedId");
+        return (Long) params.get("messageId"); // 트리거로 생성된 messageId 반환
     }
 
-    // userId에 해당하는 채팅방 정보를 조회
     @Override
-    public ChatRoomDTO findChatRoomById(Long roomId) {
-        return sqlSession.selectOne("ChatMapper.findChatRoomById", roomId);
+    public String getTargetUserId(Long roomId, String senderId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("roomId", roomId);
+        params.put("senderId", senderId);
+        return sqlSession.selectOne("ChatMapper.getTargetUserId", params);
     }
 
-    // 메시지를 읽음 처리
     @Override
     public void markMessageAsRead(Long messageId) {
         sqlSession.update("ChatMapper.markMessageAsRead", messageId);
     }
 
-    //채팅방 나가기
     @Override
-    public void updateChatRoomActiveStatus(Long roomId, String userId, String status) {
+    public List<ChatRoomDTO> getChatRooms(String userId) {
+        return sqlSession.selectList("ChatMapper.getChatRooms", userId);
+    }
+
+    @Override
+    public void leaveChatRoom(Long roomId, String userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("roomId", roomId);
         params.put("userId", userId);
-        params.put("status", status);
-        sqlSession.update("ChatMapper.updateChatRoomActiveStatus", params);
+        sqlSession.update("ChatMapper.leaveChatRoom", params);
+    }
+
+    @Override
+    public void deleteChatRoom(Long roomId, String userId) {
+        leaveChatRoom(roomId, userId);
+    }
+
+    @Override
+    public ChatRoomDTO createChatRoom(String user1Id, String user2Id) {
+        Map<String, String> params = new HashMap<>();
+        params.put("user1Id", user1Id);
+        params.put("user2Id", user2Id);
+        ChatRoomDTO existingRoom = sqlSession.selectOne("ChatMapper.findChatRoomByUsers", params);
+        if (existingRoom != null) {
+            return existingRoom;
+        }
+        ChatRoomDTO newRoom = new ChatRoomDTO();
+        newRoom.setUser1Id(user1Id);
+        newRoom.setUser2Id(user2Id);
+        newRoom.setUser1Active("Y");
+        newRoom.setUser2Active("Y");
+        sqlSession.insert("ChatMapper.createChatRoom", newRoom);
+        return newRoom; // roomId는 <selectKey>에서 설정됨
+    }
+
+    @Override
+    public ChatRoomDTO findChatRoomByUsers(Map<String, String> params) {
+        return sqlSession.selectOne("ChatMapper.findChatRoomByUsers", params);
     }
 }

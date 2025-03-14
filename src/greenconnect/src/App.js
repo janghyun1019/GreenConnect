@@ -19,18 +19,22 @@ function App() {
     <div>
       <h1>당근마켓 채팅</h1>
       <Routes>
+        {/* 기본 경로: 로그인 화면 표시 */}
         <Route 
           path="/" 
           element={userId ? <Navigate to="/chatrooms" /> : <Login />} 
         />
+        {/* 채팅방 목록: 로그인 후 접근 (*경로 변경*) */}
         <Route 
           path="/chatrooms" 
           element={userId ? <ChatRoomList /> : <Navigate to="/" />} 
         />
+        {/* 채팅 화면: 로그인 필요 */}
         <Route 
           path="/chat/:roomId" 
           element={userId ? <Chat /> : <Navigate to="/" />}
         />
+        {/* 기타 경로: 회원가입 및 비밀번호 찾기 등 */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/find-id" element={<FindId />} />
         <Route path="/find-password" element={<FindPassword />} />
