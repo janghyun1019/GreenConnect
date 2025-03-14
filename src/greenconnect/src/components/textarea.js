@@ -1,12 +1,11 @@
-export default function Input({ value, onChange, placeholder, type = "text", className, ...props }) {
+export default function Textarea({ value, onChange, placeholder, className, ...props }) {
     return (
-        <input
-            type={type}
+        <textarea
             value={value}
             onChange={onChange}
             placeholder={placeholder}
             className={`border p-2 rounded w-full ${className}`}
             {...props}
-        />
+        ></textarea>
     );
 }
