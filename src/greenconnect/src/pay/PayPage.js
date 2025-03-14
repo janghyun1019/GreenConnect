@@ -27,6 +27,20 @@ function PayPage() {
     const [buyerAdress, setBuyerAdress] = useState(null); // 구매자 주소정보
     const [requestContent, setRequestContent] = useState(null); // 구매자 배송요청사항
 
+    // 우편 주소 검색
+    const [adressError, setAdressError] = useState({});
+    const [isLoadingAdress, setIsLoadingAdress] = useState(false);
+    const [address, setAddress] = useState(null);
+    const [formData, setFormData] = useState({
+        receiver: '',
+        phone: '',
+        postal_code: '',
+        address1: '',
+        address2: '',
+        is_default: false
+    });
+    
+
     // 사용자 선택 상태관리
     const [paymentType, setPaymentType] = useState(''); // 결제수단 g-pay or 일반결제
     const [isApplied, setIsApplied] = useState(false); // 소득공제 신청 여부
@@ -79,6 +93,56 @@ function PayPage() {
     }, [buyUser, postId]); // postId가 변경되면 다시 실행
 
 
+    // useEffect(() => {
+    //     fetchAddresses();
+    // }, []);
+
+    // const fetchAddresses = async () => {
+    //     setIsLoadingAdress(true);
+    //     try {
+    //         // Spring Boot 서버 API 엔드포인트 호출
+    //         const response = await axios.get('/api/addresses');
+    //         setAddress(response.data);
+    //     } catch (error) {
+    //         console.error("주소 목록을 불러오는데 실패했습니다:", error);
+    //         alert("주소 목록을 불러오는데 실패했습니다.");
+    //     } finally {
+    //         setIsLoadingAdress(false);
+    //     }
+    // };
+    
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
+
+    const searchPostalCode = () => {
+        if (!window.daum || !window.daum.Postcode) {
+            const script = document.createElement('script');
+            script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+            script.onload = () => openPostcode();
+            document.head.appendChild(script);
+        } else {
+            openPostcode();
+        }
+    };
+
+    const openPostcode = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+                setFormData({
+                    ...formData,
+                    postal_code: data.zonecode,
+                    address1: data.roadAddress || data.jibunAddress
+                });
+            }
+        }).open();
+    };
+
+
     return (
         <div className="payPageMainContainer">
             <h1>결제페이지</h1>
@@ -89,7 +153,7 @@ function PayPage() {
                         <div className='payProductInfoTitle'>구매 상품 정보</div>
                         <div><img src={buyInfo.urlFilePath} style={{ width: '100px', borderRadius: '12px' }}></img></div>
                         <div>판매글 제목: {truncateText(buyInfo.postTitle, 10)}</div>
-                        <div>총 구매 금액: {Number(buyInfo.totalPrice).toLocaleString()}원</div>
+                        <div>총 구매 금액: {Number(buyInfo.postPrice * buyInfo.buyCount + Number(tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0))).toLocaleString()}원</div>
                     </div>
                 }
 
@@ -101,7 +165,65 @@ function PayPage() {
 
                 <div className='payBuyerAdressBox'>
                     <div className='payBuyerAdressTitle'>배송지 *</div>
-                    <div><input type='text' name='buyerAdress' maxLength='60' placeholder='배송받을 주소를 입력해 주세요.' onChange={(e) => setBuyerAdress(e.target.value)} /></div>
+                    <div className="payBuyerAdressBoxApi">
+                        <label>우편번호 *</label>
+                        <div className="pay-postal-code-container">
+                            <input
+                                type="text"
+                                name="postal_code"
+                                placeholder="우편번호 검색"
+                                value={formData.postal_code}
+                                onChange={handleChange}
+                                className={adressError.postal_code ? 'error' : ''}
+                                readOnly
+                            />
+                            <button style={{padding:'5px', margin:'5px 0 5px 0', backgroundColor:'white',fontWeight:'bold' , borderRadius:'5px'}}
+                                type="button"
+                                className="search-button"
+                                onClick={searchPostalCode}
+                            >
+                                우편번호 검색
+                            </button>
+                        </div>
+                        {adressError.postal_code && <span className="error-text">{adressError.postal_code}</span>}
+                    </div>
+
+                    <div className="pay-postal-code-container">
+                        <label>기본 주소 *</label>
+                        <input
+                            type="text"
+                            name="address1"
+                            placeholder="우편번호를 검색 해 주세요."
+                            value={formData.address1}
+                            onChange={handleChange}
+                            className={adressError.address1 ? 'error' : ''}
+                            readOnly
+                        />
+                        {adressError.address1 && <span className="error-text">{adressError.address1}</span>}
+                    </div>
+
+                    <div className="pay-postal-code-container">
+                        <label>상세 주소</label>
+                        <input
+                            type="text"
+                            name="address2"
+                            placeholder="상세 주소를 입력 해 주세요."
+                            value={formData.address2}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="pay-postal-code-container">
+                    <label>수령인 *</label>
+                        <input
+                            type="text"
+                            name="receiver"
+                            placeholder="받으시는분 성함을 입력 해 주세요."
+                            value={formData.receiver}
+                            onChange={handleChange}
+                        />
+                    </div>
+
                 </div>
 
                 <div className='payRequestBox'>
@@ -148,9 +270,9 @@ function PayPage() {
                         </div>
                         {loading ? <p>로딩 중...</p> : error ? <p>{error}</p> : //데이터 불러오기 전 출력 방지
                             <div className='payTotalPriceResult'>
-                                <div>{Number(buyInfo.postPrice).toLocaleString()} 원</div>
+                                <div>{Number(buyInfo.postPrice * buyInfo.buyCount).toLocaleString()} 원</div>
                                 <div>{tradingType == 'meetTrading' ? 0 : Number(buyInfo.postCost).toLocaleString()} 원</div>
-                                <div>{(Number(buyInfo.postPrice) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0))).toLocaleString()} 원</div>
+                                <div>{(Number(buyInfo.postPrice * buyInfo.buyCount) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0))).toLocaleString()} 원</div>
                             </div>
                         }
                     </div>

@@ -2,26 +2,7 @@ import React, { useState,useEffect } from "react";
 import axios from "axios";
 
 function AddressRegistration() {
-    const [address, setAddress] = useState([
-        {
-            id: 'user1',
-            postal_code: '11111',
-            address1: '충남 천안시 동남구 대흥로 215',
-            address2: '백자빌딩 7층 휴먼교육센터',
-            receiver: '박철중',
-            phone: '010-1234-5678',
-            is_default: true
-        },
-        {
-            id: 'user2',
-            postal_code: '22222',
-            address1: '충남 아산시 배방읍 배방로 14번길5',
-            address2: '다이소 배방점',
-            receiver: '장현',
-            phone: '010-5678-1234',
-            is_default: false
-        }
-    ]);
+    const [address, setAddress] = useState(null);
 
     const [formData, setFormData] = useState({
         receiver: '',

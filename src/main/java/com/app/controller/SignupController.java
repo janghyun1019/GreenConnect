@@ -97,12 +97,14 @@ public class SignupController {
 		System.out.println(accessToken);
 		System.out.println(refreshToken);
 		System.out.println(user.getNickName());
+		System.out.println(user.getUserId());
+		
 
 		try {
 			// JSON 형태로 변환
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> response = Map.of("accessToken", accessToken, "refreshToken", refreshToken, "nickname",
-					user.getNickName());
+					user.getNickName(), "userId", user.getUserId());
 			return objectMapper.writeValueAsString(response); // JSON 문자열 반환
 		} catch (Exception e) {
 			return "{\"message\":\"서버 오류 발생\"}";
