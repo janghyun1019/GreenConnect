@@ -22,18 +22,18 @@ CREATE TABLE post
   user_id varchar2(32),
   nick_name varchar2(32),
   board_id number,
-  post_product_type varchar2(100),
+  post_product_type varchar2(100), -- 품목 타입 (옥수수,감자,포도..)
   post_title varchar2(100) not null,
   post_content varchar2(3000) not null,
-  url_file_path varchar2(500),
-  post_sales_unit varchar2(100),
-  post_price varchar2(64),
-  post_spot varchar2(500),
-  post_cost varchar2(64),
-  store_id varchar2(500),
-  post_create_at TIMESTAMP DEFAULT SYSTIMESTAMP,
-  post_views number DEFAULT '0' NOT NULL,
-  post_state varchar2(10) DEFAULT 'Y'  --상태관리: 게시글 삭제하면 N으로 변경
+  url_file_path varchar2(500), -- 썸네일용
+  post_sales_unit varchar2(100), -- 판매수량 (500g, 1kg ..)
+  post_price varchar2(64), -- 판매수량당 가격
+  post_spot varchar2(500), -- 판매자 주소
+  post_cost varchar2(64), -- 배송비
+  store_id varchar2(500), -- 판매자 가게  이름
+  post_create_at TIMESTAMP DEFAULT SYSTIMESTAMP, -- 판매글 작성 시간
+  post_views number DEFAULT '0' NOT NULL, -- 조회수
+  post_state varchar2(10) DEFAULT 'Y'  --상태관리: 게시글 삭제하거나 정지되면 N으로 변경
 );
 
 CREATE TABLE POSTS (
