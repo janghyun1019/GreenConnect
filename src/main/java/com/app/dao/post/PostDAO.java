@@ -37,6 +37,12 @@ public interface PostDAO {
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
 	
 	List<Post> getPostList();
+
+	List<Post> getPostsByUserId(String userId);
+
+	Post getPostById(String postId);
+	
+	
 	
 	
 

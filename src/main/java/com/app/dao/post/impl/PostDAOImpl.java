@@ -115,7 +115,7 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public Post getPostById(int postId) {
+    public Post getPostById(String postId) {
         Post post = sqlSessionTemplate.selectOne("post_mapper.selectPostById", postId);
         return post;
     }
