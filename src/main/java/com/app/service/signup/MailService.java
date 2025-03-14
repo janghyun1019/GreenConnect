@@ -35,6 +35,7 @@ public class MailService {
         message.setSubject("함께하는 자연! Greenconnect!");
         message.setText("회원님의 아이디는 "+ userId +" 입니다." );
         mailSender.send(message);
+        System.out.println("발송한 아이디 " + userId);
     }
     
     public void sendPwEmail(String email, String userPw) {
@@ -55,9 +56,13 @@ public class MailService {
             helper.setTo(toEmail);
             helper.setSubject("함께하는 자연! Greenconnect! 비밀번호 재설정 안내");
             helper.setText("비밀번호를 재설정하려면 아래 링크를 클릭하세요: \n" + resetUrl, false);
-
+            
+            System.out.println("이메일 발송 완료!");
+            
             // 이메일 전송
             mailSender.send(message);
+            
+            
         } catch (MessagingException e) {
             throw new RuntimeException("이메일 전송 실패: " + e.getMessage());
         }

@@ -106,5 +106,13 @@ public class UserDAOImpl implements UserDAO{
 	    sqlSessionTemplate.update("user_mapper.passwordUpdate", params);
 		
 	}
+
+	@Override
+	public int isDuplicate(String type, String value) {
+		 Map<String, Object> params = new HashMap<>();
+	     params.put("type", type);
+	     params.put("value", value);
+	     return sqlSessionTemplate.selectOne("user_mapper.isDuplicate", params);
+	}
 	
 }

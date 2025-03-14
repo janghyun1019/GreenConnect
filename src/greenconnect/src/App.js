@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
 import Signup from "./Page/Signup/Signup.js";
 import Login from "./Page/Signup/Login.js";
 import FindId from "./Page/Signup/FindId.js";
@@ -6,7 +7,6 @@ import FindPassword from "./Page/Signup/FindPassword.js";
 import ResetPassword from "./Page/Signup/ResetPassword.js";
 import Header from "./common/Header";
 import Footer from "./common/Footer";
-import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
 import Main from "./main/main";
 import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js";
 import NoticeBoard from "./Page/CustomerService/notice/noticeBoard.js";
@@ -22,15 +22,16 @@ function App() {
       <div className="app-container">
         <Header />
         <Routes>
-          {/* 기존 라우트 */}
+          {/* 메인 및 인증 관련 페이지 */}
           <Route path="/" element={<Main />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/findId" element={<FindId />} />
-          <Route path="/findPassword" element={<FindPassword />} />
-          <Route path="/resetPassword" element={<ResetPassword />} />
-          {/* JH - 추가된 라우트 */}
-          <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
+          <Route path="/find-id" element={<FindId />} />
+          <Route path="/find-password" element={<FindPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* 추가된 페이지 */}
+          <Route path="/market-info" element={<MarketInfoPage />} />
           <Route path="/notice" element={<NoticeBoard />} />
           <Route path="/notice/:id" element={<NoticeDetail />} />
           <Route path="/notice/new" element={<NoticeForm />} />
