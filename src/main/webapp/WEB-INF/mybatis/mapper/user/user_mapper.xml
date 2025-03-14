@@ -69,10 +69,4 @@
         WHERE user_id = #{userId}
     </delete>
     
-    <select id="getUserActivityLog" parameterType="string" resultType="map">
-    SELECT log_id, user_id AS userId, action, action_date AS actionDate
-    FROM user_activity_log
-    WHERE user_id = #{userId}
-    ORDER BY action_date DESC
-	</select>
 </mapper>
