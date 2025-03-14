@@ -102,7 +102,7 @@ function Signup() {
                 닉네임 <input type="text" onChange={(e) => setNickName(e.target.value)} 
                 onBlur={()=>{
                     axios.post(
-                        "/user/checkDupNickName",
+                        "user/checkDupNickName",
                         {
                             value : nickName.trim()
                         },
@@ -260,7 +260,7 @@ function Signup() {
                         console.log(response.data);
                         if (response.data == 'ok') {
                             alert("회원가입이 완료되었습니다!");
-                            window.location("/login");
+                            window.location("/");
                         }
                     })
                     .catch(error => {
