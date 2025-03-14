@@ -12,7 +12,7 @@ import com.app.dto.user.User;
 import com.app.service.signup.UserService;
 
 @Service
-public class UserServiceImpl2 implements UserService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDAO userDAO;
@@ -122,7 +122,7 @@ public class UserServiceImpl2 implements UserService {
 	}
 
 	@Override
-	public User getUserForEmail(String userEmail) {
+	public User getUserForEmain(String userEmail) {
 		return userDAO.getUserByEmail(userEmail);
 	}
 
@@ -148,12 +148,6 @@ public class UserServiceImpl2 implements UserService {
 	@Override
 	public void updatePassword(String userId, String newPassword) {
 		 userDAO.updatePassword(userId, newPassword);
-	}
-
-	@Override
-	public boolean isDuplicate(String type, String value) {
-		
-		return userDAO.isDuplicate(type, value) > 0;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.app.service.post;
 
 import java.util.List;
+
 import com.app.dto.image.Image;
 import com.app.dto.jjim.Jjim;
 import com.app.dto.post.Post;
@@ -37,9 +38,5 @@ public interface PostService {
 	
 	List<Post> getPostList(); // 리스트에 사용 할 모든 판매글정보 가져오기
 	
-	List<Post> getPostsByuserId(String userId);
-
-	Post getPostById(int postId);
-
 
 }

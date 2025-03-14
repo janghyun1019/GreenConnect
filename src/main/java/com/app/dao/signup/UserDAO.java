@@ -20,6 +20,5 @@ public interface UserDAO {
     List<User> NotifyUserList();
     void resetReport(List<String> userIds);
     void updatePassword(String userId, String newPassword);
-	int isDuplicate(String type, String value);
 	
 }

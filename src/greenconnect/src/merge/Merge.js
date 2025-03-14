@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Header from "../header/Header";
+import './Merge.css';
+import Body from '../pages/Body';
+import MyPage from '../myPage/MyPage';
+import MySetting from '../myPage/MySetting';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyPage from "../mypage/MyPage";
 import Cart from "../mypage/Cart";
@@ -32,6 +37,7 @@ import PayPage from "../pay/PayPage.js";
 import GpayChargePage from "../pay/GpayChargePage.js";
 
 function Merge() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
 

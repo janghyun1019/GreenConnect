@@ -14,9 +14,9 @@ import com.app.dto.post.Post;
 @Repository
 public class PostDAOImpl implements PostDAO {
 
-
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
+	
 
 	@Override
 	public String getLastPostId() {
@@ -120,5 +120,17 @@ public class PostDAOImpl implements PostDAO {
         return post;
     }
 
+	
+
+	
+	
+
+	
+
+	
+
+
+	
+	
 	
 }

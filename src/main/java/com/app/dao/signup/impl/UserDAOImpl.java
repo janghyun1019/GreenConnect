@@ -13,7 +13,7 @@ import com.app.dao.signup.UserDAO;
 import com.app.dto.user.User;
 
 @Repository
-public class UserDAOImpl2 implements UserDAO{
+public class UserDAOImpl implements UserDAO{
 
 	@Autowired			
 	SqlSessionTemplate sqlSessionTemplate;
@@ -105,14 +105,6 @@ public class UserDAOImpl2 implements UserDAO{
 
 	    sqlSessionTemplate.update("user_mapper.passwordUpdate", params);
 		
-	}
-
-	@Override
-	public int isDuplicate(String type, String value) {
-		 Map<String, Object> params = new HashMap<>();
-	     params.put("type", type);
-	     params.put("value", value);
-	     return sqlSessionTemplate.selectOne("user_mapper.isDuplicate", params);
 	}
 	
 }

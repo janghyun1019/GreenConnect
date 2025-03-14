@@ -18,7 +18,7 @@ function Login(){
 
             <button onClick={()=>{                
                 axios.post(
-                    "user/login",
+                    "/user/login",
                     {
                         userId ,
                         password

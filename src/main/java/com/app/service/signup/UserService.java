@@ -13,7 +13,7 @@ public interface UserService {
     User getUser(String userId);
     User getUserById(String userId);
     User getUserForJumin(String userJumin);
-    User getUserForEmail(String userEmail);
+    User getUserForEmain(String userEmail);
     int modifyUser(User user);
     int removeUser(String userId);
     List<User> getAllUsers();
@@ -26,7 +26,6 @@ public interface UserService {
 	boolean isDuplicatedEmail(String email);
 	boolean isDuplicatedPassword(String password);
 	void updatePassword(String userId, String newPassword);
-	boolean isDuplicate(String type, String value);
 	
 	//로그인을 위해 새로은 기능 추가 
 }
