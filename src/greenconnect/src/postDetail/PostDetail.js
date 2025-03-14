@@ -91,7 +91,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 const response = await axios.post("/api/deletePost/" + postId);
 
                 if (response.status === 200) {
-                    alert(response.data); // 성공 메시지 출력
+                    alert("해당 판매글이 삭제되었습니다."); // 성공 메시지 출력
                     navigate("/"); // 삭제 후 메인 페이지 이동
                 } else {
                     alert("삭제 실패: " + response.data);

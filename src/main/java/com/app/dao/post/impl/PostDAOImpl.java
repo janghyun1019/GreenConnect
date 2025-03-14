@@ -14,9 +14,9 @@ import com.app.dto.post.Post;
 @Repository
 public class PostDAOImpl implements PostDAO {
 
+
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-	
 
 	@Override
 	public String getLastPostId() {
@@ -108,29 +108,17 @@ public class PostDAOImpl implements PostDAO {
 		return postList;
 	}
 
-	@Override
-    public List<Post> getPostsByUserId(String userId) {
-        List<Post> postList = sqlSessionTemplate.selectList("post_mapper.selectPostsByUserId", userId);
-        return postList;
-    }
+//	@Override
+//    public List<Post> getPostsByUserId(String userId) {
+//        List<Post> postList = sqlSessionTemplate.selectList("post_mapper.selectPostsByUserId", userId);
+//        return postList;
+//    }
+//
+//    @Override
+//    public Post getPostById(int postId) {
+//        Post post = sqlSessionTemplate.selectOne("post_mapper.selectPostById", postId);
+//        return post;
+//    }
 
-    @Override
-    public Post getPostById(String postId) {
-        Post post = sqlSessionTemplate.selectOne("post_mapper.selectPostById", postId);
-        return post;
-    }
-
-	
-
-	
-	
-
-	
-
-	
-
-
-	
-	
 	
 }

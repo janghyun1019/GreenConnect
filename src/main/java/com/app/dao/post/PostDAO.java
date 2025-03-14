@@ -1,7 +1,6 @@
 package com.app.dao.post;
 
 import java.util.List;
-
 import com.app.dto.image.Image;
 import com.app.dto.jjim.Jjim;
 import com.app.dto.post.Post;
@@ -37,13 +36,8 @@ public interface PostDAO {
 	List<String> getPostDetailsImageUrlsByPostId(String postId);
 	
 	List<Post> getPostList();
-
-	List<Post> getPostsByUserId(String userId);
-
-	Post getPostById(String postId);
 	
-	
-	
-	
-
+//	List<Post> getPostsByUserId(String userId); 
+//
+//    Post getPostById(int postId); 
 }

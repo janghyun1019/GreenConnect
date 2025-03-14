@@ -1,79 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:task="http://www.springframework.org/schema/task"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-             http://www.springframework.org/schema/beans/spring-beans.xsd 
-             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
-             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
-             http://www.springframework.org/schema/context
-             http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
 
-    <!-- 데이터베이스 연결 설정 -->
-    <bean class="org.apache.commons.dbcp2.BasicDataSource" id="data_source">
-        <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
-        <property name="username" value="scott" />
-        <property name="password" value="tiger" />
-    </bean>
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- MyBatis SQL 세션 팩토리 설정 -->
-    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
-        <property name="dataSource" ref="data_source"></property>
-        <property name="mapperLocations" value="/WEB-INF/mybatis/mapper/**/*_mapper.xml"></property>
-        <property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml"></property>
-    </bean>
+	<!-- roomDAO 등록 -->
+	<!-- <bean id="roomDAO" class="com.app.dao.room.impl.RoomDAOImpl"></bean> -->
 
-    <!-- MyBatis SQL 세션 템플릿 설정 -->
-    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>
+	<!-- roomService 에 roomDAO 주입 -->
+	<!-- <bean id="roomService" class="com.app.service.room.impl.RoomServiceImpl"> -->
+	<!-- 생성자를 통한 의존성 주입 -->
+	<!-- <constructor-arg ref="roomDAO"></constructor-arg> -->
 
-    <!-- 추가: MyBatis MapperScannerConfigurer -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.app.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
+	<!-- set 을 통해 의존성 주입 -->
+	<!-- <property name="roomDAO" ref="roomDAO"></property> -->
+	<!-- </bean> -->
 
-    <!-- 추가: 트랜잭션 매니저 설정 -->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="data_source" />
-    </bean>
+	<bean class="org.apache.commons.dbcp2.BasicDataSource"
+		id="data_source">
+		<property name="driverClassName"
+			value="oracle.jdbc.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactory">
+		<property name="dataSource" ref="data_source"></property>
+		<property name="mapperLocations"
+			value="/WEB-INF/mybatis/mapper/**/*_mapper.xml"></property>
+		<property name="configLocation"
+			value="/WEB-INF/mybatis/mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+	</bean>
+	
+<!-- 	<context:component-scan -->
+<!-- 		base-package="com.app.service"></context:component-scan> -->
+<!-- 	<context:component-scan -->
+<!-- 		base-package="com.app.dao"></context:component-scan> -->
+<!-- 	<bean id="sampleScheduler" class="com.app.scheduler.MyScheduler" /> -->
+<!-- 	<task:scheduler id="mainScheduler" pool-size="10" /> -->
+<!-- 	<task:executor id="mainTaskExecutor" pool-size="10" /> -->
+<!-- 	<task:annotation-driven -->
+<!-- 		executor="mainTaskExecutor" scheduler="mainScheduler" /> -->
 
-    <!-- 추가: @Transactional 어노테이션을 위한 트랜잭션 설정 -->
-    <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" id="transactionAttributeSource"/>
-    <bean class="org.springframework.transaction.interceptor.TransactionInterceptor" id="transactionInterceptor">
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="transactionAttributeSource" ref="transactionAttributeSource"/>
-    </bean>
-    
-    <!-- JdbcTemplate Bean 등록 -->
-<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-    <property name="dataSource" ref="data_source"/>
-</bean>
-
-    <context:component-scan base-package="com.app.service"/>
-    <context:component-scan base-package="com.app.dao"/>
-
-    <!-- 이메일 인증 관련 등록 -->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com" />
-        <property name="port" value="587" />
-        <property name="username" value="cording1kyu@gmail.com" />
-        <property name="password" value="ruok chmu ttfx nqtp" />
-        <!-- 보안연결 SSL과 관련된 설정 -->
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.smtp.checkserveridentity">true</prop>
-                <prop key="mail.smtp.ssl.trust">*</prop>
-                <prop key="mail.debug">true</prop>
-                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-            </props>
-        </property>
-    </bean>
 </beans>
