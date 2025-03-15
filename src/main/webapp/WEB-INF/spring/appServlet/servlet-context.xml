@@ -78,10 +78,10 @@ org.springframework.http.converter.StringHttpMessageConverter ">
 			</property>
 		</bean>
 
-		<!-- MailService 등록 -->
-		<bean id="mailService" class="com.app.service.signup.MailService">
-			<property name="mailSender" ref="mailSender" />
-		</bean>
+<!-- 		 MailService 등록 -->
+<!-- 		<bean id="mailService" class="com.app.service.signup.MailService"> -->
+<!-- 			<property name="mailSender" ref="mailSender" /> -->
+<!-- 		</bean> -->
 	</beans>
 
 
