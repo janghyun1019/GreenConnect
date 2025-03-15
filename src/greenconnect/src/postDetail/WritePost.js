@@ -119,7 +119,6 @@ function WritePost() {
     };
 
     // 우편주소api
-
     const searchPostalCode = () => {
         if (!window.daum || !window.daum.Postcode) {
             const script = document.createElement('script');
