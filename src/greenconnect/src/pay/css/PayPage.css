@@ -14,14 +14,7 @@
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.payPageContainer input[type='text'] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.payPageMainContainer h1 {
+h1 {
     text-align: center;
     font-size: 30px;
     margin-bottom: 20px;
@@ -40,10 +33,7 @@
 
 /* 거래 방식 */
 .payTradingTypeBox {
-    margin-bottom: 10px;
-}
-.payTradingTypeBox div label input{
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 .payTradingTypeTitle {
     font-weight: bold;
@@ -53,26 +43,22 @@
 /* 배송지 입력 */
 .payBuyerAdressBox {
     margin-bottom: 15px;
-    padding: 15px 0 15px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
 }
-
 .payBuyerAdressTitle {
     font-weight: bold;
     margin-bottom: 10px;
 }
-
-.pay-postal-code-container input {
-    margin-top: 5px;
+input[type='text'] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 /* 요청 사항 */
 .payRequestBox {
     margin-bottom: 15px;
 }
-
 .payRequestTitle {
     font-weight: bold;
     margin-bottom: 10px;
@@ -82,11 +68,6 @@
 .paymentType {
     margin-bottom: 15px;
 }
-
-.paymentType div label input{
-    margin-bottom: 12px;
-}
-
 .paymentTypeTitle {
     font-weight: bold;
     margin-bottom: 10px;
@@ -125,7 +106,7 @@
 
 /* 결제 금액 */
 .payTotalPriceBox {
-    background-color: #f8f8f8;
+    background: #f8f8f8;
     padding: 15px;
     border-radius: 5px;
     text-align: left;

@@ -7,7 +7,6 @@
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
-	
 	<typeAliases>	 
 		<typeAlias type="com.app.dto.image.Image" alias="Image"/>
 		<typeAlias type="com.app.dto.user.User" alias="User" />
@@ -15,15 +14,6 @@
 		<typeAlias type="com.app.dto.buy.Buy" alias="Buy" />
 		<typeAlias type="com.app.dto.jjim.Jjim" alias="Jjim" />
 		<typeAlias type="com.app.dto.report.UserReport" alias="UserReport" />
-
-		<typeAlias type="com.app.dto.profile.Profile" alias="Profile"/>
-		<typeAlias type="com.app.dto.users.Users" alias="Users"/>
-		<typeAlias type="com.app.dto.address.Address" alias="Address"/>
-		<typeAlias type="com.app.dto.card.Card" alias="Card"/>
-		<typeAlias type="com.app.dto.cart.Cart" alias="Cart"/>
-		<typeAlias type="com.app.dto.jjim.JjimVO" alias="JjimVO"/>
-		<typeAlias type="com.app.dto.admin.Admin" alias="Admin"/>
-
 <!-- 		<typeAlias type="com.app.dto.signup.User" alias="User" />
 		<typeAlias type="com.app.dto.festival.Festival" alias="Festival"/>
 		<typeAlias type="com.app.dto.festival.FestivalImage" alias="FestivalImage"/>
@@ -33,4 +23,8 @@
 		<typeAlias type="com.app.dto.review.Comment" alias="Comment" />
 		<typeAlias type="com.app.dto.review.ReviewImages" alias="ReviewImages" /> -->
 	</typeAliases>
+	
+	
+	
+	
 </configuration>

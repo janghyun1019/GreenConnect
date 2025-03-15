@@ -37,7 +37,7 @@ public interface PostDAO {
 	
 	List<Post> getPostList();
 	
-	List<Post> getPostsByUserId(String userId); 
-
-    Post getPostById(int postId); 
+//	List<Post> getPostsByUserId(String userId); 
+//
+//    Post getPostById(int postId); 
 }

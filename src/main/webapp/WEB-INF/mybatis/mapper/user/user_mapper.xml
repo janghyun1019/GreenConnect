@@ -17,9 +17,9 @@
 	<update id="updateUser" parameterType="User">
 		UPDATE users
 		SET username=
-		#{userName}, nickname=#{nickName},<!-- password=#{password}, -->
+		#{userName}, nickname=#{nickName},password=#{password},
 		email= #{email}, tel=
-		#{tel}<!-- , jumin=#{jumin} -->
+		#{tel}, jumin=#{jumin}
 		, user_type=#{userType}
 		WHERE user_id = #{userId}
 	</update>

@@ -323,27 +323,16 @@ public class PostController {
         }
 	}
 	
-	@GetMapping("/mypage/post/user/{userId}")
-	public List<Post> getPostByUserId(@PathVariable String userId){
-		
-		return postService.getPostsByuserId(userId);
-	}
-
-	@GetMapping("/mypage/post/{postId}")
-	public Post getPostById(@PathVariable int postId) {
-		return postService.getPostById(postId);
-	}
+//	@GetMapping("/mypage/post/user/{userId}")
+//	public List<Post> getPostByUserId(@PathVariable String userId){
+//		
+//		return postService.getPostsByuserId(userId);
+//	}
+//
+//	@GetMapping("/mypage/post/{postId}")
+//	public Post getPostById(@PathVariable int postId) {
+//		return postService.getPostById(postId);
+//	}
 	
 
 }
-
-
-
-
-
-
-
-
-
-
-
