@@ -24,11 +24,11 @@ public class ReportController {
 	ResponseEntity<?> savePostReport(@RequestBody UserReport userReport) {
 		
 		System.out.println(userReport);
-		System.out.println(userReport.getUserId());
-		System.out.println(userReport.getReportContent());
-		System.out.println(userReport.getReportedPostId());
-		System.out.println(userReport.getReportedUserNickName());
-		System.out.println(userReport.getReportedUserId());
+		System.out.println("신고자: " + userReport.getUserId());
+		System.out.println("신고사유: " + userReport.getReportContent());
+		System.out.println("신고당한 판매글 postId: " + userReport.getReportedPostId());
+		System.out.println("신고당한 유저 아이디" + userReport.getReportedUserId());
+		System.out.println("신고당한 유저 닉네임" + userReport.getReportedUserNickName());
 		
 		int result = reportService.savePostReport(userReport);
 		

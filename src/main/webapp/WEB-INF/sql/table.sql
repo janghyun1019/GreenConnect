@@ -118,7 +118,8 @@ CREATE Table user_report(
   reported_user_nick_name varchar2 (32) not null, -- 신고당하는 유저닉네임
   reported_post_id varchar2 (32), -- 신고당하는 포스트아이디
   report_content varchar2(1000) not null, -- 신고사유
-  report_result varchar2(32) -- 신고 결과
+  report_result varchar2(32), -- 신고 결과
+  report_create_at TIMESTAMP DEFAULT SYSTIMESTAMP
 );
 
 CREATE Table report(

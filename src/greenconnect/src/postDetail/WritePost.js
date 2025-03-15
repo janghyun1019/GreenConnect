@@ -11,6 +11,9 @@ function WritePost() {
     const [salesUnit, setSalesUnit] = useState('');
     const [price, setPrice] = useState('');
     const [spot, setSpot] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [address1, setAdress1] = useState('');
+    const [address2, setAdress2] = useState('');
     const [cost, setCost] = useState('');
     const [storeId, setStoreId] = useState('');
     const [images, setImages] = useState([]); // 여러 이미지를 관리할 상태 추가
@@ -21,14 +24,7 @@ function WritePost() {
     const [adressError, setAdressError] = useState({});
     const [isLoadingAdress, setIsLoadingAdress] = useState(false);
     const [address, setAddress] = useState(null);
-    const [formData, setFormData] = useState({
-        receiver: '',
-        phone: '',
-        postal_code: '',
-        address1: '',
-        address2: '',
-        is_default: false
-    });
+    const [formData, setFormData] = useState(null);
 
     useEffect(() => {
         // 세션에서 사용자 정보 가져오기 (localStorage나 sessionStorage에서)
@@ -52,6 +48,11 @@ function WritePost() {
             return; // 로그인하지 않았으면 폼 제출 방지
         }
 
+        if(!postalCode || !address1) {
+            window.alert('우편번호 및 기본주소를 선택 해 주세요');
+            return;
+        }
+
         // 컨펌 창 띄우기
         const isConfirmed = window.confirm("저장하시겠습니까?");
         if (isConfirmed) {
@@ -61,9 +62,13 @@ function WritePost() {
             formData.append('content', content);
             formData.append('salesUnit', salesUnit);
             formData.append('price', price);
-            formData.append('spot', spot);
+            const fullAddress =`${postalCode} ${address1} ${address2}`.trim();
+            formData.append('spot', fullAddress);
             formData.append('cost', cost);
             formData.append('storeId', storeId);
+
+            console.log(postalCode);
+            console.log(address1);
 
             // 이미지 배열 처리
             images.forEach((image) => {
@@ -114,13 +119,6 @@ function WritePost() {
     };
 
     // 우편주소api
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value
-        });
-    };
 
     const searchPostalCode = () => {
         if (!window.daum || !window.daum.Postcode) {
@@ -136,11 +134,8 @@ function WritePost() {
     const openPostcode = () => {
         new window.daum.Postcode({
             oncomplete: function(data) {
-                setFormData({
-                    ...formData,
-                    postal_code: data.zonecode,
-                    address1: data.roadAddress || data.jibunAddress
-                });
+                setPostalCode(data.zonecode)
+                setAdress1(data.roadAddress || data.jibunAddress)
             }
         }).open();
     };
@@ -240,10 +235,11 @@ function WritePost() {
                                 type="text"
                                 name="postal_code"
                                 placeholder="우편번호 검색"
-                                value={formData.postal_code}
-                                onChange={handleChange}
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
                                 className={adressError.postal_code ? 'error' : ''}
                                 readOnly
+                                required
                             />
                             <button style={{padding:'5px', margin:'5px 0 5px 0', backgroundColor:'white',fontWeight:'bold' , borderRadius:'5px'}}
                                 type="button"
@@ -262,10 +258,11 @@ function WritePost() {
                             type="text"
                             name="address1"
                             placeholder="우편번호를 검색 해 주세요."
-                            value={formData.address1}
-                            onChange={handleChange}
+                            value={address1}
+                            onChange={(e) => setAdress1(e.target.value)}
                             className={adressError.address1 ? 'error' : ''}
                             readOnly
+                            required
                         />
                         {adressError.address1 && <span className="error-text">{adressError.address1}</span>}
                     </div>
@@ -275,9 +272,10 @@ function WritePost() {
                         <input
                             type="text"
                             name="address2"
+                            value={address2}
                             placeholder="상세 주소를 입력 해 주세요."
-                            value={formData.address2}
-                            onChange={handleChange}
+                            onChange={(e) => setAdress2(e.target.value)}
+                            required
                         />
                     </div>
                 </div>
