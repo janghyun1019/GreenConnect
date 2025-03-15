@@ -39,7 +39,7 @@ public class JwtProvider {
 	 * AccessToken 생성.
 	 * 현재 로그인 처리할 사용자의 아이디를 기준으로 토큰 생성
 	 */
-	public static String createAccessToken(String userId) {
+	public static String createAccessToken(Object object) {
 		Date now = new Date(System.currentTimeMillis());
 
 		// SecretKey 는 binary 데이터
@@ -47,7 +47,7 @@ public class JwtProvider {
 
 		/* 토큰이 보관할 회원ID */
 		// 비공개 클레임
-		Claims claims = Jwts.claims().add("userId", userId).build();
+		Claims claims = Jwts.claims().add("userId", object).build();
 		
 		return Jwts.builder()
 					.header()
