@@ -17,6 +17,19 @@ function WritePost() {
     const [user, setUser] = useState(null);
     const [currentTime, setCurrentTime] = useState('');
 
+    // 우편 주소 검색
+    const [adressError, setAdressError] = useState({});
+    const [isLoadingAdress, setIsLoadingAdress] = useState(false);
+    const [address, setAddress] = useState(null);
+    const [formData, setFormData] = useState({
+        receiver: '',
+        phone: '',
+        postal_code: '',
+        address1: '',
+        address2: '',
+        is_default: false
+    });
+
     useEffect(() => {
         // 세션에서 사용자 정보 가져오기 (localStorage나 sessionStorage에서)
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')); // 세션에 저장된 사용자 정보 가져오기
@@ -98,6 +111,38 @@ function WritePost() {
             // 취소 시 아무것도 하지 않음
             return;
         }
+    };
+
+    // 우편주소api
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
+
+    const searchPostalCode = () => {
+        if (!window.daum || !window.daum.Postcode) {
+            const script = document.createElement('script');
+            script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+            script.onload = () => openPostcode();
+            document.head.appendChild(script);
+        } else {
+            openPostcode();
+        }
+    };
+
+    const openPostcode = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+                setFormData({
+                    ...formData,
+                    postal_code: data.zonecode,
+                    address1: data.roadAddress || data.jibunAddress
+                });
+            }
+        }).open();
     };
 
 
@@ -188,7 +233,55 @@ function WritePost() {
                     />
                 </div>
 
-                <div className='postSpot'>농장주소 :
+                <div className="writeBuyerAdressBoxApi">
+                        <label>우편번호 *</label>
+                        <div className="write-postal-code-container">
+                            <input
+                                type="text"
+                                name="postal_code"
+                                placeholder="우편번호 검색"
+                                value={formData.postal_code}
+                                onChange={handleChange}
+                                className={adressError.postal_code ? 'error' : ''}
+                                readOnly
+                            />
+                            <button style={{padding:'5px', margin:'5px 0 5px 0', backgroundColor:'white',fontWeight:'bold' , borderRadius:'5px'}}
+                                type="button"
+                                className="search-button"
+                                onClick={searchPostalCode}
+                            >
+                                우편번호 검색
+                            </button>
+                        </div>
+                        {adressError.postal_code && <span className="error-text">{adressError.postal_code}</span>}
+                    
+
+                    <div className="write-postal-code-container">
+                        <label>기본 주소 *</label>
+                        <input
+                            type="text"
+                            name="address1"
+                            placeholder="우편번호를 검색 해 주세요."
+                            value={formData.address1}
+                            onChange={handleChange}
+                            className={adressError.address1 ? 'error' : ''}
+                            readOnly
+                        />
+                        {adressError.address1 && <span className="error-text">{adressError.address1}</span>}
+                    </div>
+
+                    <div className="write-postal-code-container">
+                        <label>상세 주소</label>
+                        <input
+                            type="text"
+                            name="address2"
+                            placeholder="상세 주소를 입력 해 주세요."
+                            value={formData.address2}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
+                {/* <div className='postSpot'>농장주소 :
                     <input
                         type="text"
                         id="spot"
@@ -199,7 +292,7 @@ function WritePost() {
                         placeholder="농장주소를 입력하세요."
                         maxLength="100"
                     />
-                </div>
+                </div> */}
 
                 <div className='postCost'>배송비 :
                     <input
