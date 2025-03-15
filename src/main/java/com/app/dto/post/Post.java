@@ -10,5 +10,6 @@ public class Post {
 	String userId;
 	String title;
 	String content;
+	String postState;
 	Date createdAt;
 }

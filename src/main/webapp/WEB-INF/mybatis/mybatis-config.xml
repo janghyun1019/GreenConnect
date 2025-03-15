@@ -18,5 +18,9 @@
 		<typeAlias type="com.app.dto.jjim.Jjim" alias="Jjim"/>
 		<typeAlias type="com.app.dto.jjim.JjimVO" alias="JjimVO"/>
 		<typeAlias type="com.app.dto.admin.Admin" alias="Admin"/>
+		<typeAlias type="com.app.dto.trade.Trade" alias="Trade"/>
+		<typeAlias type="com.app.dto.report.Report" alias="Report"/>
+		<typeAlias type="com.app.dto.report.UserReport" alias="UserReport"/>
+		<typeAlias type="com.app.dto.faq.Faq" alias="Faq"/>
 	</typeAliases>
 </configuration>
