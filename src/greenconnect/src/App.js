@@ -1,17 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
-import Signup from "./Page/Signup/Signup.js";
-import Login from "./Page/Signup/Login.js";
-import FindId from "./Page/Signup/FindId.js";
-import FindPassword from "./Page/Signup/FindPassword.js";
-import ResetPassword from "./Page/Signup/ResetPassword.js";
+import Signup from "./Page/Signup/Signup"; // 경로 조정
+import Login from "./Page/Signup/Login"; // 경로 조정
+import FindId from "./Page/Signup/FindId"; // 경로 조정
+import FindPassword from "./Page/Signup/FindPassword"; // 경로 조정
+import ResetPassword from "./Page/Signup/ResetPassword"; // 경로 조정
 import Header from "./common/Header";
 import Footer from "./common/Footer";
 import Main from "./main/main";
-import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js";
-import NoticeBoard from "./Page/CustomerService/notice/noticeBoard.js";
-import NoticeDetail from "./Page/CustomerService/notice/NoticeDetail.js";
-import NoticeForm from "./Page/CustomerService/notice/NoticeForm.js";
+import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage";
+import NoticeBoard from "./Page/CustomerService/notice/noticeBoard";
+import NoticeDetail from "./Page/CustomerService/notice/NoticeDetail";
+import NoticeForm from "./Page/CustomerService/notice/NoticeForm";
+import Merge from "./merge/Merge"; // Merge 컴포넌트 추가
 
 function App() {
   const inRouter = useInRouterContext();
@@ -36,6 +37,9 @@ function App() {
           <Route path="/notice/:id" element={<NoticeDetail />} />
           <Route path="/notice/new" element={<NoticeForm />} />
           <Route path="/notice/edit/:id" element={<NoticeForm />} />
+
+          {/* Merge 컴포넌트 추가 */}
+          <Route path="/merge" element={<Merge />} />
         </Routes>
         <Footer />
       </div>
