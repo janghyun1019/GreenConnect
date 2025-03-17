@@ -59,10 +59,10 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 setLoading(false); // 로딩 끝
             }
         };
-
+        
         fetchPostDetail();
     }, [postId]); // postId가 변경되면 다시 실행
-
+    
     useEffect(() => {
         // 서버에서 이미지데이터 가져오기
         const fetchPostDetailImages = async () => {
@@ -106,7 +106,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     const handleReportClick = () => { // 팝업 오픈
         if (!buyUser) {
             if (window.confirm('로그인 후 신고가 가능합니다. 로그인 하시겠습니까?')) {
-                window.location.href = '/login'; // 로그인 페이지로 이동
+                navigate("/login"); // 로그인 페이지로 이동
             }
             return; // 로그인하지 않으면 함수 종료
         }
@@ -188,7 +188,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
         // 로그인 확인
         if (!buyUser) {
             if (window.confirm('로그인 후 담기가 가능합니다. 로그인 하시겠습니까?')) {
-                window.location.href = '/login'; // 로그인 페이지로 이동
+                navigate("/login"); // 로그인 페이지로 이동
             }
             return; // 로그인하지 않으면 함수 종료
         }
@@ -211,6 +211,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 nickName: buyUser.nickname,
                 boardId: 1,
                 postId: postDetail.postId,
+                postUserId: postDetail.postUserId,
                 buyCount: buyCount,
                 totalPrice: totalPrice,
                 totalGram: totalGram,
@@ -250,7 +251,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
         // 로그인 확인
         if (!buyUser) {
             if (window.confirm('로그인 후 구매 가능합니다. 로그인 하시겠습니까?')) {
-                window.location.href = '/login'; // 로그인 페이지로 이동
+                navigate("/login"); // 로그인 페이지로 이동
             }
             return; // 로그인하지 않으면 함수 종료
         }
@@ -273,6 +274,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 nickName: buyUser.nickname,
                 boardId: 1,
                 postId: postDetail.postId,
+                postUserId: postDetail.userId,
                 buyCount: buyCount,
                 totalPrice: totalPrice,
                 totalGram: totalGram,
@@ -346,7 +348,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
     const handleSaveJjimSubmit = async () => {  // 찜 하기
         if (!buyUser) {
             if (window.confirm('로그인 후 가능합니다. 로그인 하시겠습니까?')) {
-                window.location.href = '/login'; // 로그인 페이지로 이동
+                navigate("/login"); // 로그인 페이지로 이동
             }
             return; // 로그인 안하면 종료
         }

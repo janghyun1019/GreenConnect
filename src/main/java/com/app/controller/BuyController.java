@@ -43,5 +43,18 @@ public class BuyController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No buy info found for the given userId and postId");
 	    }
 	}
+	
+	@PostMapping("/api/payProduct")
+	public ResponseEntity<?> payProduct(@RequestBody Buy buy) {
+		System.out.println("결제하려는 정보: " + buy);
+		
+		int result = buyService.payProduct(buy);
+		
+		if (result > 0) {
+            return ResponseEntity.ok("성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+        }
+	}
 
 }

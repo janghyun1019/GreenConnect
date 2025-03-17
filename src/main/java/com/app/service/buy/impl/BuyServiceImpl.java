@@ -25,6 +25,12 @@ public class BuyServiceImpl implements BuyService {
 		return buyInfo;
 	}
 
+	@Override
+	public int payProduct(Buy buy) {
+		int result = buyDAO.payProduct(buy);
+		return result;
+	}
+
 	
 	
 }

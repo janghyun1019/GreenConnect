@@ -99,11 +99,29 @@ CREATE TABLE BUY (
     user_id     VARCHAR2(50) NOT NULL,   -- 사용자 ID
     nick_name   VARCHAR2(50) NOT NULL,   -- 닉네임
     board_id    NUMBER NOT NULL,         -- 게시판 ID
-    post_id     VARCHAR2(50) NOT NULL,         -- 게시글 ID (숫자로 저장)
-    buy_count   VARCHAR2(50) NOT NULL,         -- 구매 수량 (숫자로 저장)
-    total_price VARCHAR2(50) NOT NULL,         -- 총 가격 (숫자로 저장)
-    total_gram    VARCHAR2(50) NOT NULL,         -- 총 주문량 (숫자로 저장)
-    created_at  TIMESTAMP DEFAULT SYSTIMESTAMP  -- 주문 날짜 (기본값: 현재 시간)
+    post_id     VARCHAR2(50) NOT NULL,         -- 게시글 ID
+    post_user_id VARCHAR2(50) NOT NULL,   -- 판매글 작성자 ID
+    buy_count   VARCHAR2(50) NOT NULL,         -- 구매 수량
+    total_price VARCHAR2(50) NOT NULL,         -- 총 가격
+    total_gram    VARCHAR2(50) NOT NULL,         -- 총 주문량
+    created_at  TIMESTAMP DEFAULT SYSTIMESTAMP,  -- 주문 날짜 (기본값: 현재 시간)
+    
+    trading_type varchar2(50), -- 거래방식
+    request_content varchar2(300), --배송요청사항
+    buyer_total_address varchar2(500), -- 배송지 주소
+    receiver varchar2(50), -- 수령인
+    
+    payment_type varchar2(50), -- 결제방식
+    receipt_applied varchar2(10), -- 현금영수증 소득공제 신청 여부
+    receipt_type varchar2(50), -- 개인소득공제용 or 사업자증빙용
+    receipt_phone_num varchar2(50), -- 개인소득공제용 폰번호
+    receipt_business_regi_num varchar2(50), -- 사업자증빙용 사업자번호
+    service_terms_agreement varchar2(10) default 'N', -- 서비스 이용약관 동의  
+    payment_agency_terms_agreement varchar2(10) default 'N', -- 결제대행 서비스 이용약관 동의  
+    personal_info_collection_agreement varchar2(10) default 'N', -- 개인정보 수집 및 이용 동의  
+    personal_info_third_party_agreement varchar2(10) default 'N', -- 개인정보 제3자 제공 동의  
+    
+    pay_state VARCHAR2(10) DEFAULT 'N'  -- 결제 상태 Y:결제완료 N:결제미완료
 );
 
 create sequence buy_id_seq

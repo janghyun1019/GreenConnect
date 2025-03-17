@@ -13,14 +13,5 @@ public class User {
 	private String tel;
 	private String jumin;
 	private String userType;
-
-	String userId;
-	String userName;
-	String nickName;
-	String password;
-	String email;
-	String tel;
-	String jumin;
-	String userType;
 	
 }

@@ -2,11 +2,14 @@ import axios, { formToJSON } from "axios";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {loginUser, logoutUser} from "../../store/store";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Login(){
         let dispatch = useDispatch();
         let [userId, setUserId] = useState('');
         let [password, setPassWord] = useState('');
+
+        const navigate = useNavigate();
 
     return(
     <div>
@@ -34,16 +37,21 @@ function Login(){
                     let accessToken = data.accessToken;
                     let refreshToken = data.refreshToken;
                     let nickname = data.nickname;
+                    let userId = data.userId;
                     dispatch(loginUser(data));
+                    localStorage.setItem("loggedInUser", JSON.stringify(data));
                     console.log("토큰: ", accessToken);
                     console.log("리프레시: ", refreshToken);
                     console.log("닉네임: ", nickname);
+                    console.log("아이디:", userId);
                     if(nickname != null){
                         alert("환영합니다 "+nickname+"님!");
                     }else{
                         alert(data.message);
                     }
                     //메인화면으로 돌아가기
+                    navigate("/");
+
                 })
                 .catch(error => {
                     alert("로그인 실패: "+ error);

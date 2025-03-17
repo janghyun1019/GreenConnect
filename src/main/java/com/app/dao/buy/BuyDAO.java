@@ -7,5 +7,7 @@ public interface BuyDAO {
 	int saveBuyInfo(Buy buy);
 	
 	Buy getBuyInfoByUserIdAndPostId(Buy buy);
+	
+	int payProduct(Buy buy);
 
 }

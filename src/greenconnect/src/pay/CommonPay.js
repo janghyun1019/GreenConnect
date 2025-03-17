@@ -1,50 +1,64 @@
 import { useEffect, useState } from "react";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 
-function CommonPay() {
+function CommonPay({ buyUser, buyInfo }) {
 
-    const [buyUser, setBuyUser] = useState(null);
     const [paymentWidgetState, setPaymentWidgetState] = useState(null);
     const [paymentMethodsWidgetState, setPaymentMethodsWidgetState] = useState(null);
-    const [price, setPrice] = useState(300);
 
-    const [clientKey,setClientKey] = useState(null);
-    const [customerKey,setCustomerKey]= useState(null);
-
-    // useEffect(() => {
-    //     // 세션에서 사용자 정보 가져오기 (localStorage나 sessionStorage에서)
-    //     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')); // 세션에 저장된 사용자 정보 가져오기
-    //     if (loggedInUser) {
-    //         setBuyUser(loggedInUser);
-    //     }
-    // }, []);
+    const [clientKey, setClientKey] = useState(null);
+    const [customerKey, setCustomerKey] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        if (buyUser) {
+            setClientKey("test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm");
+            setCustomerKey("pcj123pcj123");
+        }
+    }, [buyUser]);
+
+    useEffect(() => {
+        if (!clientKey || !customerKey) return; // clientKey와 customerKey가 모두 설정된 후에 실행
+
         const initializePaymentWidget = async () => {
-            const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
+            try {
+                const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
 
-            const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
-                "#payment-widget",
-                price
-            );
+                const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+                    "#payment-widget",
+                    buyInfo.postPrice
+                );
 
-            // useState로 상태 업데이트
-            setPaymentWidgetState(paymentWidget);
-            setPaymentMethodsWidgetState(paymentMethodsWidget);
-            console.log("결제 위젯 초기화 완료!");
+                // 위젯 상태 설정
+                setPaymentWidgetState(paymentWidget);
+                setPaymentMethodsWidgetState(paymentMethodsWidget);
+
+                setIsLoading(false);
+                console.log("결제 위젯 초기화 완료!");
+            } catch (error) {
+                console.error("결제 위젯 초기화 실패:", error);
+                setIsLoading(false);
+            }
         };
 
         initializePaymentWidget();
-    }, []);
+    }, [clientKey, customerKey, buyInfo.postPrice]);
+
+    // useEffect(() => {
+    //     const paymentMethodsWidget = paymentMethodsWidgetState;
+
+    //     if (paymentMethodsWidget == null) {
+    //         return;
+    //     }
+    //     paymentMethodsWidget.updateAmount(buyInfo.postPrice);
+    // }, [buyInfo.postPrice, paymentMethodsWidgetState]);
 
     useEffect(() => {
-        const paymentMethodsWidget = paymentMethodsWidgetState;
-
-        if (paymentMethodsWidget == null) {
-            return;
-        }
-
-    }, [price, paymentMethodsWidgetState]);
+    // paymentMethodsWidgetState가 정상적으로 로드된 경우에만 updateAmount 호출
+    if (paymentMethodsWidgetState) {
+        paymentMethodsWidgetState.updateAmount(buyInfo.postPrice);
+    }
+}, [buyInfo.postPrice, paymentMethodsWidgetState]);
 
     const handlePayment = async () => {
         console.log("handlePayment 실행됨");
@@ -57,9 +71,9 @@ function CommonPay() {
         }
         try {
             await paymentWidget.requestPayment({
-                orderId: "zz",
-                orderName: "토스 티셔츠 외 2건",
-                customerName: "김토스",
+                orderId: buyInfo.userId,
+                orderName: buyInfo.postTitle,
+                customerName: buyInfo.nickName,
                 customerEmail: "customer123@gmail.com"
             });
             console.log("결제 요청 성공!");
@@ -68,11 +82,13 @@ function CommonPay() {
         }
     };
 
+    if (isLoading) {
+        return <div>로딩 중...</div>; // 로딩 중일 때는 로딩 메시지 표시
+    }
+
     return (
         <div>
-            <h1>주문서</h1>
             <div id="payment-widget" />
-            <button onClick={handlePayment}>결제하기</button>
         </div>
     );
 }

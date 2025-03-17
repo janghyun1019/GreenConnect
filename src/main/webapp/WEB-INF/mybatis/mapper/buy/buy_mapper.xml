@@ -5,25 +5,57 @@
 
 	
 	<insert id="saveBuyInfo" parameterType="Buy">
-		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, buy_count, total_price, total_gram)
-	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{buyCount}, #{totalPrice}, #{totalGram})
+		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, post_user_id, buy_count, total_price, total_gram)
+	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{postUserId}, #{buyCount}, #{totalPrice}, #{totalGram})
 	</insert>
 	
 	<select id="getBuyInfoByUserIdAndPostId" parameterType="Buy" resultType="Buy">
     SELECT 
         b.*,
-        p.user_id AS post_user_id, 
-        p.nick_name AS post_nick_name, 
-        p.post_title, 
-        p.url_file_path, 
-        p.post_price, 
+        p.user_id AS post_user_id,
+        p.nick_name AS post_nick_name,
+        p.post_title,
+        p.url_file_path,
+        p.post_price,
         p.post_cost
 	    FROM buy b
 	    JOIN post p ON b.post_id = p.post_id
-	    WHERE b.user_id = #{userId} 
-	      AND b.post_id = #{postId} 
+	    WHERE b.user_id = #{userId}
+	      AND b.post_id = #{postId}
 	      AND b.buy_id = (SELECT MAX(buy_id) FROM buy WHERE user_id = #{userId} AND post_id = #{postId})
 	</select>
+	
+	<update id="payProduct" parameterType="Buy">
+    UPDATE BUY
+    SET 
+        total_price = #{totalPrice},
+        created_at = systimestamp,
+        trading_type = CASE WHEN #{tradingType} = 'commonTrading' THEN '일반택배' ELSE '만나서 거래' END,
+        request_content = #{requestContent},
+        buyer_total_address = #{buyerTotalAddress},
+        receiver = #{receiver},
+        payment_type = CASE WHEN #{paymentType} = 'commonPay' THEN '일반결제' ELSE 'G-PAY결제' END,
+        receipt_applied = CASE WHEN #{receiptApplied} = 1 THEN 'Y' ELSE 'N' END,
+        receipt_type = CASE
+                        WHEN #{receiptApplied} = 1 THEN
+                            CASE WHEN #{receiptType} = 'personal' THEN '개인소득공제용'
+                                 ELSE '사업자증빙용'
+                            END
+                        ELSE NULL
+                      END,
+        receipt_phone_num = #{receiptPhoneNum},
+        receipt_business_regi_num = #{receiptBusinessRegiNum},
+        service_terms_agreement = CASE WHEN #{serviceTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+        payment_agency_terms_agreement = CASE WHEN #{paymentAgencyTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+        personal_info_collection_agreement = CASE WHEN #{personalInfoCollectionAgreement} = 1 THEN 'Y' ELSE 'N' END,
+        personal_info_third_party_agreement = CASE WHEN #{personalInfoThirdPartyAgreement} = 1 THEN 'Y' ELSE 'N' END,
+        pay_state = 'Y'
+    WHERE user_id = #{userId}
+    AND post_id = #{postId}
+    AND buy_id = (
+        SELECT MAX(buy_id) FROM BUY WHERE user_id = #{userId} AND post_id = #{postId}
+    )
+	</update>
 	
 <!-- 	<select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->
 <!-- 		SELECT  -->

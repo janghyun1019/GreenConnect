@@ -101,7 +101,8 @@ public class SignupController {
 	        Map<String, String> response = Map.of(
 	            "accessToken", accessToken,
 	            "refreshToken", refreshToken,
-	            "nickname", user.getNickName()
+	            "nickname", user.getNickName(),
+	            "userId",user.getUserId()
 	        );
 		 return objectMapper.writeValueAsString(response); // JSON 문자열 반환
     } catch (Exception e) {

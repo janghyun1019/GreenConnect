@@ -151,9 +151,11 @@ function PostDetailTop({
                     </form>
                     <div>
                         총 수량:{" "}
-                        {(buyCount * postDetail.postSalesUnit) <= 999
-                            ? `${Number(postDetail.postSalesUnit * buyCount)}g`
-                            : `${(Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString()}Kg`}
+                        {
+                            (buyCount * postDetail.postSalesUnit) <= 999
+                            ? Number(postDetail.postSalesUnit * buyCount) + "g"
+                            : (Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString() + "Kg"
+                        }
                     </div>
                     <div>총 금액 (배송비 포함): {totalPrice.toLocaleString()} 원</div>
                     <div className="JCBBtnBox">

@@ -25,6 +25,12 @@ public class BuyDAOImpl implements BuyDAO {
 		Buy buyInfo = sqlSessionTemplate.selectOne("buy_mapper.getBuyInfoByUserIdAndPostId", buy);
 		return buyInfo;
 	}
+
+	@Override
+	public int payProduct(Buy buy) {
+		int result = sqlSessionTemplate.update("buy_mapper.payProduct", buy);
+		return result;
+	}
 	
 	
 
