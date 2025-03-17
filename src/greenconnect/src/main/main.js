@@ -1,12 +1,12 @@
-import '../App.css';
-import React from "react";
+//import '../App.css';
+//import React from "react";
 
-import Mainbody from '../main/Mainbody';
+//import Mainbody from '../main/Mainbody';
 
-function HomePage() {
-  return (
-    <Mainbody />
-  );
-}
+//function HomePage() {
+//  return (
+    // <Mainbody />
+//  );
+//}
 
-export default HomePage;
+//export default HomePage;
