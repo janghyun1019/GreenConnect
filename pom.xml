@@ -276,36 +276,6 @@ https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 			<version>4.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-
-
-		<!-- Spring Core -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>5.3.22</version>
-		</dependency>
-
-		<!-- Spring Mail (JavaMailSender) -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>5.3.22</version>
-		</dependency>
-
-		<!-- JavaMail API -->
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>jakarta.mail</artifactId>
-			<version>1.6.7</version>
-		</dependency>
-
-		<!-- AOP (비동기 @Async 사용) -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>5.3.22</version>
-		</dependency>
-
 		<!-- Servlet API -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -336,6 +306,5 @@ https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
-		
 	</dependencies>
 </project>

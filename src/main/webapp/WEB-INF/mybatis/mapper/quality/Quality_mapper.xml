@@ -1,0 +1,23 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Quality_mapper">
+	<!-- 판매자 평가 조회 -->
+	<select id="getSellerEvaluations" resultType="Quality">
+		SELECT eval_id AS evalId, seller_id AS sellerId, score, seller_comment AS
+		sellerComment
+		FROM seller_evaluations
+	</select>
+
+	<!-- 리뷰 및 평점 조회 -->
+	<select id="getReviews" resultType="Quality">
+		SELECT review_id AS reviewId, post_id AS postId, rating, review_content AS
+		reviewContent
+		FROM reviews
+	</select>
+
+	<!-- 품질 인증서 및 이력 조회 -->
+	<select id="getCertificates" resultType="Quality">
+		SELECT cert_id AS certId, product_type AS productType, issue_date AS
+		issueDate
+		FROM quality_certificates
+	</select>
+</mapper>

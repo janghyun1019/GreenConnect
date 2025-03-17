@@ -33,9 +33,9 @@ function Merge() {
                 <Route path="/Admin" element={<Admin />} />
                 <Route path="/Customer" element={<Customer />} />
                 <Route path="/Trade" element={<Trade/>} />
-                {/*<Route path="/System" element={<System/>} />
-                <Route path="/Quality" element={<Quality/>} />*/}
-                <Route path="/CuSupport" element={<CuSupport/>} /> 
+                <Route path="/System" element={<System/>} />
+                <Route path="/Quality" element={<Quality/>}/>
+                <Route path="/CuSupport" element={<CuSupport/>}/>
                 
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<Signup/>}/>

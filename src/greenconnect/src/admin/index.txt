@@ -215,7 +215,34 @@ CREATE Table jjim (
   user_id varchar2(32),
   CONSTRAINT jjim_unique UNIQUE (post_id, user_id) -- postid와userid 묶어서 유니크
 );
-select * from jjim;
+CREATE TABLE faq (
+    faq_id NUMBER PRIMARY KEY,
+    faq_title VARCHAR2(255) NOT NULL, -- FAQ 제목
+    faq_content VARCHAR2(2000) NOT NULL, -- FAQ 내용
+    faq_category VARCHAR2(50), -- 카테고리 (예: "신고", "결제", "배송")
+    created_at TIMESTAMP DEFAULT SYSTIMESTAMP, -- 작성 시간
+    updated_at TIMESTAMP DEFAULT SYSTIMESTAMP -- 수정 시간
+);
+
+CREATE SEQUENCE faq_id_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+CREATE TABLE auto_response (
+    response_id NUMBER PRIMARY KEY,
+    keyword VARCHAR2(100) NOT NULL, -- 자동 응답 트리거 키워드
+    response_content VARCHAR2(1000) NOT NULL, -- 자동 응답 내용
+    is_active CHAR(1) DEFAULT 'Y', -- 활성화 여부 (Y/N)
+    created_at TIMESTAMP DEFAULT SYSTIMESTAMP -- 생성 시간
+);
+
+CREATE SEQUENCE response_id_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
    * 주의점:프론트 쪽은 토큰식이며 로그인부분은 다른 사람이 할 예정이니 건드리지 말것,백엔드는 mapper,controller,dto,dao(impl),service(impl)이 기본 구조에 entity사용금지,controller은 getMapping과 postMapping만을 사용할것,SqlSessionTemplate을 사용할것,impl이 아닌 dao와 service는 복사 붙여넣기를 해도 무방할 정도로 같을것, mybatis-config에서 dto경로를 지정해 놓을 예정이니 경로를 mapper에 그대로 적어놓지 않을것과 value="/WEB-INF/mybatis/mapper/**/_mapper.xml"*>가 기본이니 숙지 하며 @mapper은 사용금지<Table>,<TableHeader>,<TableRow>등을 쓰지말고 <div> 위주로 진행할것,oracle developer의 데이터 테이블은 왠만하면 단일 테이블로 처리하도록 할것,@data를 사용할 예정이니 굳이 getter,setter을 사용안해도 됨
             <div className="adminAside">
                 <ul>

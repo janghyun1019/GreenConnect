@@ -22,5 +22,7 @@
 		<typeAlias type="com.app.dto.report.Report" alias="Report"/>
 		<typeAlias type="com.app.dto.report.UserReport" alias="UserReport"/>
 		<typeAlias type="com.app.dto.faq.Faq" alias="Faq"/>
+		<typeAlias type="com.app.dto.systemSetting.SystemSetting" alias="SystemSetting"/>
+		<typeAlias type="com.app.dto.quality.Quality" alias="Quality"/>
 	</typeAliases>
 </configuration>
