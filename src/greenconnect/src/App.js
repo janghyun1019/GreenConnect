@@ -1,14 +1,30 @@
-import logo from './logo.png';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
+
+import Header from "./common/Header";
+import Footer from "./common/Footer";
+import Main from "./main/main";
+
 
 function App() {
+  const inRouter = useInRouterContext();
+  const RouterWrapper = inRouter ? React.Fragment : BrowserRouter;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="logo" />
-        <h1>Green Connect Project</h1>
-      </header>
-    </div>
+    <RouterWrapper basename={!inRouter ? process.env.PUBLIC_URL : undefined}>
+      <div className="app-container">
+        <Header />
+        <Routes>
+          {/* 메인 및 인증 관련 페이지 */}
+          <Route path="/" element={<Main />} />
+
+
+          {/* 추가된 페이지 */}
+
+        </Routes>
+        <Footer />
+      </div>
+    </RouterWrapper>
   );
 }
 

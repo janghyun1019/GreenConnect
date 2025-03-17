@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+/* ModalContent.css */
+
+/* 전체 화면을 덮는 반투명 배경 */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 999; /* 가장 위에 표시 */
+  display: flex;
+  justify-content: flex-start; /* 왼쪽에서 슬라이드 */
+}
+
+/* 실제 드로어 영역(왼쪽 슬라이드 메뉴) */
+.drawer {
+  background-color: #fff;
+  width: 280px;       /* 메뉴 폭 */
+  height: 100%;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  position: relative;
+  overflow-y: auto;   /* 메뉴가 많을 때 스크롤 */
+}
+
+/* 닫기 버튼 */
+.drawer-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+/* 드로어 메뉴 */
+.drawer-menu {
+  list-style: none;
+  padding: 60px 0 0; /* 상단 닫기 버튼 공간 확보 */
+  margin: 0;
+}
+
+.drawer-menu li {
+  margin-bottom: 15px;
+}
+
+.drawer-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+}
+
+/* 구분선 */
+.drawer-divider {
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+  padding-top: 15px;
+}
+
+/* 서브메뉴 */
+.drawer-submenu > ul {
+  list-style: none;
+  padding-left: 15px;
+  margin-top: 10px;
+}
+.drawer-submenu > ul > li {
+  margin-bottom: 8px;
+}
+.drawer-submenu > span {
+  font-weight: bold;
+}
