@@ -13,4 +13,7 @@ public class ChatRoomDTO {
     private String user2Active;
     private Timestamp createdAt;
     private Long messageId; // 최근 메시지 ID (NULL 가능성이 있음에 주의)
+
+    // [확장] 기본 생성자 추가
+    public ChatRoomDTO() {}
 }

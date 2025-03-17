@@ -6,14 +6,14 @@ import java.sql.Timestamp;
 
 @Data
 public class ChatMessageDTO {
-    private Long messageId;      // 메시지 ID
-    private Long roomId;         // 채팅방 ID
-    private String senderId;     // 발신자 ID
-    private String content;      // 메시지 내용
-    private String imageUrls;    // 이미지 URL
-    private Timestamp sentAt;    // 전송 시간
+    private Long messageId;
+    private Long roomId;
+    private String senderId;
+    private String content;
+    private String imageUrls; // JSON 문자열로 유지
+    private Timestamp sentAt;
 
-    // 생성자 추가
+    // 기존: 기본 생성자
     public ChatMessageDTO(Long messageId, Long roomId, String senderId, String content, String imageUrls, Timestamp sentAt) {
         this.messageId = messageId;
         this.roomId = roomId;
@@ -22,4 +22,7 @@ public class ChatMessageDTO {
         this.imageUrls = imageUrls;
         this.sentAt = sentAt;
     }
+
+    // [확장] 기본 생성자 추가
+    public ChatMessageDTO() {}
 }

@@ -1,104 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ChatRoomList = () => {
     const { userId } = useSelector(state => state.user);
-    const [rooms, setRooms] = useState([]);
-    const [targetUserId, setTargetUserId] = useState('');
+    const [chatRooms, setChatRooms] = useState([]);
+    const [targetId, setTargetId] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!userId) {
-            console.error('userId가 없습니다. 로그인 확인 필요.');
-            navigate('/login'); // 로그인 페이지로 리다이렉트 추가
+            console.error('[확장] 사용자 ID 없음, 로그인 페이지로 이동');
+            navigate('/login');
             return;
         }
-        axios.get(`/api/chat/rooms/${userId}`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-        })
-        .then(response => {
-            console.log('채팅방 목록:', response.data);
-            setRooms(response.data);
-        })
-        .catch(error => {
-            console.error('채팅방 조회 실패:', error.response?.data || error.message);
-            alert('채팅방 목록을 불러오지 못했습니다.');
-        });
+        fetchChatRooms();
     }, [userId, navigate]);
 
-    const createChatRoom = () => {
-        if (!targetUserId.trim()) {
-            alert('상대방 ID를 입력해주세요.');
+    const fetchChatRooms = async () => {
+        try {
+            console.log('[확장] 채팅방 목록 요청: userId=', userId);
+            const response = await axios.get(`/api/chat/rooms/${userId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
+            });
+            console.log('[확장] 채팅방 목록 응답:', response.data);
+            setChatRooms(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error('[확장] 채팅방 목록 로드 실패:', {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message
+            });
+            setChatRooms([]);
+            if (error.response?.status === 401) {
+                alert('인증 오류: 다시 로그인해주세요.');
+                navigate('/login');
+            }
+        }
+    };
+
+    const createChatRoom = async () => {
+        if (!targetId.trim()) {
+            console.error('[확장] 채팅방 생성 실패: targetId 누락');
+            alert('대화 상대 ID를 입력하세요.');
             return;
         }
-
-        const existingRoom = rooms.find(room =>
-            (room.user1Id === userId && room.user2Id === targetUserId) ||
-            (room.user1Id === targetUserId && room.user2Id === userId)
-        );
-
-        if (existingRoom) {
-            console.log('기존 채팅방으로 이동:', existingRoom.roomId);
-            navigate(`/chat/${existingRoom.roomId}`, {
-                state: { userId, targetUserId: existingRoom.user1Id === userId ? existingRoom.user2Id : existingRoom.user1Id, roomId: existingRoom.roomId }
+        try {
+            const response = await axios.post('/api/chat/create', {
+                user1Id: userId,
+                user2Id: targetId.trim()
+            }, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
             });
-            setTargetUserId('');
-            return;
+            console.log('[확장] 채팅방 생성 성공:', response.data);
+            setChatRooms(prev => [...prev, response.data]); // [확장] 목록 즉시 업데이트
+            navigate(`/chat/${response.data.roomId}`, {
+                state: { userId, targetUserId: targetId.trim(), roomId: response.data.roomId }
+            });
+        } catch (error) {
+            console.error('[확장] 채팅방 생성 실패:', error.response?.data || error.message);
+            alert('채팅방 생성 실패: ' + (error.response?.data || error.message));
         }
+    };
 
-        console.log('새 채팅방 생성 요청:', { user1Id: userId, user2Id: targetUserId });
-        axios.post('/api/chat/create', { user1Id: userId, user2Id: targetUserId }, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-        })
-        .then(response => {
-            console.log('채팅방 생성 성공:', response.data);
-            const newRoom = response.data;
-            setRooms(prev => [...prev, newRoom]);
-            navigate(`/chat/${newRoom.roomId}`, {
-                state: { userId, targetUserId, roomId: newRoom.roomId }
-            });
-            setTargetUserId('');
-        })
-        .catch(error => {
-            console.error('채팅방 생성 실패:', error.response?.data || error.message);
-            alert('채팅방 생성에 실패했습니다.');
+    const enterChatRoom = (room) => {
+        const targetUserId = room.user1Id === userId ? room.user2Id : room.user1Id;
+        console.log('[확장] 채팅방 입장:', { roomId: room.roomId, targetUserId });
+        navigate(`/chat/${room.roomId}`, {
+            state: { userId, targetUserId, roomId: room.roomId }
         });
     };
 
+    const formatTime = (timestamp) => {
+        if (!timestamp) return '';
+        return new Date(timestamp).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+    };
+
     return (
-        <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
             <h2>채팅방 목록</h2>
-            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
-                <input
-                    type="text"
-                    value={targetUserId}
-                    onChange={(e) => setTargetUserId(e.target.value)}
-                    placeholder="상대방 ID 입력"
-                    style={{ padding: '5px', marginRight: '10px', flex: 1 }}
+            <div style={{ marginBottom: '20px' }}>
+                <input 
+                    type="text" 
+                    value={targetId} 
+                    onChange={(e) => setTargetId(e.target.value)} 
+                    placeholder="대화 상대 ID 입력" 
+                    style={{ width: '70%', padding: '5px' }}
                 />
-                <button
-                    onClick={createChatRoom}
-                    style={{ padding: '5px 10px', background: '#ffeb33', border: 'none', borderRadius: '5px' }}
+                <button 
+                    onClick={createChatRoom} 
+                    style={{ padding: '5px 10px', background: '#ffeb33', marginLeft: '10px' }}
                 >
-                    채팅방 만들기
+                    채팅 시작
                 </button>
             </div>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-                {rooms.map(room => (
-                    <li
-                        key={room.roomId}
-                        onClick={() => navigate(`/chat/${room.roomId}`, {
-                            state: { userId, targetUserId: room.user1Id === userId ? room.user2Id : room.user1Id, roomId: room.roomId }
-                        })}
-                        style={{ padding: '10px', borderBottom: '1px solid #ddd', cursor: 'pointer' }}
-                    >
-                        {room.user1Id === userId ? room.user2Id : room.user1Id}
-                        {room.user1Active === 'N' && room.user2Active === 'N' ? ' (비활성)' : ''}
-                    </li>
-                ))}
-            </ul>
+            <div>
+                {chatRooms.length === 0 ? (
+                    <p>활성 채팅방이 없습니다. 새 채팅을 시작해보세요!</p>
+                ) : (
+                    chatRooms.map(room => (
+                        <div 
+                            key={room.roomId} 
+                            onClick={() => enterChatRoom(room)} 
+                            style={{ 
+                                padding: '10px', 
+                                borderBottom: '1px solid #ddd', 
+                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <div>
+                                <strong>{room.user1Id === userId ? room.user2Id : room.user1Id}</strong>
+                                <p style={{ margin: '5px 0 0', color: '#666' }}>
+                                    {room.lastMessage || '메시지 없음'}
+                                </p>
+                            </div>
+                            <span style={{ fontSize: '12px', color: '#888' }}>
+                                {formatTime(room.lastMessageTime)}
+                            </span>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 };

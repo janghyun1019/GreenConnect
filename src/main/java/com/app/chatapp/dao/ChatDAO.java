@@ -15,4 +15,7 @@ public interface ChatDAO {
     void deleteChatRoom(Long roomId, String userId);
     ChatRoomDTO createChatRoom(String user1Id, String user2Id);
     ChatRoomDTO findChatRoomByUsers(Map<String, String> params);
+    void saveImageUrl(Map<String, Object> params);
+    // [확장] 채팅방 메시지 삭제 메서드 추가
+    void deleteMessagesByRoomId(Long roomId);
 }
