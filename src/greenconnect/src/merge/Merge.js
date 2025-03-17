@@ -9,6 +9,7 @@ import PostThumbnail from "../postList/PostThumbnail.js";
 import ModifyPostDetail from "../postDetail/ModifyPostDetail.js";
 import PostDetailReview from "../postDetail/PostDetailReview.js";
 import PayPage from "../pay/PayPage.js";
+import CommonPay from "../pay/CommonPay.js";
 import GpayChargePage from "../pay/GpayChargePage.js";
 
 function Merge() {
@@ -31,6 +32,7 @@ function Merge() {
                 <Route path="/postThumbnail" element={<PostThumbnail />} />
 
                 <Route path="/payPage/:postId" element={<PayPage />} />
+                <Route path="/commonPay" element={<CommonPay />} />
                 {/* <Route path="/gpayChargePage" element={<GpayChargePage />} /> */}
 
             </Routes>
