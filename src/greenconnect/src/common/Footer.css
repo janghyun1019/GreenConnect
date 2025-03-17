@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+/* Footer 전체 영역 */
+.footer {
+	width: 100%;
+	background-color: #fff;
+	color: #333;
+	font-size: 14px;
+	margin-top: auto; /* Flex 컨테이너일 경우 하단 고정 효과 */
+	box-sizing: border-box;
+}
+.footer-title {
+	font-size: 16px;
+	color: #8d8d8d;
+	font-weight: 700;
+	line-height: 150%;
+}
+.footer-customer-center .footer-content {
+	margin-top: 0;
+	margin-left: 20px;
+}
+.footer-content p {
+	font-size: 15px;
+	color: #bcbcbc;	
+	font-weight: 500;
+}
+
+.footer-text {
+	padding: 1px;
+	color: #949494;
+}
+
+.footer-top-menu {
+	font-size: 13px;
+}
+
+.footer-content a {
+	text-decoration: none;
+}
+
+.footer-content span {
+	color: #d9d9d9;	
+}
+
+.footer-top-menu-all {
+	width: 100%;
+	background-color: #f7f7f7;
+	padding: 10px 0;
+	overflow: hidden; /* float 해제 */
+}
+
+.footer-top-menu {
+	width: 1190px;
+	margin: 0 auto;
+	overflow: hidden; /* float 해제 */
+}
+
+.footer-top-menu a {
+	color: #333;
+	text-decoration: none;
+	margin: 0 5px;
+}
+
+/* 구분선 스타일(선택 사항) */
+hr {
+	border: none;
+	border-top: 1px solid #eee;
+	margin: 0;
+}
+
+/* 메인 정보 영역(그가치 프로젝트정보, 고객센터) */
+.footer-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 20px 0;
+}
+
+.footer-info, .footer-customer-center {
+	flex: 1;
+	margin-top: 10px;
+	margin-left: 25px;
+}
+
+.footer-info h2, .footer-customer-center h2 {
+	font-size: 16px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+/* 고객센터 전화번호를 강조하고 싶다면 */
+.footer-customer-phone {
+	font-size: 28px;
+	font-weight: 500;
+	color: #737373;
+	letter-spacing: -1px;
+}
+
+/* 하단 문구 */
+.footer-disclaimer {
+	text-align: center;
+	padding-bottom: 10px;
+	font-size: 12px;
+	font-weight: 100;
+	color: #949494;
+}
+
+/* 반응형 처리 예시 */
+@media ( max-width : 768px) {
+	.footer-content {
+		flex-direction: column;
+		align-items: left;
+	}
+	.footer-customer-center {
+		align-items: left;
+	}
+	.footer-info, .footer-customer-center {
+		margin: 10px 0;
+	}
+}
