@@ -5,8 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
-	<h1>GreenConnect에 오신 것을 환영합니다!</h1>
+	
+	<img src="/image/logo.png" >
+	<h1>Green Connect Project</h1>
+	
 </body>
 </html>
