@@ -39,11 +39,11 @@ function PayPage() {
     const [paymentType, setPaymentType] = useState(''); // 결제수단 g-pay or 일반결제
     const [isApplied, setIsApplied] = useState(false); // 소득공제 신청 여부
     const [receiptType, setReceiptType] = useState(null); // 개인소득공제용 or 사업자증빙용
-    const [payServiceAllAgree, setPayServiceAllAgree] = useState(false);
-    const [payServiceAgree1, setPayServiceAgree1] = useState(false);
-    const [payServiceAgree2, setPayServiceAgree2] = useState(false);
-    const [payServiceAgree3, setPayServiceAgree3] = useState(false);
-    const [payServiceAgree4, setPayServiceAgree4] = useState(false);
+    const [payServiceAllAgree, setPayServiceAllAgree] = useState(false); // 개인정보 약관 전체동의
+    const [payServiceAgree1, setPayServiceAgree1] = useState(false); // 서비스 이용약관 동의
+    const [payServiceAgree2, setPayServiceAgree2] = useState(false); // 결제대행 서비스 이용약관 동의
+    const [payServiceAgree3, setPayServiceAgree3] = useState(false); // 개인정보 수집 및 이용 동의
+    const [payServiceAgree4, setPayServiceAgree4] = useState(false); // 개인정보 제3자 제공 동의
 
 
     // 우편 주소 검색

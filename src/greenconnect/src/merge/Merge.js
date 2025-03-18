@@ -10,7 +10,7 @@ import ModifyPostDetail from "../postDetail/ModifyPostDetail.js";
 import PostDetailReview from "../postDetail/PostDetailReview.js";
 import PayPage from "../pay/PayPage.js";
 import CommonPay from "../pay/CommonPay.js";
-import GpayChargePage from "../pay/GpayChargePage.js";
+import GpayCharge from "../pay/GpayCharge.js";
 
 import Signup from "../Page/Signup/Signup.js";
 import Login from "../Page/Signup/Login.js";
@@ -39,7 +39,7 @@ function Merge() {
 
                 <Route path="/payPage/:postId" element={<PayPage />} />
                 <Route path="/commonPay" element={<CommonPay />} />
-                {/* <Route path="/gpayChargePage" element={<GpayChargePage />} /> */}
+                <Route path="/gpayCharge" element={<GpayCharge />} />
 
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
