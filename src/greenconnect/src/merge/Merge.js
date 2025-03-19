@@ -13,6 +13,7 @@ import Trade from '../admin/Trade';
 import Quality from '../admin/Quality';
 import System from '../admin/System';
 import CuSupport from '../admin/CuSupport';
+import Charge from '../mypage/Charge';
 function Merge() {
 
     return (
@@ -32,6 +33,7 @@ function Merge() {
                 <Route path="/System" element={<System/>} />
                 <Route path="/Quality" element={<Quality/>}/>
                 <Route path="/CuSupport" element={<CuSupport/>}/>
+                <Route path='/Charge' element={<Charge/>}/>
             </Routes>
             </div>
         

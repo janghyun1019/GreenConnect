@@ -49,6 +49,14 @@ function MyPage() {
             }
         }
     };
+        // 금액 충전 팝업창 열기 함수
+        const openChargePopup = () => {
+            window.open(
+                '/charge', // 새 창에서 열 URL (React Router로 이동)
+                'ChargePopup', // 팝업창 이름
+                'width=500,height=600,left=500,top=200,resizable=no,scrollbars=no'
+            );
+        };
     return (
         <div className="mypageContainer">
             <h2 className="mypageLogo">마이페이지</h2>
@@ -70,9 +78,7 @@ function MyPage() {
                             {/* 옵셔널 체이닝 연산자(?.)를 사용하여 undefined일 가능성 처리 */}
                             <p className="balance">g-pay 잔액: {userInfo?.balance?.toLocaleString() || '0'}원</p>
                         </div>
-                        <Link to="/charge">
-                            <button>금액 충전</button>
-                        </Link>
+                        <button onClick={openChargePopup}>금액 충전</button>
                         <Link to="/Profile">
                             <button id="profile-change">프로필 수정</button>
                         </Link>
