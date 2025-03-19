@@ -10,7 +10,7 @@ import com.app.dto.address.Address;
 import com.app.service.address.AddressService;
 
 @Controller
-@RequestMapping("/api/addresses")
+@RequestMapping("/mypage/addresses")
 public class AddressController {
 
     @Autowired

@@ -15,20 +15,23 @@ function AddressRegistration() {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const userId = localStorage.getItem('userId') || 'test-user';
+
     useEffect(() => {
         fetchAddresses();
     }, []);
 
-    const fetchAddresses = async () => {
+const fetchAddresses = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('/api/addresses', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } // 임시 토큰 추가
+            const token = localStorage.getItem('token') || 'test-token'; // 테스트용 토큰
+            const response = await axios.get(`/mypage/addresses/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
-            setAddress(response.data || []); // 데이터가 없으면 빈 배열로 설정
+            setAddress(response.data || []);
         } catch (error) {
             console.error("주소 목록을 불러오는데 실패했습니다:", error);
-            setAddress([]); // 실패 시에도 빈 배열로 설정하여 오류 메시지 방지
+            setAddress([]);
         } finally {
             setIsLoading(false);
         }
@@ -75,25 +78,14 @@ function AddressRegistration() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (validateForm()) {
             setIsLoading(true);
             try {
-                const addressData = {
-                    receiver: formData.receiver,
-                    phone: formData.phone,
-                    postal_code: formData.postal_code,
-                    address1: formData.address1,
-                    address2: formData.address2,
-                    is_default: formData.is_default
-                };
-
-                await axios.post('/api/addresses', addressData, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                const token = localStorage.getItem('token') || 'test-token';
+                await axios.post('/mypage/addresses', formData, {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
-                
                 await fetchAddresses();
-                
                 setFormData({
                     receiver: '',
                     phone: '',
@@ -102,7 +94,6 @@ function AddressRegistration() {
                     address2: '',
                     is_default: false
                 });
-                
                 setIsFormVisible(false);
                 alert('주소가 성공적으로 등록되었습니다.');
             } catch (error) {
@@ -117,8 +108,9 @@ function AddressRegistration() {
     const setDefaultAddress = async (addressId) => {
         setIsLoading(true);
         try {
-            await axios.put(`/api/addresses/${addressId}/default`, null, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            const token = localStorage.getItem('token') || 'test-token';
+            await axios.put(`/mypage/addresses/${userId}/default/${addressId}`, null, {
+                headers: { Authorization: `Bearer ${token}` }
             });
             await fetchAddresses();
         } catch (error) {
@@ -133,8 +125,9 @@ function AddressRegistration() {
         if (window.confirm('이 주소를 정말 삭제하시겠습니까?')) {
             setIsLoading(true);
             try {
-                await axios.delete(`/api/addresses/${addressId}`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                const token = localStorage.getItem('token') || 'test-token';
+                await axios.delete(`/mypage/addresses/${addressId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
                 await fetchAddresses();
             } catch (error) {
