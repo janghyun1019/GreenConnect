@@ -197,7 +197,7 @@ function GpayCharge() {
     }
 
 
-    if (loading) return <div>로딩 중...</div>;
+    if (loading) return <div style={{width:'100%', marginTop:'30%', textAlign:'center'}}>g-pay충전페이지 : 잘못 된 접근입니다.</div>;
 
     return (
 

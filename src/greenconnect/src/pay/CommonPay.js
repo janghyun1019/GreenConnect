@@ -26,7 +26,7 @@ function CommonPay({ buyUser, buyInfo }) {
 
                 const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
                     "#payment-widget",
-                    buyInfo.postPrice
+                    buyInfo?.postPrice ?? 0
                 );
 
                 // 위젯 상태 설정
@@ -42,7 +42,7 @@ function CommonPay({ buyUser, buyInfo }) {
         };
 
         initializePaymentWidget();
-    }, [clientKey, customerKey, buyInfo.postPrice]);
+    }, [clientKey, customerKey, buyInfo?.postPrice]);
 
     // useEffect(() => {
     //     const paymentMethodsWidget = paymentMethodsWidgetState;
@@ -56,9 +56,9 @@ function CommonPay({ buyUser, buyInfo }) {
     useEffect(() => {
     // paymentMethodsWidgetState가 정상적으로 로드된 경우에만 updateAmount 호출
     if (paymentMethodsWidgetState) {
-        paymentMethodsWidgetState.updateAmount(buyInfo.postPrice);
+        paymentMethodsWidgetState.updateAmount(buyInfo?.postPrice ?? 0);
     }
-}, [buyInfo.postPrice, paymentMethodsWidgetState]);
+}, [buyInfo?.postPrice, paymentMethodsWidgetState]);
 
     const handlePayment = async () => {
         console.log("handlePayment 실행됨");
@@ -71,9 +71,9 @@ function CommonPay({ buyUser, buyInfo }) {
         }
         try {
             await paymentWidget.requestPayment({
-                orderId: buyInfo.userId,
-                orderName: buyInfo.postTitle,
-                customerName: buyInfo.nickName,
+                orderId: buyInfo?.userId ?? "잘못된접근",
+                orderName: buyInfo?.postTitle ?? "잘못된접근",
+                customerName: buyInfo?.nickName ?? "잘못된접근",
                 customerEmail: "customer123@gmail.com"
             });
             console.log("결제 요청 성공!");
@@ -81,6 +81,8 @@ function CommonPay({ buyUser, buyInfo }) {
             console.log("결제 요청 실패:", err);
         }
     };
+
+    if(!buyInfo) return <div style={{width:'100%', marginTop:'30%', textAlign:'center'}}> 결제 페이지 : 잘못 된 접근입니다.</div>;
 
     if (isLoading) {
         return <div>로딩 중...</div>; // 로딩 중일 때는 로딩 메시지 표시
