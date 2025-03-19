@@ -9,5 +9,7 @@ public interface BuyService {
 	Buy getBuyInfoByUserIdAndPostId(Buy buy);
 	
 	int payProduct(Buy buy);
+	
+	int payProductUseGpay(Buy buy);
 
 }

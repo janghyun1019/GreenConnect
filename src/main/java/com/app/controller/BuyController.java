@@ -48,13 +48,28 @@ public class BuyController {
 	public ResponseEntity<?> payProduct(@RequestBody Buy buy) {
 		System.out.println("결제하려는 정보: " + buy);
 		
-		int result = buyService.payProduct(buy);
+		System.out.println("결제 타입: " + buy.getPaymentType());
 		
-		if (result > 0) {
-            return ResponseEntity.ok("성공");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
-        }
+		if(buy.getPaymentType().equals("gPay")) {
+			int result1 = buyService.payProduct(buy); // 기본 pay
+			int result2 = buyService.payProductUseGpay(buy); // gpayProperty 현재금액-결제금액 용도
+			System.out.println("gpay로 결제");
+			if (result1 > 0 && result2 > 0) {
+	            return ResponseEntity.ok("성공");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+	        }
+			
+		} else {
+			int result = buyService.payProduct(buy); // 기본 pay
+			System.out.println("일반 결제");
+			if (result > 0) {
+	            return ResponseEntity.ok("성공");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+	        }
+		}
+		
 	}
 	
 	

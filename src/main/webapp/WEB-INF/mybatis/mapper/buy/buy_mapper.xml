@@ -57,6 +57,15 @@
     )
 	</update>
 	
+	<update id="payProductUseGpay" parameterType="Buy">
+    UPDATE gpay_property
+    SET before_property = now_property,
+    	now_property = now_property - #{totalPrice}
+    WHERE user_id = #{userId}
+	</update>
+	
+	
+	
 <!-- 	<select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->
 <!-- 		SELECT  -->
 <!-- 		    b.buy_id, -->

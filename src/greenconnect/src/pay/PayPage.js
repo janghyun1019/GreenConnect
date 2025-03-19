@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, React } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './css/PayPage.css';
@@ -14,6 +14,7 @@ function PayPage() {
     // 데이터 불러온 것 상태 관리
     const [buyInfo, setBuyInfo] = useState(null);
     const [buyUser, setBuyUser] = useState(null);
+    const [gpayInfo, setGpayInfo] = useState(null);
 
     // 상태 관리
     const [loading, setLoading] = useState(true); // 로딩 상태
@@ -119,6 +120,44 @@ function PayPage() {
         }).open();
     };
 
+
+    useEffect(() => {
+        // 서버에서 G-PAY 데이터 가져오기
+        if (!buyUser || !buyUser.userId) return;
+
+        const fetchGpayInfo = async () => {
+
+            try {
+                const userId = { userId: buyUser.userId } //현재접속한 유저아이디로 조회
+
+                const response = await axios.post("/api/getGpayInfo",
+                    userId,
+                    {
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                );
+                if (typeof response.data === "object") {
+                    console.log(response.data);
+                    setGpayInfo(response.data);
+                    setLoading(false); // 로딩 끝
+                } else {
+                    setError(response.data);
+                }
+            } catch (err) {
+                if (err.response && err.response.status === 404) {
+                    setError("해당 유저의 G-pay 정보가 없습니다.");
+                    console.log("유저 정보 없음(충전 한 적이 없음.)");
+                } else {
+                    setError(err.message);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchGpayInfo();
+    }, [buyUser]); // buyUser가 변경되면 다시 실행
+
+
     // 서비스 이용약관 전체동의 시 모두 체크
     const handlePayServiceAllAgreeChange = (e) => {
         const isChecked = e.target.checked;
@@ -141,38 +180,52 @@ function PayPage() {
             return;
         }
 
-        if(tradingType == "commonTrading"){
-            if(!postalCode || !address1 || !address2 || !receiver){
+        if (tradingType == "commonTrading") {
+            if (!postalCode || !address1 || !address2 || !receiver) {
                 alert("배송지 정보를 입력 해 주세요.");
                 return;
             }
         }
 
-        if(!paymentType){
+        if (!paymentType) {
             alert("결제수단을 선택 해 주세요");
             return;
         }
 
-        if(isApplied){
-            if(!receiptType){
+        if (isApplied) {
+            if (!receiptType) {
                 alert("현금 영수증 신청 분류를 선택 해 주세요.");
                 return;
-            } else if(receiptType == "personal"){
-                if(!receiptPhoneNum){
+            } else if (receiptType == "personal") {
+                if (!receiptPhoneNum) {
                     alert("소득공제용 휴대폰 번호를 입력 해 주세요.");
                     return;
                 }
             } else {
-                if(!receiptBusinessRegiNum){
+                if (!receiptBusinessRegiNum) {
                     alert("소득공제용 사업자등록번호를 입력 해 주세요.")
                     return;
                 }
             }
         }
 
-        if(!payServiceAgree1 || !payServiceAgree2 || !payServiceAgree3 || !payServiceAgree4){
+        if (!payServiceAgree1 || !payServiceAgree2 || !payServiceAgree3 || !payServiceAgree4) {
             alert("이용약관을 모두 동의 후 결제가 가능합니다.");
             return;
+        }
+
+        if(paymentType == 'gPay') {
+            if ((
+                gpayInfo.nowProperty -
+                (Number(buyInfo.postPrice * buyInfo.buyCount) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0)))
+            ) < 0) {
+                if (window.confirm("G-PAY잔액이 부족합니다. 충전 하시겠습니까?")) {
+                    navigate("/"); //마이페이지 g-pay충전 페이지로 이동 해야함 @@@@@@@@@@@@@@@@@@@@@@@@@@
+                    return;
+                } else {
+                    return;
+                }
+            }
         }
 
         // 구매 확인 창
@@ -235,8 +288,8 @@ function PayPage() {
         }
     }
 
-    if (loading) return <div style={{width:'100%', marginTop:'30%', textAlign:'center'}}>결제 페이지 : 잘못 된 접근입니다.</div>;
-    
+    if (loading) return <div style={{ width: '100%', marginTop: '30%', textAlign: 'center' }}>결제 페이지 : 잘못 된 접근입니다.</div>;
+
     return (
         <div className="payPageMainContainer">
             <h1>결제페이지</h1>
@@ -338,8 +391,22 @@ function PayPage() {
                 </div>
                 {paymentType === 'gPay' && (
                     <div className='selectGpayBox'>
-                        <div>현재 G-PAY 잔액: 원</div>  {/* gpay정보 불러와서입력 */}
-                        <div>결제 후 예상 G-PAY 잔액: 원</div>
+                        <div>현재 G-PAY 잔액: {gpayInfo.nowProperty.toLocaleString()}원</div>  {/* gpay정보 불러와서입력 */}
+                        <div>
+                            <span>결제 후 예상 G-PAY 잔액: </span>
+                            {(
+                                gpayInfo.nowProperty -
+                                (Number(buyInfo.postPrice * buyInfo.buyCount) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0)))
+                            ).toLocaleString()}원
+                            {(
+                                gpayInfo.nowProperty -
+                                (Number(buyInfo.postPrice * buyInfo.buyCount) + (tradingType === 'meetTrading' ? 0 : Number(buyInfo?.postCost || 0)))
+                            ) < 0 && (
+                                    <span style={{ color: 'rgb(255, 50, 50)', fontWeight: 'bold', fontSize: '12px', marginLeft: '10px' }}>
+                                        G-PAY 잔액이 부족합니다.
+                                    </span>
+                                )}
+                        </div>
                     </div>
                 )}
                 {paymentType === 'commonPay' && (
@@ -395,11 +462,11 @@ function PayPage() {
                             <div className='receiptTypeBox'>
                                 <div
                                     className={`radioBox ${receiptType === 'personal' ? 'selected' : ''}`}
-                                    onClick={() => {setReceiptType('personal'); setReceiptBusinessRegiNum(null); }}
+                                    onClick={() => { setReceiptType('personal'); setReceiptBusinessRegiNum(null); }}
                                 >개인소득공제용</div>
                                 <div
                                     className={`radioBox ${receiptType === 'business' ? 'selected' : ''}`}
-                                    onClick={() => {setReceiptType('business'); setReceiptPhoneNum(null);}}
+                                    onClick={() => { setReceiptType('business'); setReceiptPhoneNum(null); }}
                                 >사업자증빙용</div>
                             </div>
 

@@ -9,5 +9,7 @@ public interface BuyDAO {
 	Buy getBuyInfoByUserIdAndPostId(Buy buy);
 	
 	int payProduct(Buy buy);
+	
+	int payProductUseGpay(Buy buy);
 
 }

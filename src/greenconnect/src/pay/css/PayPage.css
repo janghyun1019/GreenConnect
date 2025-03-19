@@ -106,6 +106,13 @@
     gap: 10px;
     color: rgb(50, 50, 50);
 }
+.selectGpayBox div:nth-child(1) {
+    color: rgb(83, 83, 83);
+}
+.selectGpayBox div:nth-child(2) {
+    color: rgba(255, 0, 0, 0.767);
+    margin-bottom: 10px;
+}
 
 .commonPayTypeBox {
     display: flex;
