@@ -12,4 +12,6 @@ public interface UserService {
     List<Map<String, Object>> getUserActivityLog(String userId);
     Users getUserInfo(String userId);  
     Users getUserDetail(String userId); 
+    void deleteUser(String userId);
+    void updateUserInfo(Users user);
 }

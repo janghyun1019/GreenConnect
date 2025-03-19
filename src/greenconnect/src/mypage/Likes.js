@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import JjimItem from "./JjimItem";
+import Sidebar from "./components/Sidebar";
 function Likes() {
     const [jjimList, setJjimList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -63,6 +64,8 @@ function Likes() {
         
     return (
         <div className="jjim-list-container">
+                        <Sidebar />
+                        <div className="main_content">
             <h1>찜 목록</h1>
             
             {jjimList.length === 0 ? (
@@ -83,6 +86,7 @@ function Likes() {
                     ))}
                 </div>
             )}
+        </div>
         </div>
     );
 }

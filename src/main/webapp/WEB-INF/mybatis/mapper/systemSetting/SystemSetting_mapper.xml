@@ -1,5 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="systemSetting">
+<mapper namespace="systemSetting_mapper">
     <!-- 멤버쉽 설정 조회 -->
     <select id="getMembershipSettings" resultType="SystemSetting">
         SELECT policy
@@ -34,8 +34,11 @@
     </select>
 
     <!-- 공지사항 추가 -->
-    <insert id="addNotice" parameterType="SystemSetting">
-        INSERT INTO notices (notice_id, notice_title, notice_content, created_at)
-        VALUES (notices_seq.NEXTVAL, #{noticeTitle}, #{noticeContent}, SYSTIMESTAMP)
-    </insert>
+<insert id="addNotice" parameterType="com.app.dto.systemSetting.SystemSetting">
+    <selectKey keyProperty="noticeId" resultType="long" order="AFTER">
+        SELECT notices_seq.CURRVAL FROM DUAL
+    </selectKey>
+    INSERT INTO notices (notice_id, notice_title, notice_content, created_at)
+    VALUES (notices_seq.NEXTVAL, #{noticeTitle}, #{noticeContent}, SYSTIMESTAMP)
+</insert>
 </mapper>

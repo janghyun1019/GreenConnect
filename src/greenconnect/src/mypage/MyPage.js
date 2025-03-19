@@ -1,14 +1,15 @@
 import './css/MyPage.css';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import Sidebar from './components/Sidebar';
 function MyPage() {
     const [userInfo, setUserInfo] = useState({
         nickname: '',
         balance: 0,  // 기본값을 0으로 설정
         profileImage: null
     });
+    const navigate = useNavigate(); // 페이지 이동을 위한 훅
 
     useEffect(() => {
         fetchUserInfo();
@@ -30,19 +31,29 @@ function MyPage() {
             console.error("사용자 정보 가져오기 실패:", error);
         }
     };
-
+// 회원탈퇴 처리 함수
+    const handleWithdraw = async () => {
+        if (window.confirm("정말 회원탈퇴 하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
+            try {
+                await axios.delete('/user/withdraw', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                alert("회원탈퇴가 완료되었습니다.");
+                localStorage.removeItem('token'); // 토큰 삭제
+                navigate('/'); // 홈페이지로 리다이렉트
+            } catch (error) {
+                console.error("회원탈퇴 실패:", error);
+                alert("회원탈퇴에 실패했습니다.");
+            }
+        }
+    };
     return (
         <div className="mypageContainer">
             <h2 className="mypageLogo">마이페이지</h2>
             <div className="mypageSide">
-                <ul>
-                    <li><Link to="/Mypage">프로필관리</Link></li>
-                    <li><Link to="/Cart">장바구니</Link></li>
-                    <li><Link to="/Address">주소/결재수단</Link></li>
-                    <li><Link to="/Post">작성글 목록</Link></li>
-                    <li><Link to="/likes">찜한 목록</Link></li>
-                    <li><Link to="/Chat">1:1채팅이력</Link></li>
-                </ul>
+                <Sidebar />
                 <div className="dashboard">
                     <div className="card">
                         <div className="profile-image">
@@ -71,6 +82,7 @@ function MyPage() {
                         <Link to="/userinfo">
                             <button>수정</button>
                         </Link>
+                        <button className="withdraw-btn" onClick={handleWithdraw}>회원탈퇴</button>
                     </div>
                 </div>
             </div>

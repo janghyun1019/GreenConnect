@@ -167,7 +167,7 @@ CREATE Table report(
   reported_user_id varchar2(32),
   report_count number, -- 신고당한 횟수
   report_punish varchar2(32) -- 처벌
-  
+  created_at TIMESTAMP DEFAULT SYSTIMESTAMP
 );
 
 create sequence report_id_seq

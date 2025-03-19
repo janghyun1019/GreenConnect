@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // 백엔드 통신을 위한 HTTP 클라이언트 라이브러리
+import axios from "axios";
 
 function CardRegistration() {
-    const [cards, setCards] = useState([
-        { id: 'card_1', type: 'credit_card', provider: '카카오카드', last_four: '1234', expires: '12/28', is_default: true },
-        { id: 'card_2', type: 'credit_card', provider: '농협카드', last_four: '5678', expires: '03/27', is_default: false }
-    ]);
+    const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({});
-    const [apiError, setApiError] = useState("");
     
     const [formData, setFormData] = useState({
         cardType: 'credit_card',
@@ -21,21 +17,21 @@ function CardRegistration() {
     
     const [isFormVisible, setIsFormVisible] = useState(false);
 
-    // 컴포넌트 마운트 시 DB에서 카드 정보 가져오기
     useEffect(() => {
         fetchCards();
     }, []);
 
-    // 백엔드 API에서 카드 목록 가져오기
     const fetchCards = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/api/cards');
-            setCards(response.data);
-            setLoading(false);
+            const response = await axios.get('/api/cards', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } // 임시 토큰 추가
+            });
+            setCards(response.data || []); // 데이터가 없으면 빈 배열로 설정
         } catch (err) {
             console.error("카드 정보를 불러오는데 실패했습니다:", err);
-            setApiError("카드 정보를 불러오는데 실패했습니다. 다시 시도해주세요.");
+            setCards([]); // 실패 시 빈 배열로 설정
+        } finally {
             setLoading(false);
         }
     };
@@ -89,33 +85,31 @@ function CardRegistration() {
         e.preventDefault();
 
         if (validateForm()) {
-            setApiError("");
-            
             try {
-                // 카드 정보 마스킹
                 const maskedCardNumber = '*'.repeat(12) + formData.cardNumber.slice(-4);
                 
                 const cardData = {
                     type: formData.cardType,
                     provider: formData.cardProvider,
-                    card_number: formData.cardNumber, // 백엔드에서 암호화 처리
+                    card_number: formData.cardNumber,
                     last_four: formData.cardNumber.slice(-4),
                     expires: formData.expiryDate,
-                    cvv: formData.cvv, // 백엔드에서 암호화 처리
+                    cvv: formData.cvv,
                     is_default: formData.isDefault
                 };
 
-                // 기본 카드로 설정하는 경우 백엔드에 알림
                 if (formData.isDefault) {
-                    await axios.post('/api/cards/register', { ...cardData, set_as_default: true });
+                    await axios.post('/api/cards/register', { ...cardData, set_as_default: true }, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                    });
                 } else {
-                    await axios.post('/api/cards/register', cardData);
+                    await axios.post('/api/cards/register', cardData, {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                    });
                 }
 
-                // 카드 목록 새로고침
                 await fetchCards();
 
-                // 폼 초기화
                 setFormData({
                     cardType: 'credit_card',
                     cardProvider: '',
@@ -130,29 +124,33 @@ function CardRegistration() {
                 
             } catch (err) {
                 console.error("카드 등록 실패:", err);
-                setApiError(err.response?.data?.message || "카드 등록에 실패했습니다. 다시 시도해주세요.");
+                alert("카드 등록에 실패했습니다. 다시 시도해주세요.");
             }
         }
     };
 
     const setDefaultCard = async (cardId) => {
         try {
-            await axios.put(`/api/cards/${cardId}/set-default`);
-            await fetchCards(); // 카드 목록 새로고침
+            await axios.put(`/api/cards/${cardId}/set-default`, null, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
+            await fetchCards();
         } catch (err) {
             console.error("기본 카드 설정 실패:", err);
-            setApiError("기본 카드 설정에 실패했습니다. 다시 시도해주세요.");
+            alert("기본 카드 설정에 실패했습니다. 다시 시도해주세요.");
         }
     };
 
     const deleteCard = async (cardId) => {
         if (window.confirm('이 카드를 정말 삭제하시겠습니까?')) {
             try {
-                await axios.delete(`/api/cards/${cardId}`);
-                await fetchCards(); // 카드 목록 새로고침
+                await axios.delete(`/api/cards/${cardId}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+                await fetchCards();
             } catch (err) {
                 console.error("카드 삭제 실패:", err);
-                setApiError("카드 삭제에 실패했습니다. 다시 시도해주세요.");
+                alert("카드 삭제에 실패했습니다. 다시 시도해주세요.");
             }
         }
     };
@@ -169,7 +167,40 @@ function CardRegistration() {
                 </button>
             </div>
 
-            {apiError && <div className="api-error">{apiError}</div>}
+            {loading ? (
+                <div className="loading">카드 정보를 불러오는 중...</div>
+            ) : (
+                <div className="cards-list">
+                    {cards.length === 0 ? (
+                        <div className="empty-state">등록된 카드가 없습니다.</div>
+                    ) : (
+                        cards.map(card => (
+                            <div key={card.id} className={`card-item ${card.is_default ? 'default' : ''}`}>
+                                <div className="card-info">
+                                    <div className="card-provider">{card.provider}</div>
+                                    <div className="card-number">**** **** **** {card.last_four}</div>
+                                    <div className="card-expires">만료일: {card.expires}</div>
+                                    {card.is_default && <div className="default-badge">기본</div>}
+                                </div>
+                                <div className="card-actions">
+                                    {!card.is_default && (
+                                        <button
+                                            className="set-default-button"
+                                            onClick={() => setDefaultCard(card.id)}>
+                                            기본으로 설정
+                                        </button>
+                                    )}
+                                    <button
+                                        className="delete-button"
+                                        onClick={() => deleteCard(card.id)}>
+                                        삭제
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+            )}
 
             {isFormVisible && (
                 <form onSubmit={handleSubmit} className="card-form">
@@ -267,39 +298,6 @@ function CardRegistration() {
                     </div>
                 </form>
             )}
-
-            <div className="cards-list">
-                {loading ? (
-                    <div className="loading">카드 정보를 불러오는 중...</div>
-                ) : cards.length === 0 ? (
-                    <div className="empty-state">등록된 카드가 없습니다.</div>
-                ) : (
-                    cards.map(card => (
-                        <div key={card.id} className={`card-item ${card.is_default ? 'default' : ''}`}>
-                            <div className="card-info">
-                                <div className="card-provider">{card.provider}</div>
-                                <div className="card-number">**** **** **** {card.last_four}</div>
-                                <div className="card-expires">만료일: {card.expires}</div>
-                                {card.is_default && <div className="default-badge">기본</div>}
-                            </div>
-                            <div className="card-actions">
-                                {!card.is_default && (
-                                    <button
-                                        className="set-default-button"
-                                        onClick={() => setDefaultCard(card.id)}>
-                                        기본으로 설정
-                                    </button>
-                                )}
-                                <button
-                                    className="delete-button"
-                                    onClick={() => deleteCard(card.id)}>
-                                    삭제
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
         </div>
     );
 }

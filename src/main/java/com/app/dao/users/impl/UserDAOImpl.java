@@ -6,42 +6,97 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.app.dao.users.UserDAO;
 import com.app.dto.users.Users;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
+    private static final Logger logger = LogManager.getLogger(UserDAOImpl.class);
+
     @Autowired
-    SqlSessionTemplate sqlSessionTemplate;
+    private SqlSessionTemplate sqlSessionTemplate;
 
     @Override
     public Users getUserInfo(String userId) {
-        return sqlSessionTemplate.selectOne("User_mapper.getUserInfo", userId);
+        try {
+            return sqlSessionTemplate.selectOne("User_mapper.getUserInfo", userId);
+        } catch (Exception e) {
+            logger.error("Error fetching user info: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 
     @Override
     public Users getUserDetail(String userId) {
-        return sqlSessionTemplate.selectOne("User_mapper.getUserDetail", userId);
+        try {
+            return sqlSessionTemplate.selectOne("User_mapper.getUserDetail", userId);
+        } catch (Exception e) {
+            logger.error("Error fetching user detail: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 
     @Override
     public List<Users> getUserList() {
-        return sqlSessionTemplate.selectList("User_mapper.getUserList");
+        try {
+            return sqlSessionTemplate.selectList("User_mapper.getUserList");
+        } catch (Exception e) {
+            logger.error("Error fetching user list: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 
     @Override
     public List<Map<String, Object>> getUserActivityLog(String userId) {
-        return sqlSessionTemplate.selectList("User_mapper.getUserActivityLog", userId);
+        try {
+            return sqlSessionTemplate.selectList("User_mapper.getUserActivityLog", userId);
+        } catch (Exception e) {
+            logger.error("Error fetching activity log: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 
     @Override
     public void updateUserRole(Users user) {
-        sqlSessionTemplate.update("User_mapper.updateUserRole", user);
+        try {
+            sqlSessionTemplate.update("User_mapper.updateUserRole", user);
+        } catch (Exception e) {
+            logger.error("Error updating user role: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 
     @Override
     public void suspendUser(Users user) {
-        sqlSessionTemplate.update("User_mapper.suspendUser", user);
+        try {
+            sqlSessionTemplate.update("User_mapper.suspendUser", user);
+        } catch (Exception e) {
+            logger.error("Error suspending user: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        try {
+            sqlSessionTemplate.delete("User_mapper.deleteUser", userId);
+        } catch (Exception e) {
+            logger.error("Error deleting user: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
+
+    @Override
+    public void updateUserInfo(Users user) {
+        try {
+            sqlSessionTemplate.update("User_mapper.updateUserInfo", user);
+        } catch (Exception e) {
+            logger.error("Error updating user info: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
     }
 }

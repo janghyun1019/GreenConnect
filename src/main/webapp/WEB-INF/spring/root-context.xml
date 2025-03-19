@@ -13,18 +13,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- roomDAO 등록 -->
-	<!-- <bean id="roomDAO" class="com.app.dao.room.impl.RoomDAOImpl"></bean> -->
-
-	<!-- roomService 에 roomDAO 주입 -->
-	<!-- <bean id="roomService" class="com.app.service.room.impl.RoomServiceImpl"> -->
-	<!-- 생성자를 통한 의존성 주입 -->
-	<!-- <constructor-arg ref="roomDAO"></constructor-arg> -->
-
-	<!-- set 을 통해 의존성 주입 -->
-	<!-- <property name="roomDAO" ref="roomDAO"></property> -->
-	<!-- </bean> -->
-
 	<bean class="org.apache.commons.dbcp2.BasicDataSource"
 		id="data_source">
 		<property name="driverClassName"
@@ -48,14 +36,4 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 			ref="sqlSessionFactory" />
 	</bean>
 	
-<!-- 	<context:component-scan -->
-<!-- 		base-package="com.app.service"></context:component-scan> -->
-<!-- 	<context:component-scan -->
-<!-- 		base-package="com.app.dao"></context:component-scan> -->
-<!-- 	<bean id="sampleScheduler" class="com.app.scheduler.MyScheduler" /> -->
-<!-- 	<task:scheduler id="mainScheduler" pool-size="10" /> -->
-<!-- 	<task:executor id="mainTaskExecutor" pool-size="10" /> -->
-<!-- 	<task:annotation-driven -->
-<!-- 		executor="mainTaskExecutor" scheduler="mainScheduler" /> -->
-
 </beans>

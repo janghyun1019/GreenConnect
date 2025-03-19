@@ -9,12 +9,12 @@ public class SystemSetting {
     // 사이트 디자인 DTO
     String theme;
     // 배너 관리 DTO
-    int bannerId;
+    long bannerId;
     String bannerTitle;
     // 서버 상태 DTO
     String status;
     // 공지사항 DTO
-    int noticeId;
+    long noticeId;
     String noticeTitle;
     String noticeContent;
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Sidebar from './components/Sidebar';
 
 function Post() {
     const [posts, setPosts] = useState([]);
@@ -51,6 +52,8 @@ function Post() {
 
     return (
         <div className="my-posts-container">
+            <Sidebar />
+            <div className="main_content">
         <h2>내가 작성한 글</h2>
         {posts.length === 0 ? (
             <p className="no-posts">작성한 글이 없습니다.</p>
@@ -72,6 +75,7 @@ function Post() {
             ))}
             </div>
         )}
+        </div>
         </div>
     );
 }

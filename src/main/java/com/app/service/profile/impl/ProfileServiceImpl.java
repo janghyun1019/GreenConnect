@@ -21,9 +21,9 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
-	public void updateProfileImage(String userId, String fileName) {
-		profileDAO.updateProfileImage(userId, fileName);
-	}
+    public void updateProfileImage(String userId, String fileName) {
+        profileDAO.updateProfileImage(userId, fileName);
+    }
 
 	@Override
 	public void updateNickname(String userId, String nickname) {

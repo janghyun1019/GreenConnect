@@ -11,50 +11,84 @@ import com.app.dto.faq.Faq;
 import com.app.dto.post.Post;
 import com.app.dto.report.Report;
 import com.app.dto.report.UserReport;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Repository
-public class ReportDAOImpl implements ReportDAO{
-	
-	@Autowired
-    SqlSessionTemplate sqlSessiontemplate;
-	
-	@Override
-	public List<UserReport> getAllUserReports() {
-		List<UserReport> userReportList = sqlSessiontemplate.selectList("Report_mapper.getAllUserReports");
-		return userReportList;
-	}
+public class ReportDAOImpl implements ReportDAO {
 
-	@Override
-	public void updateReportResult(UserReport report) {
-		sqlSessiontemplate.update("Report_mapper.updateReportResult",report);
-	}
+    private static final Logger logger = LogManager.getLogger(ReportDAOImpl.class);
 
-	@Override
-	public List<Report> getReportStats() {
-		List<Report> reportList = sqlSessiontemplate.selectList("Report_mapper.getReportStats");
-		return reportList;
-	}
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
 
-	@Override
-	public List<Faq> getAllFaqs() {
-		List<Faq> faqList = sqlSessiontemplate.selectList("Report_mapper.getAllFaqs");
-		return faqList;
-	}
+    @Override
+    public List<UserReport> getAllUserReports() {
+        try {
+            return sqlSessionTemplate.selectList("Report_mapper.getAllUserReports");
+        } catch (Exception e) {
+            logger.error("Error fetching user reports: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
 
-	@Override
-	public void insertFaq(Faq faq) {
-		sqlSessiontemplate.insert("Report_mapper.insertFaq",faq);
-	}
+    @Override
+    public void updateReportResult(UserReport report) {
+        try {
+            sqlSessionTemplate.update("Report_mapper.updateReportResult", report);
+        } catch (Exception e) {
+            logger.error("Error updating report result: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
 
-	@Override
-	public void updatePostState(Post post) {
-		sqlSessiontemplate.update("Report_mapper.updatePostState",post);
-		
-	}
+    @Override
+    public List<Report> getReportStats() {
+        try {
+            return sqlSessionTemplate.selectList("Report_mapper.getReportStats");
+        } catch (Exception e) {
+            logger.error("Error fetching report stats: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
 
-	@Override
-	public List<UserReport> getAllUserReportsWithHistory() {
-		List<UserReport> userReportList = sqlSessiontemplate.selectList("Report_mapper.getAllUserReportsWithHistory");
-		return userReportList;
-	}
+    @Override
+    public List<Faq> getAllFaqs() {
+        try {
+            return sqlSessionTemplate.selectList("Report_mapper.getAllFaqs");
+        } catch (Exception e) {
+            logger.error("Error fetching FAQs: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
 
+    @Override
+    public void insertFaq(Faq faq) {
+        try {
+            sqlSessionTemplate.insert("Report_mapper.insertFaq", faq);
+        } catch (Exception e) {
+            logger.error("Error inserting FAQ: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
+
+    @Override
+    public void updatePostState(Post post) {
+        try {
+            sqlSessionTemplate.update("Report_mapper.updatePostState", post);
+        } catch (Exception e) {
+            logger.error("Error updating post state: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
+
+    @Override
+    public List<UserReport> getAllUserReportsWithHistory() {
+        try {
+            return sqlSessionTemplate.selectList("Report_mapper.getAllUserReportsWithHistory");
+        } catch (Exception e) {
+            logger.error("Error fetching user reports with history: " + e.getMessage());
+            throw new RuntimeException("Database error", e);
+        }
+    }
 }

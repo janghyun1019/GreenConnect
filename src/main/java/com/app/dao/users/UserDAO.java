@@ -12,5 +12,6 @@ public interface UserDAO {
     List<Map<String, Object>> getUserActivityLog(String userId);
     void updateUserRole(Users user);
     void suspendUser(Users user);
-//    void chargeBalance(String userId, int amount);
+    void deleteUser(String userId);
+    void updateUserInfo(Users user);
 }

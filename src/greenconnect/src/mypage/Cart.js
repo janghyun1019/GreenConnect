@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './css/Cart.css';
-
+import Sidebar from './components/Sidebar';
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [transactions, setTransactions] = useState([]);
@@ -104,6 +104,10 @@ function Cart() {
 
     return (
         <div className="Cart-container">
+            <div className="sidebar-section">
+                <Sidebar />
+            </div>
+            <div className="main-content">
             <h1>장바구니</h1>
             <div>
                 <h2>장바구니 목록</h2>
@@ -184,6 +188,7 @@ function Cart() {
                     )}
                 </div>
             </div>
+        </div>
         </div>
     );
 }

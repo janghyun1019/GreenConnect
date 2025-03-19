@@ -1,28 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function AddressRegistration() {
-    const [address, setAddress] = useState([
-        {
-            id: 'user1',
-            postal_code: '11111',
-            address1: '충남 천안시 동남구 대흥로 215',
-            address2: '백자빌딩 7층 휴먼교육센터',
-            receiver: '박철중',
-            phone: '010-1234-5678',
-            is_default: true
-        },
-        {
-            id: 'user2',
-            postal_code: '22222',
-            address1: '충남 아산시 배방읍 배방로 14번길5',
-            address2: '다이소 배방점',
-            receiver: '장현',
-            phone: '010-5678-1234',
-            is_default: false
-        }
-    ]);
-
+    const [address, setAddress] = useState([]);
     const [formData, setFormData] = useState({
         receiver: '',
         phone: '',
@@ -31,7 +11,6 @@ function AddressRegistration() {
         address2: '',
         is_default: false
     });
-
     const [error, setError] = useState({});
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -43,12 +22,13 @@ function AddressRegistration() {
     const fetchAddresses = async () => {
         setIsLoading(true);
         try {
-            // Spring Boot 서버 API 엔드포인트 호출
-            const response = await axios.get('/api/addresses');
-            setAddress(response.data);
+            const response = await axios.get('/api/addresses', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } // 임시 토큰 추가
+            });
+            setAddress(response.data || []); // 데이터가 없으면 빈 배열로 설정
         } catch (error) {
             console.error("주소 목록을 불러오는데 실패했습니다:", error);
-            alert("주소 목록을 불러오는데 실패했습니다.");
+            setAddress([]); // 실패 시에도 빈 배열로 설정하여 오류 메시지 방지
         } finally {
             setIsLoading(false);
         }
@@ -99,7 +79,6 @@ function AddressRegistration() {
         if (validateForm()) {
             setIsLoading(true);
             try {
-                // 서버로 전송할 주소 데이터 객체
                 const addressData = {
                     receiver: formData.receiver,
                     phone: formData.phone,
@@ -109,13 +88,12 @@ function AddressRegistration() {
                     is_default: formData.is_default
                 };
 
-                // 서버 API에 POST 요청으로 데이터 전송
-                await axios.post('/api/addresses', addressData);
+                await axios.post('/api/addresses', addressData, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
                 
-                // 주소 목록 새로고침
                 await fetchAddresses();
                 
-                // 폼 초기화
                 setFormData({
                     receiver: '',
                     phone: '',
@@ -135,12 +113,13 @@ function AddressRegistration() {
             }
         }
     };
+
     const setDefaultAddress = async (addressId) => {
         setIsLoading(true);
         try {
-            // PUT 요청으로 기본 주소 설정
-            await axios.put(`/api/addresses/${addressId}/default`);
-            // 변경된 주소 목록 다시 불러오기
+            await axios.put(`/api/addresses/${addressId}/default`, null, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
             await fetchAddresses();
         } catch (error) {
             console.error("기본 주소 설정 실패:", error);
@@ -150,14 +129,13 @@ function AddressRegistration() {
         }
     };
 
-    // 주소 삭제 함수 - 서버 API 호출
     const deleteAddress = async (addressId) => {
         if (window.confirm('이 주소를 정말 삭제하시겠습니까?')) {
             setIsLoading(true);
             try {
-                // DELETE 요청으로 주소 삭제
-                await axios.delete(`/api/addresses/${addressId}`);
-                // 주소 목록 다시 불러오기
+                await axios.delete(`/api/addresses/${addressId}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
                 await fetchAddresses();
             } catch (error) {
                 console.error("주소 삭제 실패:", error);
@@ -295,40 +273,44 @@ function AddressRegistration() {
                 </form>
             )}
 
-            <div className="addresses-list">
-                {address.length === 0 ? (
-                    <div className="empty-state">등록된 주소가 없습니다.</div>
-                ) : (
-                    address.map(addr => (
-                        <div key={addr.id} className={`address-item ${addr.is_default ? 'default' : ''}`}>
-                            <div className="address-info">
-                                <div className="address-receiver">{addr.receiver}</div>
-                                <div className="address-phone">{addr.phone}</div>
-                                <div className="address-full">
-                                    [{addr.postal_code}] {addr.address1} {addr.address2}
+            {isLoading ? (
+                <div className="loading">주소 목록을 불러오는 중...</div>
+            ) : (
+                <div className="addresses-list">
+                    {address.length === 0 ? (
+                        <div className="empty-state">등록된 주소가 없습니다.</div>
+                    ) : (
+                        address.map(addr => (
+                            <div key={addr.id} className={`address-item ${addr.is_default ? 'default' : ''}`}>
+                                <div className="address-info">
+                                    <div className="address-receiver">{addr.receiver}</div>
+                                    <div className="address-phone">{addr.phone}</div>
+                                    <div className="address-full">
+                                        [{addr.postal_code}] {addr.address1} {addr.address2}
+                                    </div>
+                                    {addr.is_default && <div className="default-badge">기본 배송지</div>}
                                 </div>
-                                {addr.is_default && <div className="default-badge">기본 배송지</div>}
-                            </div>
-                            <div className="address-actions">
-                                {!addr.is_default && (
+                                <div className="address-actions">
+                                    {!addr.is_default && (
+                                        <button
+                                            className="set-default-button"
+                                            onClick={() => setDefaultAddress(addr.id)}
+                                        >
+                                            기본으로 설정
+                                        </button>
+                                    )}
                                     <button
-                                        className="set-default-button"
-                                        onClick={() => setDefaultAddress(addr.id)}
+                                        className="delete-button"
+                                        onClick={() => deleteAddress(addr.id)}
                                     >
-                                        기본으로 설정
+                                        삭제
                                     </button>
-                                )}
-                                <button
-                                    className="delete-button"
-                                    onClick={() => deleteAddress(addr.id)}
-                                >
-                                    삭제
-                                </button>
+                                </div>
                             </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 }

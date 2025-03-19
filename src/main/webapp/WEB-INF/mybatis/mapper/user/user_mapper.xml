@@ -41,7 +41,10 @@
         UPDATE users
         SET username = #{userName},
             email = #{email},
-            tel = #{tel}
+            tel = #{tel},
+        <if test="password != null">
+            password = #{password},
+        </if>
         WHERE user_id = #{userId}
     </update>
 
