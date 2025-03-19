@@ -11,6 +11,7 @@ import Main from "./main/main";
 import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js"; // 추가된 페이지
 import TermsOfUse from "./Page/SubPage/TermsOfUse";
 import PrivacyPolicy from "./Page/SubPage/PrivacyPolicy";
+import UserGuide from "./Page/SubPage/UserGuide";
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
           <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
           <Route path="/TermsOfUse" element={<TermsOfUse />} />
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/UserGuide" element={<UserGuide />} />
+          
           
         </Routes>
         <Footer />
