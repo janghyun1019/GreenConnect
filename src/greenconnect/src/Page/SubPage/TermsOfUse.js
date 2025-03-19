@@ -176,7 +176,7 @@ const TermsOfUse = () => {
 											"몰"과 이용자간에 제기된 전자상거래 소송에는 한국법을 적용합니다.</div>
 				
 				<h3 className="subtitle">부  칙 시행일 등</h3>
-				<div className="to_text">이 약관은 2019년 O9월 O2일부터 시행합니다.
+				<div className="to_text">이 약관은 2025년 03월 19일부터 시행합니다.
 											이 약관은 전자상거래(인터넷사이버몰) 표준약관 제10023호(2014. 9. 19. 개정)를 준수합니다.</div>
 
 			</div>

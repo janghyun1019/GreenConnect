@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-d
 import Main from "./main/main";
 import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js"; // 추가된 페이지
 import TermsOfUse from "./Page/SubPage/TermsOfUse";
+import PrivacyPolicy from "./Page/SubPage/PrivacyPolicy";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           {/* 추가된 라우트 */}
           <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
           <Route path="/TermsOfUse" element={<TermsOfUse />} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
           
         </Routes>
         <Footer />
