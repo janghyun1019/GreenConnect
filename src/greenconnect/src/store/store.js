@@ -8,7 +8,8 @@ let userSlice = createSlice({
         accessToken: null, //엑세스 토큰
         refreshToken: null, //리프레시 토큰
         nickname: null, //사용자 닉네임
-        userId : null //사용자 ID
+        userId : null, //사용자 ID
+        email : null
     },
     reducers : {
 
@@ -20,12 +21,14 @@ let userSlice = createSlice({
             state.refreshToken = action.payload.refreshToken;
             state.nickname = action.payload.nickname;
             state.userId = action.payload.userId;
+            state.email = action.payload.email;
 
             //로컬 스토리지에 저장
             localStorage.setItem("accessToken", action.payload.accessToken);
             localStorage.setItem("refreshToken", action.payload.refreshToken);
             localStorage.setItem("nickname", action.payload.nickname);
             localStorage.setItem("userId", action.payload.userId);
+            localStorage.setItem("email", action.payload.email);
         },
         //로그아웃 액션
         logoutUser(state){
@@ -34,12 +37,14 @@ let userSlice = createSlice({
             state.refreshToken = null;
             state.nickname = null;
             state.userId = null;
+            state.email = null;
 
             //로컬 스토리지에서 제거
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             localStorage.removeItem("nickname");
             localStorage.removeItem("userId");
+            localStorage.removeItem("email");
         }
     }
 })

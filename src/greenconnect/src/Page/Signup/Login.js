@@ -10,6 +10,14 @@ function Login() {
     let [password, setPassWord] = useState('');
     const navigate = useNavigate();
 
+    //구글 로그인 처리 함수
+    const handleGoogleLogin = () => {
+        const googleAuthURL = `https://accounts.google.com/o/oauth2/auth?client_id=290972713499-agpe9v71ip774sidcveg0tbuc19b2t2e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google/callback&response_type=code&scope=email%20profile&access_type=offline&prompt=consent`;
+    
+        console.log('Redirecting to:', googleAuthURL); // 디버깅용
+        window.location.href = googleAuthURL;
+    };
+
     // 로그인 처리 함수
     const handleLogin = () => {
         axios.post(
@@ -91,7 +99,9 @@ function Login() {
                 <button onClick={() => navigate("/find-password")}>비밀번호 찾기</button> <br />
                 <button>네이버 로그인</button> <br />
                 <button>카카오 로그인</button> <br />
-                <button>Google 로그인</button> <br />
+                <div style={{ marginTop: "20px" }}>
+                <button onClick={handleGoogleLogin}>Google로 로그인</button>
+            </div><br/>
             </div>
         </div>
     );

@@ -22,4 +22,5 @@ public interface UserDAO {
 	int isDuplicate(String type, String value);
 	int updateUser(User user);
 	
+	
 }
