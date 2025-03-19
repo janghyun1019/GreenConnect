@@ -2,74 +2,79 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="User_mapper">
-    <!-- 사용자 목록 조회 (관리자용) -->
-    <select id="getUserList" resultType="Users">
-        SELECT user_id AS userId, username AS userName, role, status, created_at AS regDate 
-        FROM USERS
-    </select>
+	<!-- 사용자 목록 조회 (관리자용) -->
+	<select id="getUserList" resultType="Users">
+		SELECT user_id AS userId, username AS userName, role, status, created_at AS
+		regDate
+		FROM USERS
+	</select>
 
-    <!-- 사용자 권한 수정 -->
-    <update id="updateUserRole" parameterType="Users">
-        UPDATE users 
-        SET role = #{role}
-        WHERE user_id = #{userId}
-    </update>
-
-    <!-- 사용자 계정 정지 -->
-	<update id="suspendUser" parameterType="Users">
-	    UPDATE users 
-	    SET status = #{status}
-	    WHERE user_id = #{userId}
+	<!-- 사용자 권한 수정 -->
+	<update id="updateUserRole" parameterType="Users">
+		UPDATE users
+		SET role = #{role}
+		WHERE user_id = #{userId}
 	</update>
 
-    <!-- 사용자 활동 로그 조회 -->
-    <select id="getUserActivityLog" parameterType="String" resultType="Users">
-        SELECT user_id AS userId, username AS userName, role, status, created_at AS regDate 
-        FROM users 
-        WHERE user_id = #{userId}
-    </select>
+	<!-- 사용자 계정 정지 -->
+	<update id="suspendUser" parameterType="Users">
+		UPDATE users
+		SET status = #{status}
+		WHERE user_id = #{userId}
+	</update>
 
-    <!-- 사용자 정보 조회 -->
-    <select id="getUserInfo" resultType="Users">
-        SELECT user_id AS userId, username AS userName, email, tel, nickname
-        FROM users
-        WHERE user_id = #{userId}
-    </select>
+	<!-- 사용자 활동 로그 조회 -->
+	<select id="getUserActivityLog" parameterType="String"
+		resultType="map">
+		SELECT user_id AS userId, username AS userName, role, status, created_at AS
+		regDate
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
 
-    <!-- 사용자 정보 업데이트 -->
-    <update id="updateUserInfo" parameterType="Users">
-        UPDATE users
-        SET username = #{userName},
-            email = #{email},
-            tel = #{tel},
-        <if test="password != null">
-            password = #{password},
-        </if>
-        WHERE user_id = #{userId}
-    </update>
+	<!-- 사용자 정보 조회 -->
+	<select id="getUserInfo" resultType="Users">
+		SELECT user_id AS userId, username AS userName, email, tel, nickname
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
 
-    <!-- 사용자 상세 조회 -->
-    <select id="getUserDetail" resultType="Users">
-        SELECT user_id AS userId,
-               username AS userName,
-               email,
-               tel,
-               nickname,
-               profile_image AS profileImage
-        FROM users
-        WHERE user_id = #{userId}
-    </select>
+	<!-- 사용자 정보 업데이트 -->
+	<update id="updateUserInfo" parameterType="Users">
+		UPDATE users
+		SET username = #{userName},
+		email = #{email},
+		tel = #{tel},
+		<if test="password != null">
+			password = #{password},
+		</if>
+		WHERE user_id = #{userId}
+	</update>
 
-    <!-- 사용자 추가 -->
-    <insert id="insertUser" parameterType="Users">
-        INSERT INTO users (user_id, password, username, nickname, email, tel, user_type)
-        VALUES (#{userId}, #{password}, #{userName}, #{nickName}, #{email}, #{tel}, #{userType})
-    </insert>
+	<!-- 사용자 상세 조회 -->
+	<select id="getUserDetail" resultType="Users">
+		SELECT user_id AS userId,
+		username AS userName,
+		email,
+		tel,
+		nickname,
+		profile_image AS profileImage
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
 
-    <!-- 사용자 삭제 -->
-    <delete id="deleteUser" parameterType="Users">
-        DELETE FROM users 
-        WHERE user_id = #{userId}
-    </delete>
-    
+	<!-- 사용자 추가 -->
+	<insert id="insertUser" parameterType="Users">
+		INSERT INTO users (user_id, password, username, nickname, email, tel,
+		user_type)
+		VALUES (#{userId}, #{password}, #{userName}, #{nickName}, #{email}, #{tel},
+		#{userType})
+	</insert>
+
+	<!-- 사용자 삭제 -->
+	<delete id="deleteUser" parameterType="Users">
+		DELETE FROM users
+		WHERE user_id = #{userId}
+	</delete>
+
 </mapper>
