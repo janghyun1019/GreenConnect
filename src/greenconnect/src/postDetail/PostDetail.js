@@ -211,10 +211,10 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 nickName: buyUser.nickname,
                 boardId: 1,
                 postId: postDetail.postId,
-                postUserId: postDetail.postUserId,
+                postUserId: postDetail.userId,
                 buyCount: buyCount,
                 totalPrice: totalPrice,
-                totalGram: totalGram,
+                totalGram: totalGram
             };
 
             console.log(data);
@@ -269,7 +269,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
 
         try {
             // Data 생성
-            const data = {
+            const data2 = {
                 userId: buyUser.userId,
                 nickName: buyUser.nickname,
                 boardId: 1,
@@ -280,10 +280,10 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 totalGram: totalGram,
             };
 
-            console.log(data);
+            console.log(data2);
 
             // 백엔드 API로 데이터 전송
-            const response = await axios.post('/api/buyProduct', data, {
+            const response = await axios.post('/api/buyProduct', data2, {
                 headers: {
                     'Content-Type': 'application/json', // JSON 형식으로 보내기
                 }

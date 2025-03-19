@@ -17,6 +17,8 @@ import Login from "../Page/Signup/Login.js";
 import FindId from "../Page/Signup/FindId.js";
 import FindPassword from "../Page/Signup/FindPassword.js";
 import ResetPassword from "../Page/Signup/ResetPassword.js";
+import PostDetailReviewModal from '../postDetail/PostDetailReviewModal.js';
+import PostReviewSlider from '../postDetail/PostReviewSlider.js';
 
 function Merge() {
 
@@ -32,6 +34,8 @@ function Merge() {
                 <Route path="/writePost" element={<WritePost />} />
                 <Route path="/postDetail/:postId" element={<PostDetail />} />
                 <Route path="/postDetailReview/:postId" element={<PostDetailReview />} />
+                <Route path="/postDetailReviewModal/:postId" element={<PostDetailReviewModal />} />
+                <Route path="/postReviewSlider" element={<PostReviewSlider />} />
                 <Route path="/modifyPostDetail/:postId" element={<ModifyPostDetail />} />
                 <Route path="/postDetailIntro" element={<PostDetailIntro />} />
                 <Route path="/postList" element={<PostList />} />
