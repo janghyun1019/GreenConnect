@@ -114,6 +114,12 @@
 			#{id}
 		</foreach>
 	</update>
+	
+	<!-- username으로 사용자 조회 -->
+    <select id="getUserByUsername" resultType="User">
+		SELECT * FROM users WHERE
+		username = #{username}
+	</select>
 
 
 </mapper>

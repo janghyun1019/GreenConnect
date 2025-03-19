@@ -21,6 +21,7 @@ public interface UserDAO {
     void updatePassword(String userId, String newPassword);
 	int isDuplicate(String type, String value);
 	int updateUser(User user);
+	User getUserByUsername(String username);
 	
 	
 }

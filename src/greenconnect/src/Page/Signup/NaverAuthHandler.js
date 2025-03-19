@@ -4,44 +4,45 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginUser, resetUser } from "../../store/store";
 
-function GoogleAuthHandler() {
-    let navigate = useNavigate();
-    let dispatch = useDispatch();
+function NaverAuthHandler() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(resetUser()); // 로그인 전 상태 초기화
         const query = new URLSearchParams(window.location.search);
         const code = query.get("code");
-        console.log("Google code:", code);
+        console.log("Naver code:", code);
+
+        console.log("NaverAuthHandler called with code:", code);
 
         if (code) {
+            console.log("Sending request to /user/naver-login with code:", code);
             axios
-                .post("http://localhost:8080/user/google-login", { code })
+                .post("http://localhost:8080/user/naver-login", { code })
                 .then((response) => {
+                    console.log("Naver login response:", response.data);
                     const { success, userId, nickname, email } = response.data;
-
                     if (success) {
-                        // Redux에 사용자 정보 저장
                         dispatch(loginUser({ userId, nickname, email }));
-
-                        alert("Google 로그인 성공!");
+                        alert("네이버 로그인 성공!");
                         navigate("/TestMain");
                     } else {
                         throw new Error(response.data.message);
                     }
                 })
                 .catch((error) => {
-                    console.error("Google 로그인 실패:", error);
-                    alert("Google 로그인 실패: " + error.message);
+                    console.error("네이버 로그인 실패:", error);
+                    alert("네이버 로그인 실패");
                     navigate("/");
                 });
         } else {
-            alert("Google 인증 코드가 없습니다.");
+            alert("네이버 인증 코드가 없습니다.");
             navigate("/");
         }
     }, [dispatch, navigate]);
 
-    return <h2>Google 로그인 처리 중...</h2>;
+    return <h2>네이버 로그인 처리 중...</h2>;
 }
 
-export default GoogleAuthHandler;
+export default NaverAuthHandler;
