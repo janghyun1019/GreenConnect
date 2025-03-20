@@ -34,11 +34,11 @@ function PostDetailReview({ post }) {
                 navigate("/login");
             }
         }
-        console.log(buyInfo);
-        console.log(buyInfo.userId);
-        console.log(buyUser.userId);
-        console.log(buyUser);
-        console.log(buyInfo.payState);
+        // console.log(buyInfo);
+        // console.log(buyInfo.userId);
+        // console.log(buyUser.userId);
+        // console.log(buyUser);
+        // console.log(buyInfo.payState);
         if (buyInfo && buyInfo.userId == buyUser.userId && buyUser && buyInfo.payState == 'Y') {
             console.log("구매기록있음");
             setIsModalOpen(true);
