@@ -27,7 +27,6 @@ function MainRecProduct() {
             alt={category.name}
             className="category-icon"
           />
-          <p>{category.name}</p>
         </a>
       ))}
     </div>

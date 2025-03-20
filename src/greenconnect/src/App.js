@@ -9,6 +9,10 @@ import Footer from "./common/Footer";
 import { BrowserRouter, Route, Routes, useInRouterContext } from "react-router-dom";
 import Main from "./main/main";
 import MarketInfoPage from "./Page/MarketInfo/MarketInfoPage.js"; // 추가된 페이지
+import TermsOfUse from "./Page/SubPage/TermsOfUse";
+import PrivacyPolicy from "./Page/SubPage/PrivacyPolicy";
+import UserGuide from "./Page/SubPage/UserGuide";
+import ProjectInfo from "./Page/SubPage/ProjectInfo";
 
 function App() {
   // 이미 Router 컨텍스트 내에 있는지 확인합니다.
@@ -29,6 +33,14 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
           {/* 추가된 라우트 */}
           <Route path="/MarketInfoPage" element={<MarketInfoPage />} />
+          
+          {/* sub 라우트 */}
+          <Route path="/TermsOfUse" element={<TermsOfUse />} />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/UserGuide" element={<UserGuide />} />
+          <Route path="/ProjectInfo" element={<ProjectInfo />} />
+          
+          
         </Routes>
         <Footer />
       </div>

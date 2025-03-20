@@ -8,13 +8,13 @@ function Footer() {
 				<hr />
 				{/* 상단 메뉴 */}
 				<div className="footer-top-menu">
-					<a href="/">회사소개</a>
+					<a href="/ProjectInfo">회사소개</a>
 					<span> | </span>
-					<a href="/">이용약관</a>
+					<a href="/TermsOfUse">이용약관</a>
 					<span> | </span>
-					<a href="/">개인정보처리방침</a>
+					<a href="/PrivacyPolicy">개인정보처리방침</a>
 					<span> | </span>
-					<a href="/">이용안내</a>
+					<a href="/UserGuide">이용안내</a>
 				</div>
 				<hr />
 			</div>
@@ -23,7 +23,7 @@ function Footer() {
 			<div className="footer-content">
 				{/* 왼쪽: 프로젝트/회사 정보 */}
 				<div className="footer-info">
-					<div className="footer-title">그커마켓 프로젝트정보</div>
+					<div className="footer-title">그커장터 프로젝트정보</div>
 					<div className="footer-text"></div>
 					<div className="footer-text">프로젝트 팀명 : Green Connect<span> | </span>팀장 : 장현<span> | </span>팀원 : 김도현 박철중 변준현</div>
 					<div className="footer-text">사업자등록번호: 000-00-11111<span> | </span>통신판매업번호: 2025-충남 천안-1111</div>
