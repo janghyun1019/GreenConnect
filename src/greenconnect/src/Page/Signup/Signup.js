@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from 'react';
 
+import "../../common/commonPage.css";
 import "./Signup.css";
 
 function Signup() {
@@ -18,9 +19,13 @@ function Signup() {
 
 
 	return (
-		<div className="signupContainer">
-			<div>
-				<h1>회원가입 페이지</h1>
+		<div className="signupContainer01">
+			<div className="title">
+				<i class="fa-solid fa-user-plus"></i> 회원가입 페이지
+			</div>
+			<div className="titlesub">안녕하세요, 그커장터에 오신것을 환영합니다.</div>
+
+			<div className="signupContainer">
 
 				<div className="suline">
 					<input
@@ -94,7 +99,7 @@ function Signup() {
 					/>
 				</div>
 			</div>
-
+			<div className="siginupbutton">
 			<button onClick={() => {
 				axios.post(
 					"/user/signup",
@@ -123,7 +128,7 @@ function Signup() {
 						console.log(error);
 					})
 
-			}}>가입하기</button>
+			}}>가입하기</button></div>
 
 		</div> //맨 앞 감싸는 div 끝
 

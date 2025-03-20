@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+
+.signupContainer01 {
+	max-width: 1190px;
+	margin: 0 auto;
+}
+
 .signupContainer{
 	max-width: 480px;
 	margin: 0 auto;
@@ -19,3 +25,14 @@ input {
 	margin-bottom: 15px;
 }
 
+.siginupbutton {
+	max-width: 480px;
+	margin: 0 auto;
+	margin-bottom:20px;
+
+}
+
+button {
+	width:150px;
+	height: 50px;
+}
