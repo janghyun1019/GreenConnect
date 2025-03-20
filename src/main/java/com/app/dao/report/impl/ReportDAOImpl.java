@@ -1,11 +1,10 @@
-package com.app.dao.Report.impl;
+package com.app.dao.report.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.app.dao.Report.ReportDAO;
-import com.app.dto.report.Report;
+import com.app.dao.report.ReportDAO;
 import com.app.dto.report.UserReport;
 
 @Repository

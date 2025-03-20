@@ -1,6 +1,5 @@
-package com.app.dao.Report;
+package com.app.dao.report;
 
-import com.app.dto.report.Report;
 import com.app.dto.report.UserReport;
 
 public interface ReportDAO {
