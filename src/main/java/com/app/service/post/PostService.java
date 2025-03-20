@@ -37,6 +37,8 @@ public interface PostService {
 	
 	List<Post> getPostList(); // 리스트에 사용 할 모든 판매글정보 가져오기
 	
+	List<Post> getPostListByRelatedData(String relatedData);
+	
 //	List<Post> getPostsByuserId(String userId);
 //
 //	Post getPostById(int postId);

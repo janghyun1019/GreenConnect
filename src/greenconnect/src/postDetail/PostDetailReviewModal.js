@@ -117,6 +117,7 @@ function PostDetailReviewModal({ closeModal, post, buyInfo, buyUser }) {
                         value={reviewText}
                         onChange={handleReviewTextChange}
                         placeholder="후기를 작성해주세요"
+                        maxLength={800}
                     />
                 </div>
 

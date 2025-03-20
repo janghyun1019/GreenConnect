@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.app.dto.post.Post;
 import com.app.service.post.PostService;
 import com.app.dto.image.Image;
@@ -300,6 +297,19 @@ public class PostController {
 		List<Post> postList = postService.getPostList();
 		
 		System.out.println("판매글 리스트: " + postList);
+		
+		if (postList.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.ok(postList);
+	}
+	
+	@GetMapping("/api/postListByRelatedData")
+	public ResponseEntity<List<Post>> getPostListByRelatedData(@RequestParam("relatedData") String relatedData){
+		List<Post> postList = postService.getPostListByRelatedData(relatedData);
+		
+		System.out.println("판매글 리스트(관련품목): " + postList);
 		
 		if (postList.isEmpty()) {
 			return ResponseEntity.noContent().build();

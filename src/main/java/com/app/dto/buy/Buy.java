@@ -13,6 +13,8 @@ public class Buy {
 	private String totalPrice;
 	private String totalGram;
 	
+	private String payState;
+	
 	//결제했을때 추가로 들어가는 정보들
 	private String tradingType; // 거래방식 (택배, 만나서)
     private String requestContent; // 배송 요청 사항
