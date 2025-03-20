@@ -47,7 +47,9 @@ function Header() {
 					</div>
 					{/* 오른쪽: 로그인/회원가입, 내상점, 판매자센터 */}
 					<div className="top-right">
-						<Link to="/login" className="top-link">로그인/회원가입</Link>
+						<Link to="/login" className="top-link">로그인</Link>
+						<span className="divider">|</span>
+						<Link to="/Signup" className="top-link">회원가입</Link>
 						<span className="divider">|</span>
 						<Link to="/mypage" className="top-link">내상점</Link>
 						<Link to="/seller-center" className="seller-center-button">
