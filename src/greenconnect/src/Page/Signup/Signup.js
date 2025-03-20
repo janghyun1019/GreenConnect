@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Signup() {
+
+    const navigate = useNavigate();
 
     let [userId, setUserId] = useState('');
     let [password, setPassWord] = useState('');
@@ -260,7 +263,7 @@ function Signup() {
                         console.log(response.data);
                         if (response.data == 'ok') {
                             alert("회원가입이 완료되었습니다!");
-                            window.location("/login");
+                            navigate("/login");
                         }
                     })
                     .catch(error => {
