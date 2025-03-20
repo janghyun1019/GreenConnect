@@ -52,8 +52,8 @@ function MyPage() {
         // 금액 충전 팝업창 열기 함수
         const openChargePopup = () => {
             window.open(
-                '/charge', // 새 창에서 열 URL (React Router로 이동)
-                'ChargePopup', // 팝업창 이름
+                '/gpayCharge', // 새 창에서 열 URL (React Router로 이동)
+                'gpayCharge', // 팝업창 이름
                 'width=500,height=600,left=500,top=200,resizable=no,scrollbars=no'
             );
         };

@@ -15,4 +15,5 @@ public interface ReportDAO {
     void insertFaq(Faq faq);
     void updatePostState(Post post);
     List<UserReport> getAllUserReportsWithHistory();
+	int savePostReport(UserReport userReport);
 }

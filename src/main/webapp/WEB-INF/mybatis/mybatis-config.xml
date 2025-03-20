@@ -23,10 +23,9 @@
 		<typeAlias type="com.app.dto.faq.Faq" alias="Faq"/>
 		<typeAlias type="com.app.dto.systemSetting.SystemSetting" alias="SystemSetting"/>
 		<typeAlias type="com.app.dto.quality.Quality" alias="Quality"/>
-	<typeAliases>	 
+ 
 		<typeAlias type="com.app.dto.image.Image" alias="Image"/>
 		<typeAlias type="com.app.dto.user.User" alias="User" />
-		<typeAlias type="com.app.dto.post.Post" alias="Post" />
 		<typeAlias type="com.app.dto.review.Review" alias="Review" />
 		<typeAlias type="com.app.dto.buy.Buy" alias="Buy" />
 		<typeAlias type="com.app.dto.gpay.GpayProperty" alias="GpayProperty" />

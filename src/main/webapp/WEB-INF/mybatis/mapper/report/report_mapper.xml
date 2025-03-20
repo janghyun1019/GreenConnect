@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="report_mapper">
+<mapper namespace="Report_mapper">
+	<select id="getAllUserReports" resultType="UserReport">
+        SELECT user_id, reported_user_id, reported_user_nick_name, reported_post_id, report_content, report_result
+        FROM user_report
+    </select>
 
+    <update id="updateReportResult" parameterType="UserReport">
+        UPDATE user_report
+        SET report_result = #{reportResult},
+        	report_created_at = SYSTIMESTAMP
+        WHERE user_id = #{userId} AND reported_user_id = #{reportedUserId} AND reported_post_id = #{reportedPostId}
+    </update>
+    
+	<select id="getAllUserReportsWithHistory" resultType="UserReport">
+    SELECT user_id, reported_user_id, reported_user_nick_name, reported_post_id, report_content, report_result, processed_at
+    FROM user_report
+    ORDER BY processed_at DESC
+	</select>
 	
-	<insert id="savePostReport" parameterType="UserReport">
-		INSERT INTO user_report (user_id, reported_user_id, reported_user_nick_name, reported_post_id, report_content)
-	    VALUES (#{userId}, #{reportedUserId}, #{reportedUserNickName}, #{reportedPostId}, #{reportContent})
-	</insert>
-	
-	
-	
-	
-	
-	
-	
+    <select id="getReportStats" resultType="Report">
+        SELECT report_id, reported_user_id, report_count, report_punish
+        FROM report
+    </select>
+
+    <select id="getAllFaqs" resultType="Faq">
+        SELECT faq_id, faq_title, faq_content, faq_category, created_at, updated_at
+        FROM faq
+    </select>
+
+    <insert id="insertFaq" parameterType="Faq">
+        INSERT INTO faq (faq_id, faq_title, faq_content, faq_category, created_at, updated_at)
+        VALUES (faq_id_seq.NEXTVAL, #{faqTitle}, #{faqContent}, #{faqCategory}, SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    <update id="updatePostState" parameterType="Post">
+        UPDATE post
+        SET post_state = #{postState}
+        WHERE post_id = #{postId}
+    </update>
 </mapper>

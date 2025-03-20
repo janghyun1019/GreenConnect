@@ -13,8 +13,6 @@ public class Post {
 	String postState;
 	Date createdAt;
 	
-	private String postId;
-	private String userId;
 	private String nickName; // 판매글 판매자 닉네임으로 표시
 	private int boardId;
 	private String postProductType;

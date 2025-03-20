@@ -32,6 +32,7 @@ CREATE TABLE post
   post_create_at TIMESTAMP DEFAULT SYSTIMESTAMP,
   post_views number
 );
+
 CREATE TABLE address (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(100) NOT NULL,
@@ -43,21 +44,7 @@ CREATE TABLE address (
     is_default BOOLEAN DEFAULT FALSE,
     INDEX idx_user_id (user_id)
 );
-  nick_name varchar2(32),
-  board_id number,
-  post_product_type varchar2(100),
-  post_title varchar2(100) not null,
-  post_content varchar2(3000) not null,
-  url_file_path varchar2(500),
-  post_sales_unit varchar2(100),
-  post_price varchar2(64),
-  post_spot varchar2(500),
-  post_cost varchar2(64),
-  store_id varchar2(500),
-  post_create_at TIMESTAMP DEFAULT SYSTIMESTAMP,
-  post_views number DEFAULT '0' NOT NULL,
-  post_state varchar2(10) DEFAULT 'Y'  --상태관리: 게시글 삭제하면 N으로 변경
-);
+
 
 CREATE TABLE POSTS (
     POST_ID VARCHAR2(255) PRIMARY KEY,
