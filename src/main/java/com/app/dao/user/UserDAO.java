@@ -1,4 +1,4 @@
-package com.app.dao.users;
+package com.app.dao.user;
 
 import java.util.List;
 import java.util.Map;

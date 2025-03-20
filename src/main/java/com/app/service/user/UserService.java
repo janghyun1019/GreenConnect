@@ -1,4 +1,4 @@
-package com.app.service.users;
+package com.app.service.user;
 
 import java.util.List;
 import java.util.Map;
