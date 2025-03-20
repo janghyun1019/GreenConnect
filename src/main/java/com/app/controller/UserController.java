@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.app.dto.users.Users;
 import com.app.service.user.UserService;
+import com.app.utill.JwtProvider; // JwtProvider 임포트 추가
 
+import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,13 +27,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 임시로 JWT 파싱 대신 헤더에서 토큰을 단순 추출 (Spring Security로 대체 권장)
     private String getUserIdFromToken(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            // 단순히 토큰에서 userId를 추출하는 더미 로직 (실제로는 검증 필요)
-            return token.split("\\.")[0]; // 임시 처리, 실제로는 유효성 검사 필요
+            try {
+                // JwtProvider의 getSigningKey()를 사용하여 토큰 파싱
+                String userId = Jwts.parser()
+                        .verifyWith(JwtProvider.getSigningKey()) // 수정된 부분
+                        .build()
+                        .parseSignedClaims(token)
+                        .getPayload()
+                        .get("userId", String.class);
+                return userId;
+            } catch (Exception e) {
+                logger.error("Invalid JWT token: " + e.getMessage());
+                throw new SecurityException("Invalid or expired token");
+            }
         }
         throw new SecurityException("Authentication information is missing");
     }
@@ -41,6 +53,9 @@ public class UserController {
         try {
             String userId = getUserIdFromToken(request);
             Users user = userService.getUserInfo(userId);
+            if (user == null) {
+                return ResponseEntity.status(404).build();
+            }
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             logger.error("Error fetching user info: " + e.getMessage());
@@ -62,7 +77,8 @@ public class UserController {
 
     @PostMapping("/update")
     public ResponseEntity<String> updateUserInfo(HttpServletRequest request, @Validated @RequestBody Users user) {
-        try {
+        System.out.println(user);
+    	try {
             String userId = getUserIdFromToken(request);
             user.setUserId(userId);
             userService.updateUserInfo(user);

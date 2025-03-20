@@ -8,44 +8,44 @@ function Cart() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
-    useEffect(() => {
-        fetchCartItems();
-        fetchTransactions();
-    }, []);
+    // useEffect(() => {
+    //     fetchCartItems();
+    //     fetchTransactions();
+    // }, []);
     
-    const fetchCartItems = async () => {
-        try {
-            const userId = localStorage.getItem('userId');
-            const response = await axios.get(`/mypage/Cart/${userId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            setCartItems(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('장바구니 불러오기 실패:', error);
-            setError('장바구니를 불러오는 중 오류가 발생했습니다.');
-            setLoading(false);
-        }
-    };
+    // const fetchCartItems = async () => {
+    //     try {
+    //         const userId = localStorage.getItem('userId');
+    //         const response = await axios.get(`/mypage/Cart/${userId}`, {
+    //             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    //         });
+    //         setCartItems(response.data);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.error('장바구니 불러오기 실패:', error);
+    //         setError('장바구니를 불러오는 중 오류가 발생했습니다.');
+    //         setLoading(false);
+    //     }
+    // };
     
-    const fetchTransactions = async () => {
-        try {
-            const userId = localStorage.getItem('userId');
-            const response = await axios.get(`/transactions/${userId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            setTransactions(response.data);
-        } catch (error) {
-            console.error('거래내역 불러오기 실패:', error);
-        }
-    };
+    // const fetchTransactions = async () => {
+    //     try {
+    //         const userId = localStorage.getItem('userId');
+    //         const response = await axios.get(`/transactions/${userId}`, {
+    //             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    //         });
+    //         setTransactions(response.data);
+    //     } catch (error) {
+    //         console.error('거래내역 불러오기 실패:', error);
+    //     }
+    // };
     
     const updateQuantity = async (postId, newCount) => {
         if (newCount < 1) return;
         
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/update`, {
+            await axios.post(`/mypage/Cart/update`, {
                 userId,
                 postId,
                 count: newCount
@@ -64,7 +64,7 @@ function Cart() {
     const removeItem = async (postId) => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/remove`, {
+            await axios.post(`/mypage/Cart/remove`, {
                 userId,
                 postId
             }, {
@@ -80,7 +80,7 @@ function Cart() {
     const clearCart = async () => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/clear`, { userId }, {
+            await axios.post(`/mypage/Cart/clear`, { userId }, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
 

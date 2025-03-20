@@ -6,7 +6,7 @@ const JjimItem = ({ item, onRemove }) => {
     const navigate = useNavigate();
     
     const handleItemClick = () => {
-        navigate(`/product/${item.postId}`);
+        navigate(`/postDetail/${item.postId}`);
     };
     
     const handleRemoveClick = (e) => {

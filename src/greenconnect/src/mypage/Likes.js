@@ -71,7 +71,7 @@ function Likes() {
             {jjimList.length === 0 ? (
                 <div className="empty-list">
                     <p>찜한 상품이 없습니다.</p>
-                    <button onClick={() => navigate('/products')}>
+                    <button onClick={() => navigate('/postList')}>
                         상품 둘러보기
                     </button>
                 </div>

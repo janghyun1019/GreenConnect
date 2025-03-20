@@ -11,7 +11,7 @@
 
 	<update id="updateProfileImage">
 		UPDATE users
-		SET profile_image = #{fileName}
+		SET profile_image = #{profileImage}
 		WHERE user_id = #{userId}
 	</update>
 

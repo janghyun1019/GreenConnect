@@ -106,7 +106,8 @@ public class SignupController {
 			// JSON 형태로 변환
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> response = Map.of("accessToken", accessToken, "refreshToken", refreshToken, "nickname",
-					user.getNickName(),"userId", user.getUserId(),"email",user.getEmail());
+					user.getNickName(),"userId", user.getUserId(),"email",user.getEmail(),"tel",user.getTel(),
+					"userName",user.getUserName());
 			
 			return objectMapper.writeValueAsString(response); // JSON 문자열 반환
 		} catch (Exception e) {

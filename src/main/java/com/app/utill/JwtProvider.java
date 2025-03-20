@@ -29,7 +29,7 @@ public class JwtProvider {
 	private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7일
 
 	//시크릿키 생성 (비밀키 변환으로 키 생성)
-	private static SecretKey getSigningKey() {
+	public static SecretKey getSigningKey() {
 		return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 	}
 

@@ -56,6 +56,8 @@ function Login() {
                 let refreshToken = data.refreshToken;
                 let nickname = data.nickname;
                 let userId = data.userId;
+                let userName = data.userName;
+                let tel = data.tel;
 
                 // Redux에 사용자 정보 저장
                 dispatch(loginUser(data));
@@ -64,6 +66,8 @@ function Login() {
                 console.log("리프레시: ", refreshToken);
                 console.log("닉네임: ", nickname);
                 console.log("아이디: ", userId);
+                console.log("이름: ", userName);
+                console.log("전화번호: ", tel);
 
                 if (nickname != null) {
                     alert("환영합니다 " + nickname + "님!");

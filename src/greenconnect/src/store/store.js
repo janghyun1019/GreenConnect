@@ -8,7 +8,10 @@ let userSlice = createSlice({
         refreshToken: null, // 리프레시 토큰
         nickname: null, // 사용자 닉네임
         userId: null, // 사용자 ID
-        email: null // 사용자 이메일
+        email: null, // 사용자 이메일
+        tel : null,
+        userName : null
+        
     },
     reducers: {
         // 로그인 액션
@@ -19,6 +22,8 @@ let userSlice = createSlice({
             state.nickname = action.payload.nickname;
             state.userId = action.payload.userId;
             state.email = action.payload.email;
+            state.email = action.payload.tel;
+            state.email = action.payload.userName;
 
             // 로컬 스토리지 저장
             localStorage.setItem("accessToken", action.payload.accessToken || "");
@@ -26,6 +31,8 @@ let userSlice = createSlice({
             localStorage.setItem("nickname", action.payload.nickname);
             localStorage.setItem("userId", action.payload.userId);
             localStorage.setItem("email", action.payload.email);
+            localStorage.setItem("email", action.payload.tel);
+            localStorage.setItem("email", action.payload.userName);
         },
         // 로그아웃 액션
         logoutUser(state) {
@@ -35,6 +42,8 @@ let userSlice = createSlice({
             state.nickname = null;
             state.userId = null;
             state.email = null;
+            state.tel = null;
+            state.userName = null;
 
             // 로컬 스토리지 제거
             localStorage.removeItem("accessToken");
@@ -42,6 +51,8 @@ let userSlice = createSlice({
             localStorage.removeItem("nickname");
             localStorage.removeItem("userId");
             localStorage.removeItem("email");
+            localStorage.removeItem("tel");
+            localStorage.removeItem("userName");
         },
         // 상태 초기화 액션 (추가)
         resetUser(state) {
@@ -51,6 +62,8 @@ let userSlice = createSlice({
             state.nickname = null;
             state.userId = null;
             state.email = null;
+            state.tel = null;
+            state.userName = null;
 
             // 로컬 스토리지 초기화
             localStorage.removeItem("accessToken");
@@ -58,6 +71,8 @@ let userSlice = createSlice({
             localStorage.removeItem("nickname");
             localStorage.removeItem("userId");
             localStorage.removeItem("email");
+            localStorage.removeItem("tel");
+            localStorage.removeItem("userName");
         }
     }
 });

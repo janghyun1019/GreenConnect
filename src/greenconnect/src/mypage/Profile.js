@@ -34,7 +34,7 @@ function Profile() {
         console.log("Uploading with userId:", userId, "file:", image.name);
     
         try {
-            const response = await axios.post(`http://localhost:8080/profile/upload/${userId}`, formData, {
+            const response = await axios.post(`/profile/upload/${userId}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             console.log("Upload success:", response.data);
@@ -50,7 +50,7 @@ function Profile() {
     const profileDelete = async () => {
         try {
             const userId = localStorage.getItem('userId','testUser');
-            await axios.post(`http://localhost:8080/profile/delete/${userId}`); // DELETE → POST
+            await axios.post(`/profile/delete/${userId}`); // DELETE → POST
             setPreview(null);
             setImage(null);
             alert("삭제 성공!");
@@ -67,7 +67,7 @@ function Profile() {
     const updateNickname = async () => {
         try {
             const userId = localStorage.getItem('userId','testUser');
-            await axios.post(`http://localhost:8080/profile/updateNickname/${userId}`, { nickname });
+            await axios.post(`/profile/updateNickname/${userId}`, { nickname });
             alert("닉네임이 변경되었습니다.");
         } catch (error) {
             console.error("닉네임 변경 실패:", error);

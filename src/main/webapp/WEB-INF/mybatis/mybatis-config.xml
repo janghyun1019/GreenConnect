@@ -10,7 +10,7 @@
 	<typeAliases>	 	
 		<typeAlias type="com.app.dto.profile.Profile" alias="Profile"/>
 		<typeAlias type="com.app.dto.user.User" alias="User" />
-
+		<typeAlias type="com.app.dto.users.Users" alias="Users" />
 		<typeAlias type="com.app.dto.address.Address" alias="Address"/>
 		<typeAlias type="com.app.dto.card.Card" alias="Card"/>
 		<typeAlias type="com.app.dto.post.Post" alias="Post"/>
