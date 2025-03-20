@@ -1,9 +1,12 @@
 package com.app.service.report;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import com.app.dto.faq.Faq;
 import com.app.dto.post.Post;
+=======
+>>>>>>> pcj-detail-payment
 import com.app.dto.report.Report;
 import com.app.dto.report.UserReport;
 
@@ -15,4 +18,7 @@ public interface ReportService {
     void insertFaq(Faq faq);
     void updatePostState(Post post);
     List<UserReport> getAllUserReportsWithHistory();
+	
+	int savePostReport(UserReport userReport);
+
 }

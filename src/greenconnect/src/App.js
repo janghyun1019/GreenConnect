@@ -6,5 +6,4 @@ function App() {
   return <Merge/>;
 
 }
-
 export default App;

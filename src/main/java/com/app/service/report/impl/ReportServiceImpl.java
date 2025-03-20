@@ -56,5 +56,12 @@ public class ReportServiceImpl implements ReportService{
 		List<UserReport> userReportList = reportDAO.getAllUserReportsWithHistory();
 		return userReportList;
 	}
+		@Override
+	public int savePostReport(UserReport userReport) {
+		int result = reportDAO.savePostReport(userReport);
+		
+		return result;
+	}
+	
 
 }

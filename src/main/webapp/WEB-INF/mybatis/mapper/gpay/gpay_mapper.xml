@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gpay_mapper">
+	
+	<select id="getGpayInfoByUserId" parameterType="GpayProperty" resultType="GpayProperty">
+    	SELECT * FROM gpay_property WHERE user_id = #{userId}
+	</select>
+	
+	<insert id="gpayChargeByUserId" parameterType="GpayCharge">
+		INSERT INTO gpay_charge (charge_id, user_id, charge_money, charge_way, receipt_applied, receipt_type, receipt_phone_num, receipt_business_regi_num, service_terms_agreement, payment_agency_terms_agreement, personal_info_collection_agreement, personal_info_third_party_agreement)
+	    VALUES (charge_id_seq.NEXTVAL, #{userId}, #{chargeMoney}, #{chargeWay},
+	    				CASE WHEN #{receiptApplied} = 1 THEN 'Y' ELSE 'N' END,
+	    				CASE WHEN #{receiptApplied} = 1 THEN CASE WHEN #{receiptType} = 'personal' THEN '개인소득공제용' ELSE '사업자증빙용' END ELSE NULL END,
+	    				#{receiptPhoneNum},
+	    				#{receiptBusinessRegiNum},
+	    				CASE WHEN #{serviceTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+	    				CASE WHEN #{paymentAgencyTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+	    				CASE WHEN #{personalInfoCollectionAgreement} = 1 THEN 'Y' ELSE 'N' END,
+	    				CASE WHEN #{personalInfoThirdPartyAgreement} = 1 THEN 'Y' ELSE 'N' END
+	    				)
+	</insert>
+	
+	<select id="findUserIdFromGpayProperty" parameterType="GpayCharge" resultType="GpayProperty">
+		SELECT user_id FROM gpay_property WHERE user_id = #{userId}
+	</select>
+	
+	<insert id="addGpayPropertyByUserId" parameterType="GpayCharge">
+		INSERT INTO gpay_property (property_id, user_id, before_property, now_property)
+		VALUES (property_id_seq.NEXTVAL, #{userId}, 0, #{chargeMoney})
+	</insert>
+	
+	<update id="updateGpayPropertyByUserId" parameterType="GpayCharge">
+		UPDATE gpay_property
+		SET before_property = now_property,
+		now_property = now_property + #{chargeMoney},
+		property_date = SYSTIMESTAMP
+		WHERE user_id = #{userId}
+	</update>
+	
+	
+	
+	
+	
+</mapper>

@@ -12,7 +12,7 @@ function ResetPassword() {
             <h1>비밀번호 재설정</h1>
             새 비밀번호 <input type="password" onChange={(e) => setNewPassword(e.target.value)} /> <br />
             <button onClick={()=>{
-                axios.post("user/reset-password", { token, newPassword })
+                axios.post("/user/reset-password", { token, newPassword })
                 .then(response => {
                     alert("비밀번호가 성공적으로 변경되었습니다.");
                     window.location.href = "/login";

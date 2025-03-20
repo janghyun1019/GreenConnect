@@ -1,0 +1,233 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.postDetailMainContainer {
+    width: 100%;
+    height: auto;
+    display : flex;
+    flex-direction: column;
+}
+
+.postDetailContainer {
+    width: 90%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.postDetailTitle {
+    margin: 30px;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    border: 1px solid gray;
+}
+
+.postDetailBtnBox {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.postDetailEditBtn, .postDetailDeleteBtn, .postDetailReportBtn {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    height: 25px;
+    width: 80px;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.postDetailTop {
+    margin-top: 5px;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid gray;
+}
+
+.postDetailTopImagesBox {
+    position: relative;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    overflow: hidden;
+}
+.postDetailTopImagesBox img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+.prevBtn, .nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+}
+.prevBtn:hover, .nextBtn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.prevBtn {
+    border-radius: 0px 30px 30px 0px;
+    left: 0;
+}
+.nextBtn {
+    border-radius: 30px 0px 0px 30px;
+    right: 0;
+}
+
+.postDetailTopPtcrInfo {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid gray;
+}
+
+.JCBBtnBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.JCBBtnBox button {
+    border: 1px solid gray;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#buyCount {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 80%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+#buyCount::placeholder {
+    font-size: 12px;
+}
+
+
+/* 신고 팝업창 css */
+.reportPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.reportPopupContent h2 {
+    margin-top: 0;
+}
+
+.reportPopupContent p {
+    margin: 5px 0;
+}
+
+.reportPopupContent textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.reportPopupButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.reportPopupButtons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reportPopupButtons button:first-child {
+    background: red;
+    color: white;
+}
+
+.reportPopupButtons button:last-child {
+    background: gray;
+    color: white;
+}
+
+.PostListContainerTitleBottom {
+    margin: 50px auto;
+    width: 90%;
+}
+
+.navBarContainer {
+    margin: auto;
+    width: 90%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.navPostDetailBottomContent, .navPostDetailBottomReview {
+    width: 50%;
+    height: 100%;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBarContainer div:hover {
+    cursor: pointer;
+}
+
+
+

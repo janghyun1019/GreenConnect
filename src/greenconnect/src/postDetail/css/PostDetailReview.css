@@ -1,0 +1,137 @@
+.postDetailBottomReviewMainContainer {
+    margin: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    border: 1px solid gray;
+}
+
+.postReviewBox {
+    width: 100%;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.postReviewInnerBox {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    position: relative; /* 슬라이드 위치 기준점 */
+}
+
+/* 슬라이드 컨테이너 설정 */
+.postReviews {
+    width: 100%;
+    display: flex;
+    transition: transform 0.3s ease-in-out; /* 슬라이드 효과 */
+}
+
+.postReviews img {
+    width: 200px;
+    margin: 35px;
+}
+
+/* 각 카드 설정 */
+.postReviewCard {
+    flex-shrink: 0; /* 축소되지 않도록 설정 */
+    width: 300px; /* 카드 크기 */
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 버튼 스타일 */
+.slide-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 10px;
+}
+.slide-button:disabled {
+    background-color: #ccc; /* 비활성화된 버튼 색 */
+    cursor: not-allowed;
+}
+
+.star-rating {
+    font-size: 24px; /* 별 크기 */
+}
+
+.star-rating .filled {
+    color: gold; /* 별이 채워졌을 때 색 */
+}
+
+.star-rating .empty {
+    color: lightgray; /* 빈 별 색 */
+}
+
+@media (max-width: 768px) {
+    .postReviewCard {
+        width: 250px; /* 반응형 카드 크기 */
+    }
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+.modal-content h2 {
+    margin-bottom: 10px;
+}
+.modal-content img {
+    margin-top: 10px;
+}
+
+.modal-content button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}

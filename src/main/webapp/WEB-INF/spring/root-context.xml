@@ -13,6 +13,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
+
 	<bean class="org.apache.commons.dbcp2.BasicDataSource"
 		id="data_source">
 		<property name="driverClassName"
@@ -36,4 +37,5 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 			ref="sqlSessionFactory" />
 	</bean>
 	
+
 </beans>
