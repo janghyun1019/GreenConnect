@@ -18,7 +18,14 @@ function ResetPassword() {
 			<div className="titlesub">새 비밀번호로 변경합니다.</div>
 
 			<div className="signupContainer">
-				새 비밀번호 <input type="password" onChange={(e) => setNewPassword(e.target.value)} /> <br /><br />
+				<div className="suline">
+					<input
+						type="password"
+						placeholder="새 비밀번호"
+						value={newPassword}
+						onChange={(e) => setNewPassword(e.target.value)}
+					/>
+				</div>
 				<button onClick={() => {
 					axios.post("/user/reset-password", { token, newPassword })
 						.then(response => {
