@@ -37,6 +37,12 @@ public class BuyDAOImpl implements BuyDAO {
 		int result = sqlSessionTemplate.update("buy_mapper.payProductUseGpay", buy);
 		return result;
 	}
+
+	@Override
+	public int addGpayInfoByUserId(Buy buy) {
+		int result = sqlSessionTemplate.insert("buy_mapper.addGpayInfoByUserId", buy);
+		return result;
+	}
 	
 	
 

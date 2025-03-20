@@ -389,7 +389,7 @@ function PayPage() {
                     <div><label><input type='radio' name='paymentType' value='gPay' checked={paymentType === 'gPay'} onChange={(e) => setPaymentType(e.target.value)} /> G-PAY 결제</label></div>
                     <div><label><input type='radio' name='paymentType' value='commonPay' checked={paymentType === 'commonPay'} onChange={(e) => setPaymentType(e.target.value)} /> 일반결제</label></div>
                 </div>
-                {paymentType === 'gPay' && (
+                {paymentType === 'gPay' && gpayInfo && (
                     <div className='selectGpayBox'>
                         <div>현재 G-PAY 잔액: {gpayInfo.nowProperty.toLocaleString()}원</div>  {/* gpay정보 불러와서입력 */}
                         <div>

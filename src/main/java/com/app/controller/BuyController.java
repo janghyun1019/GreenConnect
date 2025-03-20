@@ -21,6 +21,8 @@ public class BuyController {
 		
 		System.out.println("구매하려는 정보: " + buy);
 		
+		int gpayResult = buyService.addGpayInfoByUserId(buy);
+		System.out.println("지페이생성: " + gpayResult);
         int result = buyService.saveBuyInfo(buy);
 
         if (result > 0) {
@@ -32,6 +34,8 @@ public class BuyController {
 	
 	@PostMapping("/api/getBuyInfo")
 	public ResponseEntity<?> getBuyInfoByUserIdAndPostId(@RequestBody Buy buy) { //구매유저아이디, 포스트아이디 들어있음
+		System.out.println("후기 구매자 정보: " + buy);
+		
 		Buy buyInfo = buyService.getBuyInfoByUserIdAndPostId(buy);
 		
 		System.out.println("buyInfo 요청들어옴");

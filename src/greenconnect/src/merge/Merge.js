@@ -25,7 +25,6 @@ import PostDetailReview from "../postDetail/PostDetailReview.js";
 import PayPage from "../pay/PayPage.js";
 import CommonPay from "../pay/CommonPay.js";
 import GpayCharge from "../pay/GpayCharge.js";
-
 import Signup from "../Page/Signup/Signup.js";
 import Login from "../Page/Signup/Login.js";
 import FindId from "../Page/Signup/FindId.js";
@@ -33,11 +32,15 @@ import FindPassword from "../Page/Signup/FindPassword.js";
 import ResetPassword from "../Page/Signup/ResetPassword.js";
 import PostDetailReviewModal from '../postDetail/PostDetailReviewModal.js';
 import PostReviewSlider from '../postDetail/PostReviewSlider.js';
-
+import { useSelector } from "react-redux";
+import GoogleAuthHandler from '../Page/Signup/GoogleAuthHandler.js';
+import KakaoAuthHandler from '../Page/Signup/KakaoAuthHandler.js';
+import NaverAuthHandler from '../Page/Signup/NaverAuthHandler.js';
 function Merge() {
 
-    return (
 
+    return (
+        
         <div className="merge-container">
             <Routes>
                 <Route path="/Mypage" element={<MyPage />} />
@@ -78,6 +81,12 @@ function Merge() {
                 <Route path="/findId" element={<FindId/>} />
                 <Route path="/findPassword" element={<FindPassword/>} />
                 <Route path="/resetPassword" element={<ResetPassword/>} />
+                <Route path="/find-id" element={<FindId />} />
+                <Route path="/find-password" element={<FindPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/auth/google/callback" element={<GoogleAuthHandler />} /> {/* 추가 */}
+                <Route path="/auth/kakao/callback" element={<KakaoAuthHandler />} />
+                <Route path="/auth/naver/callback" element={<NaverAuthHandler />} />
 
             </Routes>
         </div>

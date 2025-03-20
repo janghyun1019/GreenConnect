@@ -3,6 +3,7 @@ package com.app.service.user;
 import java.util.List;
 import java.util.Map;
 
+import com.app.dto.user.User;
 import com.app.dto.users.Users;
 
 public interface UserService {
@@ -14,4 +15,5 @@ public interface UserService {
     Users getUserDetail(String userId); 
     void deleteUser(String userId);
     void updateUserInfo(Users user);
+    
 }

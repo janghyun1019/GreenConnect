@@ -14,7 +14,7 @@ public class Users {
     Date regDate;
     String email;
     String tel;
-    String nickname;
+    String nickName;
     String profileImage;
     String password;
     String userType;

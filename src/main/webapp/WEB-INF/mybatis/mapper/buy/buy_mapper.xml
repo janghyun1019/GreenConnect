@@ -64,6 +64,15 @@
     WHERE user_id = #{userId}
 	</update>
 	
+	<insert id="addGpayInfoByUserId" parameterType="Buy">
+	    MERGE INTO gpay_property t
+	    USING (SELECT #{userId} AS user_id FROM DUAL) s
+	    ON (t.user_id = s.user_id)
+	    WHEN NOT MATCHED THEN 
+	        INSERT (property_id, user_id, before_property, now_property)
+	        VALUES (property_id_seq.NEXTVAL, #{userId}, 0, 0)
+	</insert>
+	
 	
 	
 <!-- 	<select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->

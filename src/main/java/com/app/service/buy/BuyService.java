@@ -11,5 +11,7 @@ public interface BuyService {
 	int payProduct(Buy buy);
 	
 	int payProductUseGpay(Buy buy);
+	
+	int addGpayInfoByUserId(Buy buy);
 
 }

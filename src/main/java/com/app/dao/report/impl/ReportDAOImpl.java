@@ -94,7 +94,7 @@ public class ReportDAOImpl implements ReportDAO {
 
 	@Override
 	public int savePostReport(UserReport userReport) {
-		int result = sqlSessionTemplate.insert("report_mapper.savePostReport", userReport);
+		int result = sqlSessionTemplate.insert("Report_mapper.savePostReport", userReport);
 		
 		return result;
 	}

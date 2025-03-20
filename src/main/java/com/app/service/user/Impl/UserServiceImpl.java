@@ -6,7 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.dao.user.UserDAO;
+import com.app.dao.user.SignupUserDAO;
+import com.app.dto.user.User;
 import com.app.dto.users.Users;
 import com.app.service.user.UserService;
 
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private UserDAO userDAO;
+    private SignupUserDAO userDAO;
 
     @Override
     public List<Users> getUserList() {
@@ -103,4 +104,5 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Service error", e);
         }
     }
+
 }

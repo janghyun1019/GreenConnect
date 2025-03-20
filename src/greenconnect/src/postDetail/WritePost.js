@@ -242,7 +242,7 @@ function WritePost() {
                             />
                             <button style={{padding:'5px', margin:'5px 0 5px 0', backgroundColor:'white',fontWeight:'bold' , borderRadius:'5px'}}
                                 type="button"
-                                className="search-button"
+                                className="write-search-button"
                                 onClick={searchPostalCode}
                             >
                                 우편번호 검색
