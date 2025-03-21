@@ -136,6 +136,10 @@
 	<select id="getPostListByRelatedData" parameterType="String" resultType="Post">
 		select * from post where post_state = 'Y' AND post_product_type = #{relatedData}
 	</select>
+	
+	<select id="getSellerTelByUserId" parameterType="Post" resultType="String">
+		select tel from users where user_id = #{userId}
+	</select>
     
     
 </mapper>

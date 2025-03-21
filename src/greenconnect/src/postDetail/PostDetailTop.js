@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from "dayjs";
 import './css/PostDetail.css'; // 스타일 파일이 필요하다면 유지
+import axios from "axios";
+
 
 function PostDetailTop({
     postDetail,
@@ -26,6 +28,11 @@ function PostDetailTop({
     handleSaveJjimSubmit,
     handleDeleteJjimSubmit,
 }) {
+
+    const [isModalOpen, setIsModalOpen] = useState(false); //모달창 상태관리
+
+    const [tel, setTel] = useState(null);
+
     const goToNextImage = () => {
         setCurrentImageIndex((prevIndex) =>
             prevIndex === postDetailImages.length - 1 ? 0 : prevIndex + 1
@@ -37,6 +44,22 @@ function PostDetailTop({
             prevIndex === 0 ? postDetailImages.length - 1 : prevIndex - 1
         );
     };
+
+
+    useEffect(() => {
+        if (postDetail.userId) {  // userId가 존재할 때만 실행
+            axios.post("/api/getSellerTel", { userId: postDetail.userId })
+                .then(res => {
+                    setTel(res.data);
+                    console.log(res.data);
+                    console.log("번따성공:", postDetail.userId);
+                })
+                .catch(err => {
+                    console.log(err);
+                    console.log("번따실패:", postDetail.userId);
+                });
+        }
+    }, [postDetail.userId]);
 
     return (
         <div className="postDetailContainer">
@@ -153,8 +176,8 @@ function PostDetailTop({
                         총 수량:{" "}
                         {
                             (buyCount * postDetail.postSalesUnit) <= 999
-                            ? Number(postDetail.postSalesUnit * buyCount) + "g"
-                            : (Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString() + "Kg"
+                                ? Number(postDetail.postSalesUnit * buyCount) + "g"
+                                : (Number(postDetail.postSalesUnit * buyCount) / 1000).toLocaleString() + "Kg"
                         }
                     </div>
                     <div>총 금액 (배송비 포함): {totalPrice.toLocaleString()} 원</div>
@@ -164,9 +187,19 @@ function PostDetailTop({
                         ) : (
                             <button onClick={handleSaveJjimSubmit}>찜 하기</button>
                         )}
-                        <button>채팅</button>
+                        <button onClick={() => setIsModalOpen(true)} className="postDetailTelBtn">문의하기</button>
                         <button onClick={handleSubmit}>바로구매</button>
                         <button onClick={handleCartSubmit}>장바구니</button>
+
+                        {isModalOpen && (
+                            <div className="telModalMainContainer" onClick={() => setIsModalOpen(false)}>
+                                <div className="telModalContainer" onClick={(e) => e.stopPropagation()}>
+                                    <p className="telModal">판매자 전화번호 <br/><br/> {tel}</p>
+                                    <button onClick={() => setIsModalOpen(false)} className="telModalCloseBtn">닫기</button>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

@@ -38,7 +38,7 @@
     border-radius: 4px;
 }
 
-button {
+.userInfoSubmitBtn {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -48,6 +48,6 @@ button {
     font-weight: bold;
 }
 
-button:hover {
+.userInfoSubmitBtn:hover {
     background-color: #45a049;
 }

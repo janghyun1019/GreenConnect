@@ -267,7 +267,7 @@ function UserInfo() {
                             />
                         </div>
                         
-                        <button type="submit">정보 업데이트</button>
+                        <button className='userInfoSubmitBtn' type="submit">정보 업데이트</button>
                     </form>
                 </div>
             </div>

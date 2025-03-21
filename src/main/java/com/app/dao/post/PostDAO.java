@@ -38,6 +38,8 @@ public interface PostDAO {
 	List<Post> getPostList();
 	
 	List<Post> getPostListByRelatedData(String relatedData);
+
+	String getSellerTelByUserId(Post post);
 	
 //	List<Post> getPostsByUserId(String userId); 
 //

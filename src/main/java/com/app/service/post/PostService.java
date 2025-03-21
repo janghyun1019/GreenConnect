@@ -39,6 +39,8 @@ public interface PostService {
 	
 	List<Post> getPostListByRelatedData(String relatedData);
 	
+	String getSellerTelByUserId(Post post);
+	
 //	List<Post> getPostsByuserId(String userId);
 //
 //	Post getPostById(int postId);

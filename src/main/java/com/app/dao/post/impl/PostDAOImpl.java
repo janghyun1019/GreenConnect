@@ -114,6 +114,12 @@ public class PostDAOImpl implements PostDAO {
 		return postList;
 	}
 
+	@Override
+	public String getSellerTelByUserId(Post post) {
+		String result = sqlSessionTemplate.selectOne("Post_mapper.getSellerTelByUserId", post);
+		return result;
+	}
+
 //	@Override
 //    public List<Post> getPostsByUserId(String userId) {
 //        List<Post> postList = sqlSessionTemplate.selectList("Post_mapper.selectPostsByUserId", userId);

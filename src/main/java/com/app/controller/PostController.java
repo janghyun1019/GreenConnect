@@ -333,6 +333,15 @@ public class PostController {
         }
 	}
 	
+	@PostMapping("/api/getSellerTel")
+	public ResponseEntity<?> getSellerTelByUserId(@RequestBody Post post){
+		System.out.println("판매글 유저아이디: " + post.getUserId());
+		
+		String sellerTel = postService.getSellerTelByUserId(post);
+				
+		return ResponseEntity.ok(sellerTel);
+	}
+	
 //	@GetMapping("/mypage/post/user/{userId}")
 //	public List<Post> getPostByUserId(@PathVariable String userId){
 //		
