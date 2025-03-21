@@ -1,11 +1,7 @@
 import React from 'react';
-import Header from "../header/Header";
 import './Merge.css';
-import Body from '../pages/Body';
-import MyPage from '../myPage/MyPage';
-import MySetting from '../myPage/MySetting';
+import MyPage from '../mypage/MyPage.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MyPage from "../mypage/MyPage";
 import Cart from "../mypage/Cart";
 import Address from "../mypage/Address";
 import Post from "../mypage/Post";
@@ -20,12 +16,9 @@ import System from '../admin/System';
 import CuSupport from '../admin/CuSupport';
 import Charge from '../mypage/Charge';
 import PostDetail from "../postDetail/PostDetail";
-import PostDetailIntro from "../postDetail/PostDetailIntro";
-import MainPage from "../mainpageTemp1111/MainPage";
 import WritePost from "../postDetail/WritePost";
-import PostList from "../postList/PostList.js";
-import PostThumbnail from "../postList/PostThumbnail.js";
-import ModifyPostDetail from "../postDetail/ModifyPostDetail.js";
+
+import PostThumbnail from "../postList/RelatedPostThumbnail.js";
 import PostDetailReview from "../postDetail/PostDetailReview.js";
 import PayPage from "../pay/PayPage.js";
 import CommonPay from "../pay/CommonPay.js";
@@ -37,10 +30,13 @@ import FindPassword from "../Page/Signup/FindPassword.js";
 import ResetPassword from "../Page/Signup/ResetPassword.js";
 import PostDetailReviewModal from '../postDetail/PostDetailReviewModal.js';
 import PostReviewSlider from '../postDetail/PostReviewSlider.js';
-import { useSelector } from "react-redux";
 import GoogleAuthHandler from '../Page/Signup/GoogleAuthHandler.js';
 import KakaoAuthHandler from '../Page/Signup/KakaoAuthHandler.js';
 import NaverAuthHandler from '../Page/Signup/NaverAuthHandler.js';
+
+
+import { useState } from 'react';
+
 function Merge() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -65,17 +61,15 @@ function Merge() {
                 <Route path='/Charge' element={<Charge/>}/>
 
 
-                <Route path="/" element={<MainPage />} />
-                <Route path="/main" element={<MainPage />} />
+                {/* <Route path="/" element={<MainPage />} /> */}
+                {/* <Route path="/main" element={<MainPage />} /> */}
 
                 <Route path="/writePost" element={<WritePost />} />
                 <Route path="/postDetail/:postId" element={<PostDetail />} />
                 <Route path="/postDetailReview/:postId" element={<PostDetailReview />} />
                 <Route path="/postDetailReviewModal/:postId" element={<PostDetailReviewModal />} />
                 <Route path="/postReviewSlider" element={<PostReviewSlider />} />
-                <Route path="/modifyPostDetail/:postId" element={<ModifyPostDetail />} />
-                <Route path="/postDetailIntro" element={<PostDetailIntro />} />
-                <Route path="/postList" element={<PostList />} />
+                {/* <Route path="/postList" element={<PostList />} /> */}
                 <Route path="/postThumbnail" element={<PostThumbnail />} />
 
                 <Route path="/payPage/:postId" element={<PayPage />} />

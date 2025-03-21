@@ -41,27 +41,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SignupController {
 
 	@Autowired
-<<<<<<< HEAD
+
 	SignupUserService userService;
 
 	@Autowired
 	private MailService emailService; // 이메일 전송 서비스
 
 	@PostMapping("api/user/signup")
-=======
+
 	UserService userService;
 	
 	 @Autowired
 	 private MailService emailService; // 이메일 전송 서비스
 
 	@PostMapping("/user/signup")
->>>>>>> 5d05381daba2bfbbffc5fdd75f0c3bc97b69a537
+
 	public String signupAction(@RequestBody User user) {
 
 		if (user.getUserId() == null || user.getUserId().trim().isEmpty()) {
 			return "fail"; // userId가 없으면 회원가입 실패
 		}
-<<<<<<< HEAD
+
 
 		try {
 			// 유저 비밀번호 암호화
@@ -71,7 +71,7 @@ public class SignupController {
 			e.printStackTrace();
 		}
 
-=======
+
 		
 		try {
 			// 유저 비밀번호 암호화
@@ -80,8 +80,6 @@ public class SignupController {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
->>>>>>> 5d05381daba2bfbbffc5fdd75f0c3bc97b69a537
 		user.setUserType("CUS");
 
 		int result = userService.registerUser(user);
@@ -94,7 +92,6 @@ public class SignupController {
 			return "fail";
 		}
 	}
-<<<<<<< HEAD
 	
 	
 	
@@ -379,7 +376,6 @@ public class SignupController {
 	}
 
 }
-=======
 
 	// 로그인 시 API 발급 (JWT 방식)
 	@PostMapping("/user/login")
@@ -499,4 +495,3 @@ public class SignupController {
     
     
 }
->>>>>>> 5d05381daba2bfbbffc5fdd75f0c3bc97b69a537

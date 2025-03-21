@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './css/PostDetail.css';
-import PostDetailBottom from './PostDetailBottom';
-import PostSlide from '../postList/PostSlide';
 import PostDetailTop from './PostDetailTop';
 import PostDetailReview from './PostDetailReview';
 import RelatedPostSlide from '../postList/RelatedPostSlide';
@@ -453,11 +451,11 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                     onClick={() => setActiveTab('review')} >판매글 별점 및 후기</div>
             </div>
 
-            {activeTab === 'content' ? (
+            {/* {activeTab === 'content' ? (
                 <PostDetailBottom post={postDetail} postImages={postDetailImages} />
             ) : (
                 <PostDetailReview post={postDetail} />
-            )}
+            )} */}
             
             <div className='PostListContainerTitleBottom'>
                 <h2>현재 보고 계신 상품과 비슷한 상품 리스트</h2> {/* 현재페이지 관련 상품 db에서 가져와야함 */}
