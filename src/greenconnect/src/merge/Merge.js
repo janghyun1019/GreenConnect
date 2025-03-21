@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Header from "../header/Header";
+import './Merge.css';
+import Body from '../pages/Body';
+import MyPage from '../myPage/MyPage';
+import MySetting from '../myPage/MySetting';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyPage from "../mypage/MyPage";
 import Cart from "../mypage/Cart";
@@ -37,6 +42,7 @@ import GoogleAuthHandler from '../Page/Signup/GoogleAuthHandler.js';
 import KakaoAuthHandler from '../Page/Signup/KakaoAuthHandler.js';
 import NaverAuthHandler from '../Page/Signup/NaverAuthHandler.js';
 function Merge() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
     return (

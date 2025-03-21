@@ -31,6 +31,8 @@
 		<typeAlias type="com.app.dto.gpay.GpayProperty" alias="GpayProperty" />
 		<typeAlias type="com.app.dto.gpay.GpayCharge" alias="GpayCharge" />
 		<typeAlias type="com.app.dto.report.UserReport" alias="UserReport" />
+		<!-- marketInfo -->
+        <typeAlias alias="MarketInfoDTO" type="com.app.dto.marketInfo.MarketInfoDTO"/>
 		
 	</typeAliases>
 	

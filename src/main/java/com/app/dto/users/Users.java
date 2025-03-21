@@ -18,4 +18,7 @@ public class Users {
     String profileImage;
     String password;
     String userType;
+    
+    
+
 }
