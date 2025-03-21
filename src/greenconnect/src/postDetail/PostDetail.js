@@ -231,7 +231,7 @@ function PostDetail() {  // PostDetailIntro 위에 있는 화면
                 alert("해당 상품이 장바구니에 담겼습니다!");
                 console.log('성공:', response.data);
                 if (window.confirm("장바구니로 이동 하시겠습니까?")) {
-                    navigate("/"); // 장바구니 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    navigate("/Cart"); // 장바구니 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 }
 
             } else if (response.data === "실패") {

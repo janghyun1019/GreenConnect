@@ -1,5 +1,7 @@
 package com.app.service.buy;
 
+import java.util.List;
+
 import com.app.dto.buy.Buy;
 
 public interface BuyService {
@@ -14,4 +16,5 @@ public interface BuyService {
 	
 	int addGpayInfoByUserId(Buy buy);
 
+	List<Buy> getBuyInfosByUserId(String userId);
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.post.Post;
@@ -25,7 +26,7 @@ import com.app.service.post.PostService;
 import com.app.dto.image.Image;
 import com.app.dto.jjim.Jjim;
 
-@Controller
+@RestController
 public class PostController {
 	
 	@Autowired
@@ -333,16 +334,16 @@ public class PostController {
         }
 	}
 	
-//	@GetMapping("/mypage/post/user/{userId}")
-//	public List<Post> getPostByUserId(@PathVariable String userId){
-//		
-//		return postService.getPostsByuserId(userId);
-//	}
-//
-//	@GetMapping("/mypage/post/{postId}")
-//	public Post getPostById(@PathVariable int postId) {
-//		return postService.getPostById(postId);
-//	}
+	@GetMapping("/mypage/post/user/{userId}")
+	public List<Post> getPostByUserId(@PathVariable String userId){
+		
+		return postService.getPostsByuserId(userId);
+	}
+
+	@GetMapping("/mypage/post/{postId}")
+	public Post getPostById(@PathVariable int postId) {
+		return postService.getPostById(postId);
+	}
 	
 
 }

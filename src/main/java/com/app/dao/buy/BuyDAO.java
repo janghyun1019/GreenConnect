@@ -1,5 +1,7 @@
 package com.app.dao.buy;
 
+import java.util.List;
+
 import com.app.dto.buy.Buy;
 
 public interface BuyDAO {
@@ -14,4 +16,5 @@ public interface BuyDAO {
 	
 	int addGpayInfoByUserId(Buy buy);
 
+	List<Buy> getBuyInfosByUserId(String userId);
 }

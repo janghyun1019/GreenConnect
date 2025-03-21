@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +77,17 @@ public class BuyController {
 		}
 		
 	}
-	
+	@PostMapping("/api/getBuyInfosByUserId")
+	public ResponseEntity<?> getBuyInfosByUserId(@RequestBody Buy buy) {
+		System.out.println("모든 구매 내역 조회 - userId: " + buy.getUserId());
+		List<Buy> buyInfos = buyService.getBuyInfosByUserId(buy.getUserId());
+		System.out.println("반환된 구매 내역: " + buyInfos);
+		if (buyInfos != null && !buyInfos.isEmpty()) {
+			return ResponseEntity.ok(buyInfos);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No buy infos found for the given userId");
+		}
+	}
 	
 	
 

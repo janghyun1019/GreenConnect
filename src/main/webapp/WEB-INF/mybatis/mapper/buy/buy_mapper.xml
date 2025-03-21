@@ -3,103 +3,141 @@
 
 <mapper namespace="buy_mapper">
 
-	
+
 	<insert id="saveBuyInfo" parameterType="Buy">
-		INSERT INTO buy (buy_id, user_id, nick_name, board_id, post_id, post_user_id, buy_count, total_price, total_gram)
-	    VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId}, #{postUserId}, #{buyCount}, #{totalPrice}, #{totalGram})
+		INSERT INTO buy (buy_id,
+		user_id, nick_name, board_id, post_id, post_user_id, buy_count,
+		total_price, total_gram)
+		VALUES (buy_id_seq.NEXTVAL, #{userId}, #{nickName}, #{boardId}, #{postId},
+		#{postUserId}, #{buyCount}, #{totalPrice}, #{totalGram})
 	</insert>
-	
-	<select id="getBuyInfoByUserIdAndPostId" parameterType="Buy" resultType="Buy">
-    SELECT 
-        b.*,
-        p.user_id AS post_user_id,
-        p.nick_name AS post_nick_name,
-        p.post_title,
-        p.url_file_path,
-        p.post_price,
-        p.post_cost
-	    FROM buy b
-	    JOIN post p ON b.post_id = p.post_id
-	    WHERE b.user_id = #{userId}
-	      AND b.post_id = #{postId}
-	      AND b.buy_id = (SELECT MAX(buy_id) FROM buy WHERE user_id = #{userId} AND post_id = #{postId})
+
+	<select id="getBuyInfoByUserIdAndPostId" parameterType="Buy"
+		resultType="Buy">
+		SELECT
+		b.*,
+		p.user_id AS post_user_id,
+		p.nick_name AS post_nick_name,
+		p.post_title,
+		p.url_file_path,
+		p.post_price,
+		p.post_cost
+		FROM buy b
+		JOIN post p ON b.post_id = p.post_id
+		WHERE b.user_id = #{userId}
+		AND b.post_id = #{postId}
+		AND b.buy_id = (SELECT MAX(buy_id) FROM buy WHERE user_id = #{userId} AND
+		post_id = #{postId})
 	</select>
-	
+
 	<update id="payProduct" parameterType="Buy">
-    UPDATE BUY
-    SET 
-        total_price = #{totalPrice},
-        created_at = systimestamp,
-        trading_type = CASE WHEN #{tradingType} = 'commonTrading' THEN '일반택배' ELSE '만나서 거래' END,
-        request_content = #{requestContent},
-        buyer_total_address = #{buyerTotalAddress},
-        receiver = #{receiver},
-        payment_type = CASE WHEN #{paymentType} = 'commonPay' THEN '일반결제' ELSE 'G-PAY결제' END,
-        receipt_applied = CASE WHEN #{receiptApplied} = 1 THEN 'Y' ELSE 'N' END,
-        receipt_type = CASE
-                        WHEN #{receiptApplied} = 1 THEN
-                            CASE WHEN #{receiptType} = 'personal' THEN '개인소득공제용'
-                                 ELSE '사업자증빙용'
-                            END
-                        ELSE NULL
-                      END,
-        receipt_phone_num = #{receiptPhoneNum},
-        receipt_business_regi_num = #{receiptBusinessRegiNum},
-        service_terms_agreement = CASE WHEN #{serviceTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
-        payment_agency_terms_agreement = CASE WHEN #{paymentAgencyTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
-        personal_info_collection_agreement = CASE WHEN #{personalInfoCollectionAgreement} = 1 THEN 'Y' ELSE 'N' END,
-        personal_info_third_party_agreement = CASE WHEN #{personalInfoThirdPartyAgreement} = 1 THEN 'Y' ELSE 'N' END,
-        pay_state = 'Y'
-    WHERE user_id = #{userId}
-    AND post_id = #{postId}
-    AND buy_id = (
-        SELECT MAX(buy_id) FROM BUY WHERE user_id = #{userId} AND post_id = #{postId}
-    )
+		UPDATE BUY
+		SET
+		total_price = #{totalPrice},
+		created_at = systimestamp,
+		trading_type = CASE WHEN #{tradingType} = 'commonTrading' THEN '일반택배' ELSE '만나서
+		거래' END,
+		request_content = #{requestContent},
+		buyer_total_address = #{buyerTotalAddress},
+		receiver = #{receiver},
+		payment_type = CASE WHEN #{paymentType} = 'commonPay' THEN '일반결제' ELSE 'G-PAY결제'
+		END,
+		receipt_applied = CASE WHEN #{receiptApplied} = 1 THEN 'Y' ELSE 'N' END,
+		receipt_type = CASE
+		WHEN #{receiptApplied} = 1 THEN
+		CASE WHEN #{receiptType} = 'personal' THEN '개인소득공제용'
+		ELSE '사업자증빙용'
+		END
+		ELSE NULL
+		END,
+		receipt_phone_num = #{receiptPhoneNum},
+		receipt_business_regi_num = #{receiptBusinessRegiNum},
+		service_terms_agreement = CASE WHEN #{serviceTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+		payment_agency_terms_agreement = CASE WHEN
+		#{paymentAgencyTermsAgreement} = 1 THEN 'Y' ELSE 'N' END,
+		personal_info_collection_agreement = CASE WHEN
+		#{personalInfoCollectionAgreement} = 1 THEN 'Y' ELSE 'N' END,
+		personal_info_third_party_agreement = CASE WHEN
+		#{personalInfoThirdPartyAgreement} = 1 THEN 'Y' ELSE 'N' END,
+		pay_state = 'Y'
+		WHERE user_id = #{userId}
+		AND post_id = #{postId}
+		AND buy_id = (
+		SELECT MAX(buy_id) FROM BUY WHERE user_id = #{userId} AND post_id =
+		#{postId}
+		)
 	</update>
-	
+
 	<update id="payProductUseGpay" parameterType="Buy">
-    UPDATE gpay_property
-    SET before_property = now_property,
-    	now_property = now_property - #{totalPrice}
-    WHERE user_id = #{userId}
+		UPDATE gpay_property
+		SET before_property = now_property,
+		now_property = now_property - #{totalPrice}
+		WHERE user_id = #{userId}
 	</update>
-	
+
 	<insert id="addGpayInfoByUserId" parameterType="Buy">
-	    MERGE INTO gpay_property t
-	    USING (SELECT #{userId} AS user_id FROM DUAL) s
-	    ON (t.user_id = s.user_id)
-	    WHEN NOT MATCHED THEN 
-	        INSERT (property_id, user_id, before_property, now_property)
-	        VALUES (property_id_seq.NEXTVAL, #{userId}, 0, 0)
+		MERGE INTO gpay_property t
+		USING (SELECT #{userId} AS user_id FROM DUAL) s
+		ON (t.user_id = s.user_id)
+		WHEN NOT MATCHED THEN
+		INSERT (property_id, user_id, before_property, now_property)
+		VALUES (property_id_seq.NEXTVAL, #{userId}, 0, 0)
 	</insert>
-	
-	
-	
-<!-- 	<select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->
-<!-- 		SELECT  -->
-<!-- 		    b.buy_id, -->
-<!-- 		    b.user_id AS buy_user_id, -->
-<!-- 		    b.nick_name AS buy_nick_name, -->
-<!-- 		    b.board_id, -->
-<!-- 		    b.post_id, -->
-<!-- 		    b.buy_count, -->
-<!-- 		    b.total_price, -->
-<!-- 		    b.total_gram, -->
-<!-- 		    b.created_at AS buy_created_at, -->
-<!-- 		    p.user_id AS post_user_id, -->
-<!-- 		    p.post_title, -->
-<!--            p.post_product_type, -->
-<!-- 		    p.post_spot, -->
-<!--            p.store_id, -->
-<!--            p.post_state -->
-<!-- 		FROM  -->
-<!-- 		    buy b -->
-<!-- 		JOIN  -->
-<!-- 		    post p ON b.post_id = p.post_id -->
-<!-- 	</select> -->
-	
-	
-	
-	
-	
+
+
+
+	<!-- <select id="findBuyerInfoWithSalerInfoByPostId" parameterType="String"> 
+		구매자가 구매했을때 구매자정보와 해당판매글의 판매자아이디, 글제목, 상품타입, 판매자 주소, 농장이름, 판매상태 불러오는 쿼리 -->
+	<!-- SELECT -->
+	<!-- b.buy_id, -->
+	<!-- b.user_id AS buy_user_id, -->
+	<!-- b.nick_name AS buy_nick_name, -->
+	<!-- b.board_id, -->
+	<!-- b.post_id, -->
+	<!-- b.buy_count, -->
+	<!-- b.total_price, -->
+	<!-- b.total_gram, -->
+	<!-- b.created_at AS buy_created_at, -->
+	<!-- p.user_id AS post_user_id, -->
+	<!-- p.post_title, -->
+	<!-- p.post_product_type, -->
+	<!-- p.post_spot, -->
+	<!-- p.store_id, -->
+	<!-- p.post_state -->
+	<!-- FROM -->
+	<!-- buy b -->
+	<!-- JOIN -->
+	<!-- post p ON b.post_id = p.post_id -->
+	<!-- </select> -->
+
+
+	<select id="getBuyInfosByUserId" parameterType="String"
+		resultType="Buy">
+		SELECT
+		b.buy_id AS buyId,
+		b.user_id AS userId,
+		b.nick_name AS nickName,
+		b.board_id AS boardId,
+		b.post_id AS postId,
+		b.buy_count AS buyCount,
+		b.total_price AS totalPrice,
+		b.total_gram AS totalGram,
+		b.pay_state AS payState,
+		p.user_id AS postUserId, -- post_user_id -> user_id로 수정
+		p.nick_name AS postNickName,
+		p.post_title AS postTitle,
+		p.url_file_path AS urlFilePath,
+		p.post_price AS postPrice,
+		p.post_cost AS postCost
+		FROM
+		BUY b
+		LEFT JOIN
+		post p ON b.post_id = p.post_id
+		WHERE
+		b.user_id = #{userId}
+		ORDER BY
+		b.created_at DESC
+	</select>
+
+
 </mapper>

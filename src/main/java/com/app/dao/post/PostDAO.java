@@ -39,7 +39,7 @@ public interface PostDAO {
 	
 	List<Post> getPostListByRelatedData(String relatedData);
 	
-//	List<Post> getPostsByUserId(String userId); 
-//
-//    Post getPostById(int postId); 
+	List<Post> getPostsByUserId(String userId); 
+
+    Post getPostById(int postId); 
 }

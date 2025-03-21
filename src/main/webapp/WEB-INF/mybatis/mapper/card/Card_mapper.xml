@@ -10,10 +10,10 @@
         SELECT * FROM card WHERE card_id = #{cardId}
     </select>
 
-    <insert id="saveCard" parameterType="Card">
-        INSERT INTO card (user_id, card_type, card_provider, last_four, expires, is_default)
-        VALUES (#{userId}, #{cardType}, #{cardProvider}, #{lastFour}, #{expires}, #{isDefault})
-    </insert>
+<insert id="saveCard" parameterType="Card">
+    INSERT INTO card (card_id, user_id, card_type, card_provider, last_four, expires, is_default)
+    VALUES (card_seq.NEXTVAL, #{userId}, #{cardType}, #{cardProvider}, #{lastFour}, #{expires}, #{isDefault})
+</insert>
 
     <update id="updateCard">
         UPDATE card

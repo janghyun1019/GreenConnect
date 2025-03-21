@@ -1,5 +1,7 @@
 package com.app.dao.buy.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,6 +46,9 @@ public class BuyDAOImpl implements BuyDAO {
 		return result;
 	}
 	
-	
+	@Override
+	public List<Buy> getBuyInfosByUserId(String userId) {
+		return sqlSessionTemplate.selectList("buy_mapper.getBuyInfosByUserId", userId);
+	}
 
 }

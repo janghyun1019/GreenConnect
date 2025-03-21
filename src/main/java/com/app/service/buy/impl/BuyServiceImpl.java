@@ -1,5 +1,7 @@
 package com.app.service.buy.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,9 @@ public class BuyServiceImpl implements BuyService {
 		return result;
 	}
 
-	
+	@Override
+	public List<Buy> getBuyInfosByUserId(String userId) {
+		return buyDAO.getBuyInfosByUserId(userId);
+	}
 	
 }
