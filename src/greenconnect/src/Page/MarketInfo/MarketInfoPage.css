@@ -4,4 +4,15 @@
 .p-6{
 	max-width: 1190px;
 	margin: 0 auto;
+	margin-bottom: 50px;
+}
+
+.text-center01 {
+	max-width: 1190px;
+	text-align: center;
+	font-size: 25px;
+}
+
+.text-center01 i {
+	font-size: 150px;
 }

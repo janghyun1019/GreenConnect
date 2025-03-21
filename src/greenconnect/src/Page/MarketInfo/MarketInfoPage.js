@@ -6,6 +6,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
+import "../../common/commonPage.css";
 
 export default function MarketInfoPage() {
     const [data, setData] = useState([]);
@@ -61,7 +62,10 @@ export default function MarketInfoPage() {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold">가락시장 농산물 도매가격</h1>
+            <div className="title">
+				<i class="fa-solid fa-seedling"></i> 가락시장 농산물 도매가격
+			</div>
+			<div className="titlesub">매일 매일 신속한 가락시장 농산물 도매가격 정보</div>
             
             {/* 검색 영역 */}
             <div className="flex space-x-4 my-4 items-center">
@@ -96,7 +100,7 @@ export default function MarketInfoPage() {
                     검색
                 </button>
             </div>
-
+			<br/><br/>
             {/* 로딩 중 */}
             {loading ? (
                 <div className="p-6 text-center text-lg">데이터 로딩 중...</div>
@@ -138,28 +142,30 @@ export default function MarketInfoPage() {
 
                             {/* 검색 결과 테이블 */}
                             <Table className="mt-6">
-                                <TableHeader>
+                               {/* <TableHeader>
                                     <TableRow>
                                         <TableHead>거래날짜</TableHead>
                                         <TableHead>품목</TableHead>
                                         <TableHead>등급</TableHead>
                                         <TableHead>평균가</TableHead>
                                     </TableRow>
-                                </TableHeader>
+                                </TableHeader>*/}
                                 <TableBody>
                                     {displayData.map((item, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{item.getDate || "-"}</TableCell>
+                                            {/* <TableCell>{item.getDate || "-"}</TableCell> */}
                                             <TableCell>{item.pumNm || "-"}</TableCell>
                                             <TableCell>{item.gName || "등급 없음"}</TableCell>
                                             <TableCell>{formatNumber(item.avP)} 원</TableCell>
+                                            <TableCell>{formatNumber(item.miP)} 원</TableCell>
+                                            <TableCell>{formatNumber(item.maP)} 원</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </>
                     ) : (
-                        <div className="text-center text-gray-500">조회된 데이터가 없습니다.<br/>선택하신 검색조건으로 조회된 데이터가 없습니다.<br/>다른 검색조건으로 조회해 주세요.</div>
+                        <div className="text-center01"><i class="fa-solid fa-triangle-exclamation"></i><br />조회된 데이터가 없습니다.<br/>선택하신 검색조건으로 조회된 데이터가 없습니다.<br/>다른 검색조건으로 조회해 주세요.</div>
                     )}
                 </>
             )}
