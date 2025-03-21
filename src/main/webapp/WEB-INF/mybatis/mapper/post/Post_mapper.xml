@@ -3,18 +3,18 @@
 <mapper namespace="Post_mapper">
     
     <select id="selectPostsByUserId" resultType="Post">
-        SELECT 
+		SELECT 
             post_id AS postId,
             user_id AS userId,
-            title,
-            content,
-            created_at AS createdAt
+            post_title AS postTitle,
+            post_content AS postContent,
+            post_create_at AS postCreateAt
         FROM 
-            posts
+            post
         WHERE 
             user_id = #{userId}
         ORDER BY 
-            created_at DESC
+            post_create_at DESC
     </select>
     
     <select id="selectPostById" resultType="Post">
