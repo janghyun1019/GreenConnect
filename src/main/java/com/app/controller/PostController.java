@@ -240,6 +240,16 @@ public class PostController {
 		return ResponseEntity.ok(null);
 	}
 	
+	@PostMapping("/api/getPostJjimList")
+	public ResponseEntity<List<Jjim>> getPostJjimList(@RequestBody Jjim jjim) {
+		if(jjim != null) {
+			List<Jjim> userJjimList = postService.getPostJjimList(jjim);
+			System.out.println("찜리스트 데이터: "+ userJjimList);
+			return ResponseEntity.ok(userJjimList);
+		}
+		return ResponseEntity.ok(null);
+	}
+	
 	
 	@PostMapping("/api/savePostJjim")
 	public ResponseEntity<?> updatePostJjimByPostId(@RequestBody Jjim jjim) {
@@ -305,6 +315,19 @@ public class PostController {
 		return ResponseEntity.ok(postList);
 	}
 	
+	@PostMapping("/api/postListByUserIdAndPostId")
+	public ResponseEntity<List<Post>> getPostListByUserIdAndPostId(@RequestBody Post post){
+		List<Post> postList = postService.getPostListByUserIdAndPostId(post);
+		
+		System.out.println("찜목록에서 불러오는 postList: " + postList);
+		
+		if (postList.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.ok(postList);
+	}
+	
 	@GetMapping("/api/postListByRelatedData")
 	public ResponseEntity<List<Post>> getPostListByRelatedData(@RequestParam("relatedData") String relatedData){
 		List<Post> postList = postService.getPostListByRelatedData(relatedData);
@@ -342,11 +365,20 @@ public class PostController {
 		return ResponseEntity.ok(sellerTel);
 	}
 	
-//	@GetMapping("/mypage/post/user/{userId}")
-//	public List<Post> getPostByUserId(@PathVariable String userId){
-//		
-//		return postService.getPostsByuserId(userId);
-//	}
+	@GetMapping("/mypage/post/user/{userId}")
+	public ResponseEntity<?> getPostByUserId(@PathVariable String userId) {
+	    System.out.println("내가 작성한 글 불러오는 유저: " + userId);
+
+	    List<Post> postList = postService.getPostsByuserId(userId);
+
+	    if (postList == null || postList.isEmpty()) {
+	        System.out.println(userId + "가 작성한 글이 없습니다.");
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글이 없습니다.");
+	    }
+
+	    System.out.println(userId + "가 작성한 글: " + postList);
+	    return ResponseEntity.ok(postList);
+	}
 //
 //	@GetMapping("/mypage/post/{postId}")
 //	public Post getPostById(@PathVariable int postId) {

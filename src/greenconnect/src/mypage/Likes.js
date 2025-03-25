@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import JjimItem from "./JjimItem";
 import Sidebar from "./components/Sidebar";
+import './css/MyPage.css';
+
 function Likes() {
     const [jjimList, setJjimList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,31 +17,39 @@ function Likes() {
         fetchJjimList();
     }, []);
     
-    const fetchJjimList = async (retryCount = 0) => {
+    const fetchJjimList = async () => {
+        const jjimData = {
+            userId: localStorage.getItem('userId')
+        }
         try {
-            const response = await axios.get(`/mypage/Jjim/list?userId=${userId}`);
-            
-            if (response.data.success) {
-                setJjimList(response.data.data || []);
+            const response = await axios.post("/api/getPostJjimList", jjimData,{
+                headers: { "Content-Type": 'application/json' }
+            })
+            if (response.data) {
+                console.log("찜리스트: " + response.data);
+                setJjimList(response.data);
+                setLoading(false);
             } else {
-                setError(response.data.message || '찜 목록을 불러오는데 실패했습니다.');
+                alert("데이터가 없습니다.");
+                setLoading(false);
             }
         } catch (err) {
             console.error('오류 상세정보:', err.response || err);
             
-            // 최대 3번 재시도
-            if (retryCount < 3) {
-                console.log(`재시도 중... (${retryCount + 1}/3)`);
-                setTimeout(() => fetchJjimList(retryCount + 1), 1000);
-                return;
-            }
+            // // 최대 3번 재시도
+            // if (retryCount < 3) {
+            //     console.log(`재시도 중... (${retryCount + 1}/3)`);
+            //     setTimeout(() => fetchJjimList(retryCount + 1), 1000);
+            //     return;
+            // }
             
             setError('서버 연결 오류가 발생했습니다.');
-        } finally {
-            if (retryCount === 0 || retryCount >= 3) {
-                setLoading(false);
-            }
-        }
+        } 
+        // finally {
+        //     if (retryCount === 0 || retryCount >= 3) {
+        //         setLoading(false);
+        //     }
+        // }
     };
         
     const handleRemoveJjim = async (postId) => {
@@ -58,12 +68,42 @@ function Likes() {
             console.error(err);
         }
     };
+
+    useEffect(() => {
+            const fetchJjimList = async () => {
+                setLoading(true);
+                try {
+                    const jjimData = {
+                        userId: localStorage.getItem('userId')
+                    };
+                    
+                    const response = await axios.post("/api/postListByUserIdAndPostId", jjimData, {
+                        headers: { "Content-Type": "application/json" }
+                    });
+    
+                    if (response.data) {
+                        console.log("찜한 리스트들:", response.data);
+                        setJjimList(response.data);
+                    } else {
+                        alert("데이터가 없습니다.");
+                    }
+                } catch (err) {
+                    console.error("오류 상세정보:", err.response || err);
+                    setError("서버 연결 오류가 발생했습니다.");
+                } finally {
+                    setLoading(false);
+                }
+            };
+    
+            if (userId) {
+                fetchJjimList();
+            }
+        }, [userId]);
         
     if (loading) return <div className="loading">로딩 중...</div>;
     if (error) return <div className="error-message">{error}</div>;
-        
     return (
-        <div className="jjim-list-container">
+        <div className="mypageSide">
                         <Sidebar />
                         <div className="main_content">
             <h1>찜 목록</h1>
@@ -71,7 +111,7 @@ function Likes() {
             {jjimList.length === 0 ? (
                 <div className="empty-list">
                     <p>찜한 상품이 없습니다.</p>
-                    <button onClick={() => navigate('/products')}>
+                    <button onClick={() => navigate('/postList')}>
                         상품 둘러보기
                     </button>
                 </div>
@@ -80,8 +120,8 @@ function Likes() {
                     {jjimList.map(item => (
                         <JjimItem 
                             key={item.postId} 
-                            item={item} 
-                            onRemove={handleRemoveJjim} 
+                            item={item}
+                            onRemove={handleRemoveJjim}
                         />
                     ))}
                 </div>

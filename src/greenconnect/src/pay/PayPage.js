@@ -273,7 +273,7 @@ function PayPage() {
             if (response.data === "성공") {
                 console.log('성공:', response.data);
                 if (window.confirm("구매내역을 확인하시겠습니까? ( 취소 시 메인페이지로 이동. )")) {
-                    navigate("/"); // 마이페이지 구매내역 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    navigate("/Mypage"); // 마이페이지 구매내역 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 }
                 navigate("/");
             } else if (response.data === "실패") {

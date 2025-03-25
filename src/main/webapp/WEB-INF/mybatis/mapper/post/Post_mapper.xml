@@ -4,28 +4,28 @@
     
     <select id="selectPostsByUserId" resultType="Post">
         SELECT 
-            post_id AS postId,
-            user_id AS userId,
-            title,
-            content,
-            created_at AS createdAt
+            post_id,
+            user_id,
+            post_title,
+            post_content,
+            post_create_at
         FROM 
-            posts
+            post
         WHERE 
             user_id = #{userId}
         ORDER BY 
-            created_at DESC
+            post_create_at DESC
     </select>
     
     <select id="selectPostById" resultType="Post">
         SELECT 
-            post_id AS postId,
-            user_id AS userId,
-            title,
-            content,
-            created_at AS createdAt
+            post_id,
+            user_id,
+            post_title,
+            post_content,
+            post_create_at
         FROM 
-            posts
+            post
         WHERE 
             post_id = #{postId}
     </select>
@@ -51,6 +51,10 @@
 	
 	<select id="getPostJjim" parameterType="Jjim" resultType="Jjim">
 		SELECT * FROM jjim WHERE post_id = #{postId} AND user_id = #{userId}
+	</select>
+	
+	<select id="getPostJjimList" parameterType="Jjim" resultType="Jjim">
+		SELECT * FROM jjim WHERE user_id = #{userId}
 	</select>
 	
 	<update id="modifyPostImages" parameterType="Image">
@@ -131,6 +135,16 @@
 	
 	<select id="getPostList" resultType="Post">
 		select * from post where post_state = 'Y'
+	</select>
+	
+	<select id="getPostListByUserIdAndPostId" parameterType="Post" resultType="Post">
+	    SELECT 
+	        p.post_title, 
+	        p.url_file_path, 
+	        p.post_price 
+	    FROM post p
+	    INNER JOIN jjim j ON p.post_id = j.post_id
+	    WHERE j.user_id = #{userId}
 	</select>
 	
 	<select id="getPostListByRelatedData" parameterType="String" resultType="Post">

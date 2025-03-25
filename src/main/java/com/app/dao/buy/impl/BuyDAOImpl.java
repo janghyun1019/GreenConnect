@@ -1,5 +1,7 @@
 package com.app.dao.buy.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,6 +43,24 @@ public class BuyDAOImpl implements BuyDAO {
 	@Override
 	public int addGpayInfoByUserId(Buy buy) {
 		int result = sqlSessionTemplate.insert("buy_mapper.addGpayInfoByUserId", buy);
+		return result;
+	}
+
+	@Override
+	public List<Buy> getBuyInfoByUserId(Buy buy) {
+		List<Buy> result = sqlSessionTemplate.selectList("buy_mapper.getBuyInfoByUserId", buy);
+		return result;
+	}
+
+	@Override
+	public int removeBuyInfoByUserIdAndPostId(Buy buy) {
+		int result = sqlSessionTemplate.delete("buy_mapper.removeBuyInfoByUserIdAndPostId", buy);
+		return result;
+	}
+
+	@Override
+	public int removeAllBuyInfoByUserId(Buy buy) {
+		int result = sqlSessionTemplate.delete("buy_mapper.removeAllBuyInfoByUserId", buy);
 		return result;
 	}
 	

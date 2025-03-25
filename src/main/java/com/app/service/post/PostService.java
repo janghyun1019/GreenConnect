@@ -41,7 +41,11 @@ public interface PostService {
 	
 	String getSellerTelByUserId(Post post);
 	
-//	List<Post> getPostsByuserId(String userId);
+	List<Jjim> getPostJjimList(Jjim jjim);
+	
+	List<Post> getPostListByUserIdAndPostId(Post post);
+	
+	List<Post> getPostsByuserId(String userId);
 //
 //	Post getPostById(int postId);
 

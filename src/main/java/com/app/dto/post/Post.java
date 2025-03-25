@@ -6,13 +6,10 @@ import lombok.Data;
 
 @Data
 public class Post {
-	String postId;
-	String userId;
-	String title;
-	String content;
-	String postState;
-	Date createdAt;
 	
+	private String postId;
+	private String userId;
+	private String postState;
 	private String nickName; // 판매글 판매자 닉네임으로 표시
 	private int boardId;
 	private String postProductType;

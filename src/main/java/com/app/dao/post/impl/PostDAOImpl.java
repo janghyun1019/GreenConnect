@@ -120,11 +120,23 @@ public class PostDAOImpl implements PostDAO {
 		return result;
 	}
 
-//	@Override
-//    public List<Post> getPostsByUserId(String userId) {
-//        List<Post> postList = sqlSessionTemplate.selectList("Post_mapper.selectPostsByUserId", userId);
-//        return postList;
-//    }
+	@Override
+	public List<Jjim> getPostJjimList(Jjim jjim) {
+		List<Jjim> result = sqlSessionTemplate.selectList("Post_mapper.getPostJjimList", jjim);
+		return result;
+	}
+
+	@Override
+	public List<Post> getPostListByUserIdAndPostId(Post post) {
+		List<Post> result = sqlSessionTemplate.selectList("Post_mapper.getPostListByUserIdAndPostId", post);
+		return result;
+	}
+
+	@Override
+    public List<Post> getPostsByUserId(String userId) {
+        List<Post> postList = sqlSessionTemplate.selectList("Post_mapper.selectPostsByUserId", userId);
+        return postList;
+    }
 //
 //    @Override
 //    public Post getPostById(int postId) {

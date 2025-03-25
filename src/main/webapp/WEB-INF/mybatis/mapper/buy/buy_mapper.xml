@@ -25,6 +25,28 @@
 	      AND b.buy_id = (SELECT MAX(buy_id) FROM buy WHERE user_id = #{userId} AND post_id = #{postId})
 	</select>
 	
+	<select id="getBuyInfoByUserId" parameterType="Buy" resultType="Buy">
+		SELECT
+		b.*,
+		p.user_id AS post_user_id,
+        p.nick_name AS post_nick_name,
+        p.post_title,
+        p.url_file_path,
+        p.post_price,
+        p.post_cost
+		FROM buy b
+	    JOIN post p ON b.post_id = p.post_id
+        WHERE b.user_id = #{userId}
+	</select>
+	
+	<delete id="removeBuyInfoByUserIdAndPostId" parameterType="Buy">
+		DELETE FROM buy WHERE user_id = #{userId} AND post_id = #{postId}
+	</delete>
+	
+	<delete id="removeAllBuyInfoByUserId" parameterType="Buy">
+		DELETE FROM buy WHERE user_id = #{userId}
+	</delete>
+	
 	<update id="payProduct" parameterType="Buy">
     UPDATE BUY
     SET 

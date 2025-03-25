@@ -119,11 +119,23 @@ public class PostServiceImpl implements PostService {
 		return result;
 	}
 
-//	@Override
-//	public List<Post> getPostsByuserId(String userId) {
-//		List<Post> postList = postDAO.getPostsByUserId(userId);
-//		return postList;
-//	}
+	@Override
+	public List<Jjim> getPostJjimList(Jjim jjim) {
+		List<Jjim> result = postDAO.getPostJjimList(jjim);
+		return result;
+	}
+
+	@Override
+	public List<Post> getPostListByUserIdAndPostId(Post post) {
+		List<Post> result = postDAO.getPostListByUserIdAndPostId(post);
+		return result;
+	}
+
+	@Override
+	public List<Post> getPostsByuserId(String userId) {
+		List<Post> postList = postDAO.getPostsByUserId(userId);
+		return postList;
+	}
 //
 //	@Override
 //	public Post getPostById(int postId) {

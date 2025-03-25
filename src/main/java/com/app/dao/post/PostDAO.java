@@ -41,7 +41,11 @@ public interface PostDAO {
 
 	String getSellerTelByUserId(Post post);
 	
-//	List<Post> getPostsByUserId(String userId); 
+	List<Jjim> getPostJjimList(Jjim jjim);
+	
+	List<Post> getPostListByUserIdAndPostId(Post post);
+	
+	List<Post> getPostsByUserId(String userId); 
 //
 //    Post getPostById(int postId); 
 }

@@ -7,7 +7,7 @@ function MyPage() {
     const [userInfo, setUserInfo] = useState({
         nickname: '',
         balance: 0,  // 기본값을 0으로 설정
-        profileImage: null
+        profileImage: '/images/userImage.jpg'
     });
     const navigate = useNavigate(); // 페이지 이동을 위한 훅
 
@@ -59,19 +59,18 @@ function MyPage() {
         };
     return (
         <div className="mypageContainer">
-            <h2 className="mypageLogo">마이페이지</h2>
             <div className="mypageSide">
                 <Sidebar />
                 <div className="dashboard">
                     <div className="card">
                         <div className="profile-image">
-                            {userInfo.profileImage && (
+                            {/* {userInfo.profileImage && ( */}
                                 <img 
-                                    src={userInfo.profileImage} 
+                                    src="/images/userImage.jpg"
                                     alt="프로필 이미지" 
                                     style={{ width: "100%", height: "100%", borderRadius: "50%" }}
                                 />
-                            )}
+                            {/* )} */}
                         </div>
                         <div className="profile-info">
                             <p>{userInfo.nickname || "사용자 닉네임"}</p>

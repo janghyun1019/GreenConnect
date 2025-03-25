@@ -1,5 +1,7 @@
 package com.app.service.buy.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,24 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public int addGpayInfoByUserId(Buy buy) {
 		int result = buyDAO.addGpayInfoByUserId(buy);
+		return result;
+	}
+
+	@Override
+	public List<Buy> getBuyInfoByUserId(Buy buy) {
+		List<Buy> result = buyDAO.getBuyInfoByUserId(buy);
+		return result;
+	}
+
+	@Override
+	public int removeBuyInfoByUserIdAndPostId(Buy buy) {
+		int result = buyDAO.removeBuyInfoByUserIdAndPostId(buy);
+		return result;
+	}
+
+	@Override
+	public int removeAllBuyInfoByUserId(Buy buy) {
+		int result = buyDAO.removeAllBuyInfoByUserId(buy);
 		return result;
 	}
 

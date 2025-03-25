@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +34,53 @@ public class BuyController {
         }
     }
 	
+	@PostMapping("/api/removeBuyInfo")
+	public ResponseEntity<?> removeBuyInfoByUserIdAndPostId(@RequestBody Buy buy){
+		System.out.println("지우려는 구매 정보: " + buy);
+		int result = buyService.removeBuyInfoByUserIdAndPostId(buy);
+		
+		if (result > 0) {
+            return ResponseEntity.ok("성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+        }
+	}
+	
+	@PostMapping("/api/removeAllBuyInfo")
+	public ResponseEntity<?> removeAllBuyInfoByUserId(@RequestBody Buy buy){
+		System.out.println("전체 지우려는 구매 유저정보: " + buy);
+		int result = buyService.removeAllBuyInfoByUserId(buy);
+		
+		if (result > 0) {
+            return ResponseEntity.ok("성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("실패");
+        }
+	}
+	
 	@PostMapping("/api/getBuyInfo")
 	public ResponseEntity<?> getBuyInfoByUserIdAndPostId(@RequestBody Buy buy) { //구매유저아이디, 포스트아이디 들어있음
 		System.out.println("후기 구매자 정보: " + buy);
 		
-		Buy buyInfo = buyService.getBuyInfoByUserIdAndPostId(buy);
+		Buy buyInfo;
+		List<Buy> buyInfoList;
+		
+		if(buy.getPostId()!=null) {
+			buyInfo = buyService.getBuyInfoByUserIdAndPostId(buy);
+		}else {
+			buyInfoList = buyService.getBuyInfoByUserId(buy);
+			
+			System.out.println("buyInfoList 요청들어옴");
+			System.out.println(buyInfoList);
+			
+			if (buyInfoList != null) {
+		        return ResponseEntity.ok(buyInfoList);
+		    } else {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No buy info found for the given userId and postId");
+		    }
+			
+		}
+		
 		
 		System.out.println("buyInfo 요청들어옴");
 		System.out.println(buyInfo);

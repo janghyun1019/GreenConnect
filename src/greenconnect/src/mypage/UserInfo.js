@@ -211,7 +211,7 @@ function UserInfo() {
     };
 
     return (
-        <div className="userinfo-container">
+        <div className="mypageSide">
             <Sidebar />
             <div className="main-content">
                 <h2>개인정보 수정</h2>
