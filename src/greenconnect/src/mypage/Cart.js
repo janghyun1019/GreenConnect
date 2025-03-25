@@ -108,7 +108,7 @@ function Cart() {
         return <div className="Cart-container"><p>{error}</p></div>;
     }
     return (
-        <div className="Cart-container">
+        <div className="Cart-container" style={{marginTop:'80px'}}>
             <div className="mypageSide">
                 <Sidebar />
             </div>

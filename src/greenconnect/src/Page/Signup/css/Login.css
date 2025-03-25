@@ -1,0 +1,84 @@
+/* 버튼 컨테이너 */
+.login-extras {
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* 기본 액션 버튼 (취소, 회원가입, 아이디/비밀번호 찾기) */
+.extra-button {
+    padding: 8px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* 취소 버튼: 약간 다른 색상 (회색 계열) */
+.extra-button.cancel {
+    background-color: #ddd;
+    width: 100%;
+    margin-left: 0;
+    color: #333;
+}
+
+.extra-button.cancel:hover {
+    background-color: #ccc;
+}
+
+/* 다른 액션 버튼: 초록색 계열 */
+.extra-button.primary {
+    width: 100%;
+    margin-left: 0;
+    background-color: #56ab2f;
+    color: #fff;
+}
+
+.extra-button.primary:hover {
+    background-color: #3e8e2a;
+}
+
+/* 소셜 로그인 버튼: 공통 스타일 */
+.social-button {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    margin: 20px auto 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* 구글 로그인 */
+.social-button.google {
+    background-color: #624fcf;
+    color: #fff;
+}
+
+.social-button.google:hover {
+    background-color: #c33d2e;
+}
+
+/* 카카오 로그인 */
+.social-button.kakao {
+    background-color: #fee500;
+    color: #3c1e1e;
+}
+
+.social-button.kakao:hover {
+    background-color: #e8d700;
+}
+
+/* 네이버 로그인 */
+.social-button.naver {
+    background-color: #03c75a;
+    color: #fff;
+}
+
+.social-button.naver:hover {
+    background-color: #03a74a;
+}

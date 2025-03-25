@@ -31,7 +31,7 @@ function Post() {
                 console.log("내가 작성한 글:", response.data);
             } catch (err) {
                 if (err.response?.status === 404) {
-                    alert("게시글이 없습니다");
+                    console.log("작성한 게시글없음");
                 } else {
                     setError("게시글을 불러오는 중 에러가 발생했습니다.");
                 }
@@ -48,7 +48,7 @@ function Post() {
     if (error) return <div className="error-message">{error}</div>;
 
     return (
-        <div className="mypageSide">
+        <div className="mypageSide" style={{marginTop:'80px'}}>
             <Sidebar />
             <div className="main_content">
                 <h1>내가 작성한 글</h1>

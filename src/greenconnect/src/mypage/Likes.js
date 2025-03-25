@@ -85,7 +85,7 @@ function Likes() {
                         console.log("찜한 리스트들:", response.data);
                         setJjimList(response.data);
                     } else {
-                        alert("데이터가 없습니다.");
+                        console.log("찜한 기록이 없습니다.");
                     }
                 } catch (err) {
                     console.error("오류 상세정보:", err.response || err);
@@ -103,7 +103,7 @@ function Likes() {
     if (loading) return <div className="loading">로딩 중...</div>;
     if (error) return <div className="error-message">{error}</div>;
     return (
-        <div className="mypageSide">
+        <div className="mypageSide" style={{marginTop:'80px'}}>
                         <Sidebar />
                         <div className="main_content">
             <h1>찜 목록</h1>

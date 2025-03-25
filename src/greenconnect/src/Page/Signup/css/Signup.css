@@ -1,0 +1,94 @@
+/* 전체 회원가입 폼 컨테이너 */
+.signup-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* 제목 스타일 */
+.signup-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 입력창 기본 스타일 */
+.signup-container input[type="text"],
+.signup-container input[type="password"],
+.signup-container input[type="email"],
+.signup-container input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+
+.signup-container input:focus {
+    outline: none;
+    border-color: #56ab2f;
+}
+
+/* 에러 메시지 스타일 */
+.signup-container span {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+/* 일반 버튼 스타일 */
+.signup-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 가입하기 버튼 (primary) */
+.signup-container button.primary {
+    background-color: #56ab2f;
+    color: #fff;
+}
+
+.signup-container button.primary:hover {
+    background-color: #3e8e2a;
+}
+
+/* 취소 버튼 (secondary) */
+.signup-container button.secondary {
+    background-color: #ddd;
+    color: #333;
+}
+
+.signup-container button.secondary:hover {
+    background-color: #ccc;
+}
+
+/* 인증 버튼 등 작은 버튼은 width auto로 조정 */
+.signup-container button.small {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* 버튼 그룹 (인증 관련) */
+.signup-container .button-group {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* 추가 여백이 필요한 요소 */
+.signup-container .margin-top {
+    margin-top: 20px;
+}

@@ -36,12 +36,17 @@ import { useSelector } from "react-redux";
 import GoogleAuthHandler from '../Page/Signup/GoogleAuthHandler.js';
 import KakaoAuthHandler from '../Page/Signup/KakaoAuthHandler.js';
 import NaverAuthHandler from '../Page/Signup/NaverAuthHandler.js';
+
+import Header from '../header/Header.js';
 function Merge() {
 
 
     return (
         
         <div className="merge-container">
+            <div style={{marginBottom:'50px'}}>
+            <Header/>
+            </div>
             <Routes>
                 <Route path="/Mypage" element={<MyPage />} />
                 <Route path="/Cart" element={<Cart />} />

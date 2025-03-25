@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
+import './css/Login.css';
+
 function Login() {
     let dispatch = useDispatch();
     let [userId, setUserId] = useState('');
@@ -23,12 +25,12 @@ function Login() {
             case "kakao":
                 authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=53dc272af06402c9a2518ffbd87b1d3e&redirect_uri=${redirectUri}&response_type=code`;
                 break;
-                case "naver":
-                    // 네이버는 prompt=login 미지원, state로 캐시 무시
-                    authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=Nkfn0QfjAXMn7bXTdYEC&redirect_uri=${redirectUri}&response_type=code&state=${Date.now()}_${Math.random().toString(36).substring(2)}`;
-                    break;
-                default:
-                    return;
+            case "naver":
+                // 네이버는 prompt=login 미지원, state로 캐시 무시
+                authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=Nkfn0QfjAXMn7bXTdYEC&redirect_uri=${redirectUri}&response_type=code&state=${Date.now()}_${Math.random().toString(36).substring(2)}`;
+                break;
+            default:
+                return;
         }
 
         console.log(`Navigating to ${provider} auth URL: ${authUrl}`);
@@ -67,7 +69,7 @@ function Login() {
 
                 if (nickname != null) {
                     alert("환영합니다 " + nickname + "님!");
-                    navigate("/"); 
+                    navigate("/");
                 } else {
                     alert(data.message);
                 }
@@ -79,7 +81,7 @@ function Login() {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
+        <div style={{ maxWidth: '400px', margin: '80px auto', padding: '20px' }}>
             <h1>로그인 화면</h1>
 
             <div style={{ marginBottom: '10px' }}>
@@ -112,18 +114,30 @@ function Login() {
             </div>
 
             <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                <button onClick={() => window.location.href = "/"}>취소</button> <br />
-                <button onClick={() => navigate("/signup")}>회원가입</button>
-                <button onClick={() => navigate("/find-id")}>아이디 찾기</button>
-                <button onClick={() => navigate("/find-password")}>비밀번호 찾기</button> <br />
-                <div style={{ marginTop: "20px" }}>
-                    <button onClick={() => handleSocialLogin("google")}>구글로 로그인</button>
-                </div>
-                <div style={{ marginTop: "20px" }}>
-                    <button onClick={() => handleSocialLogin("kakao")}>카카오로 로그인</button>
-                </div>
-                <div style={{ marginTop: "20px" }}>
-                    <button onClick={() => handleSocialLogin("naver")}>네이버로 로그인</button>
+                <div className="login-extras">
+                    <button className="extra-button cancel" onClick={() => window.location.href = "/"}>
+                        취소
+                    </button>
+                    <br />
+                    <button className="extra-button primary" onClick={() => navigate("/signup")}>
+                        회원가입
+                    </button>
+                    <button className="extra-button primary" onClick={() => navigate("/find-id")}>
+                        아이디 찾기
+                    </button>
+                    <button className="extra-button primary" onClick={() => navigate("/find-password")}>
+                        비밀번호 찾기
+                    </button>
+                    <br />
+                    <button className="social-button google" onClick={() => handleSocialLogin("google")}>
+                        구글로 로그인
+                    </button>
+                    <button className="social-button kakao" onClick={() => handleSocialLogin("kakao")}>
+                        카카오로 로그인
+                    </button>
+                    <button className="social-button naver" onClick={() => handleSocialLogin("naver")}>
+                        네이버로 로그인
+                    </button>
                 </div>
             </div>
         </div>

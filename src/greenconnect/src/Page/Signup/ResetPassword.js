@@ -8,7 +8,7 @@ function ResetPassword() {
     const [newPassword, setNewPassword] = useState("");
 
     return (
-        <div>
+        <div style={{marginTop:'80px'}}>
             <h1>비밀번호 재설정</h1>
             새 비밀번호 <input type="password" onChange={(e) => setNewPassword(e.target.value)} /> <br />
             <button onClick={()=>{

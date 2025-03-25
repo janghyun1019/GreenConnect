@@ -1,0 +1,43 @@
+.headerMainContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 1000;
+}
+
+/* 왼쪽 로고 영역 */
+.header-left {
+    cursor: pointer;
+}
+
+.header-logo {
+    height: 50px;
+}
+
+/* 오른쪽 버튼 영역 */
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+.header-button {
+    padding: 8px 16px;
+    background-color: #56ab2f;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.header-button:hover {
+    background-color: #3e8e2a;
+}

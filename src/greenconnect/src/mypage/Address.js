@@ -7,7 +7,7 @@ function Address() {
     const [activeTab, setActiveTab] = useState('card');
 
     return (
-        <div className="mypageSide">
+        <div className="mypageSide" style={{marginTop:'80px'}}>
             <Sidebar />
             <div className="card-container" style={{margin:'20px 20px'}}>
                 <div className='tab-buttons'>
