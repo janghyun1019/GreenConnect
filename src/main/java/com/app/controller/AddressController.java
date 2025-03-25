@@ -14,7 +14,7 @@ import com.app.service.address.AddressService;
 public class AddressController {
 
     @Autowired
-    private AddressService addressService;
+    AddressService addressService;
 
     @GetMapping("/{userId}")
     public List<Address> getAddressesByUserId(@PathVariable String userId) {

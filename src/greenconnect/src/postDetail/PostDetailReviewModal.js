@@ -86,6 +86,7 @@ function PostDetailReviewModal({ closeModal, post, buyInfo, buyUser }) {
         });
 
         // 리뷰 작성 제출 후 팝업 닫기
+        window.location.reload();
         closeModal();
     };
 

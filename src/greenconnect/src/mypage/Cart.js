@@ -45,7 +45,7 @@ function Cart() {
         
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/update`, {
+            await axios.post(`/mypage/Cart/update`, {
                 userId,
                 postId,
                 count: newCount
@@ -64,7 +64,7 @@ function Cart() {
     const removeItem = async (postId) => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/remove`, {
+            await axios.post(`/mypage/Cart/remove`, {
                 userId,
                 postId
             }, {
@@ -80,7 +80,7 @@ function Cart() {
     const clearCart = async () => {
         try {
             const userId = localStorage.getItem('userId');
-            await axios.post(`http://localhost:8080/mypage/Cart/clear`, { userId }, {
+            await axios.post(`/mypage/Cart/clear`, { userId }, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
 

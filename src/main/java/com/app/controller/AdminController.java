@@ -18,7 +18,7 @@ public class AdminController {
     private static final Logger logger = LogManager.getLogger(AdminController.class);
 
     @Autowired
-    private AdminService adminService;
+    AdminService adminService;
 
     @GetMapping("/dashboard")
     public ResponseEntity<Admin> getDashboardData() {

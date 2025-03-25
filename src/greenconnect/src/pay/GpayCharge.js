@@ -178,9 +178,9 @@ function GpayCharge() {
             if (response.data === "성공") {
                 console.log('성공:', response.data);
                 if (window.confirm("충전내역을 확인하시겠습니까?")) {
-                    navigate("/"); // 마이페이지 충전내역 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    navigate("/mypage"); // 마이페이지 충전내역 이동 으로 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 }
-                navigate("/"); // 아니요 => 팝업창닫기로 수정@@@@@@@@@@@@@@@@@@@@@@@@
+                window.close(); // 아니요 => 팝업창닫기로 수정@@@@@@@@@@@@@@@@@@@@@@@@
             } else if (response.data === "실패") {
                 alert("결제 요청이 실패했습니다.");
             } else {
