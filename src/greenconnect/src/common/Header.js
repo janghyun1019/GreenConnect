@@ -16,6 +16,10 @@ import greentalkImg from '../images/common/btn_greentalk.jpg';
 // 드로어(모달) 컴포넌트
 import ModalContent from './ModalContent';
 
+import Signup from "../Page/Signup/Signup.js";
+import Login from "../Page/Signup/Login.js";
+
+
 function Header() {
 	// 즐겨찾기 상태
 	const [isBookmarked, setIsBookmarked] = useState(false);
