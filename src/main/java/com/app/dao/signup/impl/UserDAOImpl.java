@@ -82,7 +82,7 @@ public class UserDAOImpl implements UserDAO{
 
 	@Override
 	public User getUserByPassword(String password) {
-		User user = sqlSessionTemplate.selectOne("user_mapper.getUserByPw", password);
+		User user = sqlSessionTemplate.selectOne("user_mapper.getUserBypassword", password);
 		return user;
 	}
 
@@ -106,5 +106,18 @@ public class UserDAOImpl implements UserDAO{
 	    sqlSessionTemplate.update("user_mapper.passwordUpdate", params);
 		
 	}
+
+	@Override
+	public int isDuplicate(String type, String value) {
+		 Map<String, Object> params = new HashMap<>();
+	     params.put("type", type);
+	     params.put("value", value);
+	     return sqlSessionTemplate.selectOne("user_mapper.isDuplicate", params);
+	}
+	
+	// username으로 사용자 조회 (새 메서드)
+    public User getUserByUsername(String username) {
+        return sqlSessionTemplate.selectOne("user_mapper.getUserByUsername", username);
+    }
 	
 }
